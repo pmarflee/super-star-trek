@@ -8,4 +8,5 @@ export default interface GameState {
   quadrants?: Quadrant[][];
   ship?: Ship;
   stardate?: number;
+  timeRemaining?: number;
 }

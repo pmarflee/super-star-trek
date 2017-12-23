@@ -13,6 +13,7 @@ export default class Game {
   public starbases: number;
   public ship: Ship;
   public stardate: number;
+  public timeRemaining: number;
 
   constructor(state: GameState) {
     this.rng = new Prando(state.seed);
@@ -24,21 +25,25 @@ export default class Game {
     this.starbases = gameState.starbases;
     this.ship = gameState.ship;
     this.stardate = gameState.stardate;
+    this.timeRemaining = gameState.timeRemaining;
   }
 
   public createFromSeed(seed: number): GameState {
-    var klingons = 15 + this.rng.nextInt(0, 5),
-      starbases = 2 + this.rng.nextInt(0, 2),
+    var rng = this.rng,
+      klingons = 15 + rng.nextInt(0, 5),
+      starbases = 2 + rng.nextInt(0, 2),
       quadrants = this.createQuadrants(klingons, starbases),
       ship = this.createShip(quadrants),
-      stardate = this.rng.nextInt(0, 50) + 2250;
+      stardate = rng.nextInt(0, 50) + 2250,
+      timeRemaining = rng.nextInt(0, 9) + 40;
 
     return {
       klingons: klingons,
       starbases: starbases,
       quadrants: quadrants,
       ship: ship,
-      stardate: stardate
+      stardate: stardate,
+      timeRemaining: timeRemaining
     };
   }
 

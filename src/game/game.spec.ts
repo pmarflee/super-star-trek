@@ -19,6 +19,10 @@ describe('Create Game from seed', () => {
     expect(game.stardate).to.be.within(2250, 2300);
   })
 
+  it('should have time remaining between 40 and 49', () => {
+    expect(game.timeRemaining).to.be.within(40, 49);
+  });
+
   describe('Quadrant map', () => {
     it('should be the correct size', () => {
       expect(game.quadrants.length).to.equal(Quadrant.rows);
