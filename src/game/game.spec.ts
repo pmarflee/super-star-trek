@@ -36,6 +36,11 @@ describe('Create Game from seed', () => {
         acc + quadrant.reduce((acc1, sector) => acc1 + (sector.hasStarbase ? 1 : 0), 0), 0);
       expect(starbases).to.equal(game.starbases);
     });
+
+    it('should contain between 1 and MAX_STARS stars in each quadrant', () => {
+      game.quadrants.every(row =>
+        row.every(quadrant => expect(quadrant.stars).to.be.within(1, Game.max_stars)));
+    })
   });
 
   describe('Ship', () => {

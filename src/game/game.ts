@@ -5,7 +5,7 @@ import Ship from './ship';
 
 export default class Game {
 
-  private static readonly max_stars: number = 8;
+  public static readonly max_stars: number = 8;
 
   private readonly rng: Prando;
   public readonly quadrants: Quadrant[][];
