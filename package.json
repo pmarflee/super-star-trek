@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "axios": "~0.17.1",
+    "prando": "^3.0.1",
     "uiv": "^0.14.1",
     "vue": "~2.5.8",
     "vue-class-component": "~6.1.0",
