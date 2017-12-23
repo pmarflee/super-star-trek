@@ -48,13 +48,19 @@ describe('Create Game from seed', () => {
   });
 
   describe('Ship', () => {
+    var ship = game.ship;
+
     it('should have a quadrant row location between 0 and 7', () => {
-      expect(game.ship.quadrant.row).to.be.within(0, 7);
+      expect(ship.quadrant.row).to.be.within(0, 7);
     });
 
     it('should have a quadrant column location between 0 and 7', () => {
-      expect(game.ship.quadrant.column).to.be.within(0, 7);
+      expect(ship.quadrant.column).to.be.within(0, 7);
     });
+
+    it('should have energy equal to 3000', () => {
+      expect(ship.energy).to.equal(3000);
+    })
   })
 
 });
