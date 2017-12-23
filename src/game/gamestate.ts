@@ -1,8 +1,11 @@
 import Quadrant from './quadrant';
+import Ship from './ship';
 
 export default interface GameState {
 
-  klingons: number;
-  starbases: number;
-  quadrants: Quadrant[][];
+  seed?: number;
+  klingons?: number;
+  starbases?: number;
+  quadrants?: Quadrant[][];
+  ship?: Ship;
 }

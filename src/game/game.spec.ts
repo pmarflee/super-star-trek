@@ -3,9 +3,9 @@ import { expect } from 'chai';
 import Game from './game';
 import Quadrant from './quadrant';
 
-describe('Create Game', () => {
+describe('Create Game from seed', () => {
 
-  var game = Game.create(1);
+  var game = new Game({ seed: 1 });
 
   it('should have number of klingons between 5 and 20', () => {
     expect(game.klingons).to.be.within(5, 20);
@@ -33,5 +33,15 @@ describe('Create Game', () => {
       expect(starbases).to.equal(game.starbases);
     });
   });
+
+  describe('Ship', () => {
+    it('should have a quadrant row location between 0 and 7', () => {
+      expect(game.ship.quadrant.row).to.be.within(0, 7);
+    });
+
+    it('should have a quadrant column location between 0 and 7', () => {
+      expect(game.ship.quadrant.column).to.be.within(0, 7);
+    });
+  })
 
 });

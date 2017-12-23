@@ -1,46 +1,61 @@
 import Prando from 'prando';
 import Quadrant from './quadrant';
 import GameState from './gamestate';
+import Ship from './ship';
 
 export default class Game {
 
   private static readonly max_stars: number = 8;
   private static readonly max_starbases: number = 8;
 
+  private readonly rng: Prando;
   public readonly quadrants: Quadrant[][];
   public klingons: number;
   public starbases: number;
+  public ship: Ship;
 
   constructor(state: GameState) {
+    if (state.seed) {
+      this.rng = new Prando(state.seed);
+      state = this.createFromSeed(state.seed);
+    } else {
+      this.rng = new Prando();
+    }
+
     this.quadrants = state.quadrants;
     this.klingons = state.klingons;
     this.starbases = state.starbases;
+    this.ship = state.ship;
   }
 
-  public static create(seed: number): Game {
-    var rng = new Prando(seed),
-      klingons = 15 + rng.nextInt(0, 5),
-      starbases = 2 + rng.nextInt(0, 2),
-      quadrants = this.generateQuadrants(rng, klingons, starbases);
+  public createFromSeed(seed: number): GameState {
+    var klingons = 15 + this.rng.nextInt(0, 5),
+      starbases = 2 + this.rng.nextInt(0, 2),
+      quadrants = this.createQuadrants(klingons, starbases),
+      ship = this.createShip(quadrants);
 
-    return new Game({
+    return {
       klingons: klingons,
       starbases: starbases,
-      quadrants: quadrants
-    });
+      quadrants: quadrants,
+      ship: ship
+    };
   }
 
-  private static generateQuadrants(rng: Prando, maxKlingons: number, maxStarbases: number): Quadrant[][] {
-
+  private createQuadrants(maxKlingons: number, maxStarbases: number): Quadrant[][] {
     var quadrants = Array.from(new Array(Quadrant.rows), (row, rowIndex) =>
       Array.from(new Array(Quadrant.columns), (col, colIndex) => {
-        return new Quadrant(rng.nextInt(1, Game.max_stars));
+        return new Quadrant(
+          this.rng.nextInt(1, Game.max_stars),
+          rowIndex + 1,
+          colIndex + 1,
+          this.rng);
       })),
       klingons = 0,
       starbases = 0;
 
     do {
-      let quadrant = Game.getRandomQuadrant(quadrants, rng);
+      let quadrant = this.getRandomQuadrant(quadrants);
 
       if (quadrant.klingons < 3) {
         quadrant.klingons++;
@@ -49,7 +64,7 @@ export default class Game {
     } while (klingons < maxKlingons);
 
     do {
-      let quadrant = Game.getRandomQuadrant(quadrants, rng);
+      let quadrant = this.getRandomQuadrant(quadrants);
 
       if (!quadrant.hasStarbase) {
         quadrant.hasStarbase = true;
@@ -60,9 +75,16 @@ export default class Game {
     return quadrants;
   }
 
-  private static getRandomQuadrant(quadrants: Quadrant[][], rng: Prando): Quadrant {
-      let row = rng.nextInt(0, Quadrant.rows - 1),
-        column = rng.nextInt(0, Quadrant.columns - 1);
+  private createShip(quadrants: Quadrant[][]): Ship {
+    var quadrant = this.getRandomQuadrant(quadrants),
+      sector = quadrant.getRandomSector();
+
+    return new Ship(this, quadrant, sector);
+  }
+
+  private getRandomQuadrant(quadrants: Quadrant[][]): Quadrant {
+      let row = this.rng.nextInt(0, Quadrant.rows - 1),
+        column = this.rng.nextInt(0, Quadrant.columns - 1);
 
       return quadrants[row][column];
   }
