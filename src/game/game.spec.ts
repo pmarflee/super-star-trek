@@ -15,6 +15,10 @@ describe('Create Game from seed', () => {
     expect(game.starbases).to.be.within(2, 4);
   });
 
+  it('should have stardate between 2250 and 2300', () => {
+    expect(game.stardate).to.be.within(2250, 2300);
+  })
+
   describe('Quadrant map', () => {
     it('should be the correct size', () => {
       expect(game.quadrants.length).to.equal(Quadrant.rows);
