@@ -53,8 +53,7 @@ export default class Game {
         return new Quadrant(
           this.rng.nextInt(1, Game.max_stars),
           rowIndex + 1,
-          colIndex + 1,
-          this.rng);
+          colIndex + 1);
       })),
       klingons = 0,
       starbases = 0;
@@ -82,7 +81,7 @@ export default class Game {
 
   private createShip(quadrants: Quadrant[][]): Ship {
     var quadrant = this.getRandomQuadrant(quadrants),
-      sector = quadrant.getRandomSector();
+      sector = quadrant.getRandomSector(this.rng);
 
     return new Ship(this, quadrant, sector);
   }

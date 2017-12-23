@@ -13,16 +13,15 @@ export default class Quadrant {
   constructor(
     public readonly row: number,
     public readonly column: number,
-    public readonly stars: number,
-    private readonly rng: Prando) {
+    public readonly stars: number) {
 
     this.sectors = Array.from(new Array(Sector.rows), (row, rowIndex) => 
       Array.from(new Array(Sector.columns), (col, colIndex) => new Sector()));
   }
 
-  getRandomSector(): Sector {
-      let row = this.rng.nextInt(0, Sector.rows - 1),
-        column = this.rng.nextInt(0, Sector.columns - 1);
+  getRandomSector(rng: Prando): Sector {
+      let row = rng.nextInt(0, Sector.rows - 1),
+        column = rng.nextInt(0, Sector.columns - 1);
 
       return this.sectors[row][column];
   }
