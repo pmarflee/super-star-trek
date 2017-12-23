@@ -61,6 +61,10 @@ describe('Create Game from seed', () => {
     it('should have energy equal to 3000', () => {
       expect(ship.energy).to.equal(3000);
     })
+
+    it('should have 10 photon torpedoes', () => {
+      expect(ship.photonTorpedoes).to.equal(10);
+    })
   })
 
 });

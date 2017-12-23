@@ -6,6 +6,7 @@ export default class Ship {
   private readonly game: Game;
 
   public energy: number = 3000;
+  public photonTorpedoes: number = 10;
 
   constructor(game: Game, public quadrant: Quadrant, public sector: Sector) {
     this.game = game;
