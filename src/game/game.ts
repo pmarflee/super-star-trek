@@ -15,11 +15,10 @@ export default class Game {
   public ship: Ship;
 
   constructor(state: GameState) {
+    this.rng = new Prando(state.seed);
+
     if (state.seed) {
-      this.rng = new Prando(state.seed);
       state = this.createFromSeed(state.seed);
-    } else {
-      this.rng = new Prando();
     }
 
     this.quadrants = state.quadrants;
