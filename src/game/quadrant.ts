@@ -25,4 +25,15 @@ export default class Quadrant {
 
       return this.sectors[row][column];
   }
+
+  public static createQuadrants(state: [number, number, boolean][][]): Quadrant[][] {
+    return Array.from(state, (row, rowIndex) =>
+      Array.from(row, (quadState, colIndex) =>
+        new Quadrant(
+          rowIndex + 1,
+          colIndex + 1,
+          quadState[1],
+          quadState[0],
+          quadState[2]))); 
+  }
 }

@@ -1,7 +1,9 @@
 import { spy, assert } from 'sinon';
 import { expect } from 'chai';
-import Game from './game';
+import { Game, LongRangeSensorScanResult } from './game';
+import Ship from './ship';
 import Quadrant from './quadrant';
+import { quadrantState } from './quadrant.testdata';
 
 describe('Create Game from seed', () => {
 
@@ -71,4 +73,52 @@ describe('Create Game from seed', () => {
     })
   })
 
+});
+
+describe('Long range sensor scan', () => {
+  let quadrants = Quadrant.createQuadrants(quadrantState),
+    quadrant = quadrants[4][3],
+    game = new Game({
+      klingons: 4,
+      starbases: 0,
+      quadrants: quadrants,
+      ship: new Ship(quadrant, quadrant.sectors[0][6]),
+      stardate: 2250,
+      timeRemaining: 40
+    }),
+    scan = game.longRangeSensorScan();
+
+  it('should return an 8x8 array', () => {
+    expect(scan.length).to.equal(8);
+    scan.every(row => expect(row.length).to.equal(8));
+  });
+
+  it('should report correct location of ship', () => {
+    let shipQuadrant = game.ship.quadrant;
+    expect(scan[shipQuadrant.row - 1][shipQuadrant.column - 1].ship).to.be.true;
+  })
+
+  it('should report correct number of klingons for each quadrant', () => {
+    for (var row = 0; row < Quadrant.rows; row++) {
+      for (var col = 0; col < Quadrant.columns; col++) {
+        expect(scan[row][col].klingons).to.equal(game.quadrants[row][col].klingons);
+      }
+    }
+  });
+
+  it('should report correct number of starbases for each quadrant', () => {
+    for (var row = 0; row < Quadrant.rows; row++) {
+      for (var col = 0; col < Quadrant.columns; col++) {
+        expect(scan[row][col].starbases).to.equal(game.quadrants[row][col].hasStarbase ? 1 : 0);
+      }
+    }
+  });
+
+  it('should report correct number of stars for each quadrant', () => {
+    for (var row = 0; row < Quadrant.rows; row++) {
+      for (var col = 0; col < Quadrant.columns; col++) {
+        expect(scan[row][col].stars).to.equal(game.quadrants[row][col].stars);
+      }
+    }
+  });
 });

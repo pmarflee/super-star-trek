@@ -3,7 +3,14 @@ import Quadrant from './quadrant';
 import GameState from './gamestate';
 import Ship from './ship';
 
-export default class Game {
+export interface LongRangeSensorScanResult {
+  ship: boolean,
+  klingons: number,
+  starbases: number,
+  stars: number
+}
+
+export class Game {
 
   public static readonly max_stars: number = 8;
 
@@ -47,14 +54,21 @@ export default class Game {
     };
   }
 
+  public longRangeSensorScan(): LongRangeSensorScanResult[][] {
+    return this.quadrants.map(
+      row => row.map(
+        q => <LongRangeSensorScanResult>{
+          ship: q === this.ship.quadrant,
+          klingons: q.klingons,
+          starbases: q.hasStarbase ? 1 : 0,
+          stars: q.stars
+        }));
+  }
+
   private createQuadrants(maxKlingons: number, maxStarbases: number): Quadrant[][] {
     var quadrants = Array.from(new Array(Quadrant.rows), (row, rowIndex) =>
-      Array.from(new Array(Quadrant.columns), (col, colIndex) => {
-        return new Quadrant(
-          this.rng.nextInt(1, Game.max_stars),
-          rowIndex + 1,
-          colIndex + 1);
-      })),
+      Array.from(new Array(Quadrant.columns), (col, colIndex) =>
+        new Quadrant(rowIndex + 1, colIndex + 1, this.rng.nextInt(1, Game.max_stars)))),
       klingons = 0,
       starbases = 0;
 
@@ -83,7 +97,7 @@ export default class Game {
     var quadrant = this.getRandomQuadrant(quadrants),
       sector = quadrant.getRandomSector(this.rng);
 
-    return new Ship(this, quadrant, sector);
+    return new Ship(quadrant, sector);
   }
 
   private getRandomQuadrant(quadrants: Quadrant[][]): Quadrant {
