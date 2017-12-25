@@ -1,14 +1,23 @@
 import { Component, Vue } from 'vue-property-decorator';
+import { Game, LongRangeSensorScanResult } from '../../game/game';
+import { LongRangeSensorScanComponent } from '../longrangesensorscan/';
 
 import './home.scss';
 
 @Component({
-    template: require('./home.html')
+  template: require('./home.html'),
+  components: { LongRangeSensorScanComponent }
 })
 export class HomeComponent extends Vue {
 
-    package: string = 'vue-webpack-typescript';
-    repo: string = 'https://github.com/ducksoupdev/vue-webpack-typescript';
-    mode: string = process.env.ENV;
+  public game: Game;
+
+  created() {
+    this.game = new Game({ seed: 1 });
+  }
+
+  get longRangeSensorScan(): LongRangeSensorScanResult[][] {
+    return this.game.longRangeSensorScan;
+  }
 
 }

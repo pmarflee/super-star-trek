@@ -1,0 +1,17 @@
+<table class="table">
+  <caption class="text-center">Long Range Sensor Scan</caption>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" v-for="(col, colIndex) in quadrants[0]">{{colIndex + 1}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(row, rowIndex) in quadrants">
+      <th scope="row">{{rowIndex + 1}}</th>
+      <td v-for="quadrant in row">
+        {{quadrant.klingons}}{{quadrant.starbases}}{{quadrant.stars}}
+      </td>
+    </tr>
+  </tbody>
+</table>

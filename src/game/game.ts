@@ -4,10 +4,12 @@ import GameState from './gamestate';
 import Ship from './ship';
 
 export interface LongRangeSensorScanResult {
-  ship: boolean,
-  klingons: number,
-  starbases: number,
-  stars: number
+  row: number;
+  column: number;
+  ship: boolean;
+  klingons: number;
+  starbases: number;
+  stars: number;
 }
 
 export class Game {
@@ -22,10 +24,11 @@ export class Game {
   public stardate: number;
   public timeRemaining: number;
 
-  constructor(state: GameState) {
-    this.rng = new Prando(state.seed);
+  constructor(state?: GameState) {
+    let seed = state && state.seed ? state.seed : undefined;
+    this.rng = new Prando(seed);
 
-    var gameState = state.seed ? this.createFromSeed(state.seed) : state;
+    let gameState = !state || state.seed ? this.createFromSeed(seed) : state;
 
     this.quadrants = gameState.quadrants;
     this.klingons = gameState.klingons;
@@ -36,7 +39,7 @@ export class Game {
   }
 
   public createFromSeed(seed: number): GameState {
-    var rng = this.rng,
+    let rng = this.rng,
       klingons = 15 + rng.nextInt(0, 5),
       starbases = 2 + rng.nextInt(0, 2),
       quadrants = this.createQuadrants(klingons, starbases),
@@ -54,10 +57,12 @@ export class Game {
     };
   }
 
-  public longRangeSensorScan(): LongRangeSensorScanResult[][] {
+  public get longRangeSensorScan(): LongRangeSensorScanResult[][] {
     return this.quadrants.map(
       row => row.map(
         q => <LongRangeSensorScanResult>{
+          row: q.row,
+          column: q.column,
           ship: q === this.ship.quadrant,
           klingons: q.klingons,
           starbases: q.hasStarbase ? 1 : 0,
@@ -66,7 +71,7 @@ export class Game {
   }
 
   private createQuadrants(maxKlingons: number, maxStarbases: number): Quadrant[][] {
-    var quadrants = Array.from(new Array(Quadrant.rows), (row, rowIndex) =>
+    let quadrants = Array.from(new Array(Quadrant.rows), (row, rowIndex) =>
       Array.from(new Array(Quadrant.columns), (col, colIndex) =>
         new Quadrant(rowIndex + 1, colIndex + 1, this.rng.nextInt(1, Game.max_stars)))),
       klingons = 0,
@@ -94,7 +99,7 @@ export class Game {
   }
 
   private createShip(quadrants: Quadrant[][]): Ship {
-    var quadrant = this.getRandomQuadrant(quadrants),
+    let quadrant = this.getRandomQuadrant(quadrants),
       sector = quadrant.getRandomSector(this.rng);
 
     return new Ship(quadrant, sector);
