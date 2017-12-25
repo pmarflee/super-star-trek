@@ -32,14 +32,14 @@ describe('Create Game from seed', () => {
     });
 
     it('should contain klingons equal to the number in the game', () => {
-      let klingons = game.quadrants.reduce((acc, quadrant) =>
-        acc + quadrant.reduce((acc1, sector) => acc1 + sector.klingons, 0), 0);
+      let klingons = game.quadrants.reduce((acc, row) =>
+        acc + row.reduce((acc1, quadrant) => acc1 + quadrant.klingons, 0), 0);
       expect(klingons).to.equal(game.klingons);
     });
 
     it('should contain starbases equal to the number in the game', () => {
-      let starbases = game.quadrants.reduce((acc, quadrant) =>
-        acc + quadrant.reduce((acc1, sector) => acc1 + (sector.hasStarbase ? 1 : 0), 0), 0);
+      let starbases = game.quadrants.reduce((acc, row) =>
+        acc + row.reduce((acc1, quadrant) => acc1 + (quadrant.hasStarbase ? 1 : 0), 0), 0);
       expect(starbases).to.equal(game.starbases);
     });
 
@@ -77,8 +77,9 @@ describe('Create Game from seed', () => {
 
 describe('Long range sensor scan', () => {
   let quadrants = Quadrant.createQuadrants(quadrantState),
-    quadrant = quadrants[4][3],
-    game = new Game({
+    quadrant = quadrants[4][3];
+  quadrant.createSectors();
+    let game = new Game({
       klingons: 4,
       starbases: 0,
       quadrants: quadrants,

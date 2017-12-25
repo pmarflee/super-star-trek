@@ -99,10 +99,10 @@ export class Game {
   }
 
   private createShip(quadrants: Quadrant[][]): Ship {
-    let quadrant = this.getRandomQuadrant(quadrants),
-      sector = quadrant.getRandomSector(this.rng);
+    let quadrant = this.getRandomQuadrant(quadrants);
+    quadrant.createSectors();
 
-    return new Ship(quadrant, sector);
+    return new Ship(quadrant, quadrant.getRandomSector(this.rng));
   }
 
   private getRandomQuadrant(quadrants: Quadrant[][]): Quadrant {
