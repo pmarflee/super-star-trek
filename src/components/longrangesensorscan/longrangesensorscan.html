@@ -3,13 +3,13 @@
   <thead>
     <tr>
       <th scope="col">#</th>
-      <th scope="col" v-for="(col, colIndex) in quadrants[0]">{{colIndex + 1}}</th>
+      <th scope="col" class="text-center" v-for="(col, colIndex) in quadrants[0]">{{colIndex + 1}}</th>
     </tr>
   </thead>
   <tbody>
     <tr v-for="(row, rowIndex) in quadrants">
       <th scope="row">{{rowIndex + 1}}</th>
-      <td v-for="quadrant in row">
+      <td class="text-center" v-for="quadrant in row" v-bind:class="{ 'bg-primary': quadrant.ship }">
         {{quadrant.klingons}}{{quadrant.starbases}}{{quadrant.stars}}
       </td>
     </tr>
