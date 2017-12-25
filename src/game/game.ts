@@ -1,7 +1,21 @@
 import Prando from 'prando';
 import Quadrant from './quadrant';
-import GameState from './gamestate';
-import Ship from './ship';
+import * as Entities from './entities';
+
+export interface Position {
+  row: number;
+  column: number;
+}
+
+export interface GameState {
+  seed?: number;
+  klingons?: number;
+  starbases?: number;
+  quadrants?: Quadrant[][];
+  ship?: Entities.Ship;
+  stardate?: number;
+  timeRemaining?: number;
+}
 
 export interface LongRangeSensorScanResult {
   row: number;
@@ -20,7 +34,7 @@ export class Game {
   public readonly quadrants: Quadrant[][];
   public klingons: number;
   public starbases: number;
-  public ship: Ship;
+  public ship: Entities.Ship;
   public stardate: number;
   public timeRemaining: number;
 
@@ -73,7 +87,7 @@ export class Game {
   private createQuadrants(maxKlingons: number, maxStarbases: number): Quadrant[][] {
     let quadrants = Array.from(new Array(Quadrant.rows), (row, rowIndex) =>
       Array.from(new Array(Quadrant.columns), (col, colIndex) =>
-        new Quadrant(rowIndex + 1, colIndex + 1, this.rng.nextInt(1, Game.max_stars)))),
+        new Quadrant(this.rng, rowIndex + 1, colIndex + 1, this.rng.nextInt(1, Game.max_stars)))),
       klingons = 0,
       starbases = 0;
 
@@ -98,11 +112,13 @@ export class Game {
     return quadrants;
   }
 
-  private createShip(quadrants: Quadrant[][]): Ship {
-    let quadrant = this.getRandomQuadrant(quadrants);
-    quadrant.createSectors();
+  private createShip(quadrants: Quadrant[][]): Entities.Ship {
+    let quadrant = this.getRandomQuadrant(quadrants),
+      ship = new Entities.Ship();
 
-    return new Ship(quadrant, quadrant.getRandomSector(this.rng));
+    ship.setPosition(quadrant, quadrant.getRandomPosition());
+
+    return ship;
   }
 
   private getRandomQuadrant(quadrants: Quadrant[][]): Quadrant {

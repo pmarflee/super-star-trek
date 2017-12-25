@@ -1,14 +1,17 @@
 import Prando from 'prando';
 import Sector from './sector';
+import * as Entities from './entities';
+import { Position } from './game';
 
 export default class Quadrant {
 
   public static readonly columns: number = 8;
   public static readonly rows: number = 8;
 
-  public sectors: Sector[];
+  public sectors: Sector[][];
 
   constructor(
+    private rng: Prando,
     public readonly row: number,
     public readonly column: number,
     public readonly stars: number,
@@ -21,17 +24,58 @@ export default class Quadrant {
       Array.from(new Array(Sector.columns), (col, colIndex) => new Sector()));
   }
 
-  public getRandomSector(rng: Prando): Sector {
-    let row = rng.nextInt(0, Sector.rows - 1),
-      column = rng.nextInt(0, Sector.columns - 1);
+  public positionEntities(ship: Entities.Ship, shipPosition: Position): void {
+    let klingons = 0,
+      hasStarbase = false,
+      stars = 0,
+      shipSector = this.sectors[shipPosition.row][shipPosition.column];
+
+    ship.setSector(shipSector);
+
+    do {
+      let sector = this.getRandomSector();
+      if (!sector.entity) {
+        sector.entity = new Entities.Klingon();
+        klingons++;
+      }
+    } while (klingons < this.klingons);
+
+    do {
+      let sector = this.getRandomSector();
+      if (!sector.entity) {
+        sector.entity = new Entities.Starbase();
+        hasStarbase = true;
+      }
+    } while (!hasStarbase);
+
+    do {
+      let sector = this.getRandomSector();
+      if (!sector.entity) {
+        sector.entity = new Entities.Star();
+        stars++;
+      }
+    } while (stars < this.stars);
+  }
+
+  public getRandomPosition(): Position {
+    let row = this.rng.nextInt(0, Sector.rows - 1),
+      column = this.rng.nextInt(0, Sector.columns - 1);
+
+    return { row: row, column: column };
+  }
+
+  public getRandomSector(): Sector {
+    let row = this.rng.nextInt(0, Sector.rows - 1),
+      column = this.rng.nextInt(0, Sector.columns - 1);
 
     return this.sectors[row][column];
   }
 
-  public static createQuadrants(state: [number, number, boolean][][]): Quadrant[][] {
+  public static createQuadrants(state: [number, number, boolean][][], rng: Prando): Quadrant[][] {
     return Array.from(state, (row, rowIndex) =>
       Array.from(row, (quadState, colIndex) =>
         new Quadrant(
+          rng,
           rowIndex + 1,
           colIndex + 1,
           quadState[1],

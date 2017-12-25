@@ -1,7 +1,8 @@
 import { spy, assert } from 'sinon';
 import { expect } from 'chai';
+import Prando from 'prando';
 import { Game, LongRangeSensorScanResult } from './game';
-import Ship from './ship';
+import { Ship } from './entities';
 import Quadrant from './quadrant';
 import { quadrantState } from './quadrant.testdata';
 
@@ -76,14 +77,16 @@ describe('Create Game from seed', () => {
 });
 
 describe('Long range sensor scan', () => {
-  let quadrants = Quadrant.createQuadrants(quadrantState),
-    quadrant = quadrants[4][3];
-  quadrant.createSectors();
+  let rng = new Prando(1),
+    quadrants = Quadrant.createQuadrants(quadrantState, rng),
+    quadrant = quadrants[4][3],
+    ship = new Ship();
+  ship.setPosition(quadrant, { row: 0, column: 6 });
     let game = new Game({
       klingons: 4,
       starbases: 0,
       quadrants: quadrants,
-      ship: new Ship(quadrant, quadrant.sectors[0][6]),
+      ship: ship,
       stardate: 2250,
       timeRemaining: 40
     }),
