@@ -34,35 +34,31 @@ export class HomeComponent extends Vue {
     return this.game.shortRangeSensorScan;
   }
 
-  get navigationSystemStatus(): string {
-    return this.getSystemStatus(this.ship.navigationDamage);
+  get navigationDamage(): number {
+    return this.ship.navigationDamage;
   }
 
-  get shortRangeScanSystemStatus(): string {
-    return this.getSystemStatus(this.ship.shortRangeScanDamage);
+  get shortRangeScanDamage(): number {
+    return this.ship.shortRangeScanDamage;
   }
 
-  get longRangeScanSystemStatus(): string {
-    return this.getSystemStatus(this.ship.longRangeScanDamage);
+  get longRangeScanDamage(): number {
+    return this.ship.longRangeScanDamage;
   }
 
-  get shieldControlSystemStatus(): string {
-    return this.getSystemStatus(this.ship.shieldControlDamage);
+  get shieldControlDamage(): number {
+    return this.ship.shieldControlDamage;
   }
 
-  get computerSystemStatus(): string {
-    return this.getSystemStatus(this.ship.computerDamage);
+  get computerDamage(): number {
+    return this.ship.computerDamage;
   }
 
-  get photonSystemStatus(): string {
-    return this.getSystemStatus(this.ship.photonDamage);
+  get photonDamage(): number {
+    return this.ship.photonDamage;
   }
 
-  get phaserSystemStatus(): string {
-    return this.getSystemStatus(this.ship.phaserDamage);
-  }
-
-  private getSystemStatus(damage: number) {
-    return damage === 0 ? 'Online' : `Offline - ${damage}`;
+  get phaserDamage(): number {
+    return this.ship.phaserDamage;
   }
 }

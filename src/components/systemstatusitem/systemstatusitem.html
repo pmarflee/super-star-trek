@@ -1,0 +1,9 @@
+<div>
+  <dt class="col-sm-6"
+      v-bind:class="{ 'bg-danger': damage > 0 }">{{name}}:</dt>
+  <dd class="col-sm-6 text-right"
+      v-bind:class="{ 'bg-danger': damage > 0 }"
+      v-bind:style="{ 'fontWeight': damage > 0 ? 'bold' : 'normal' }">
+      {{ damage === 0 ? 'Online' : `Offline (${damage} day${damage > 1 ? 's' : ''})`}}
+  </dd>
+</div>

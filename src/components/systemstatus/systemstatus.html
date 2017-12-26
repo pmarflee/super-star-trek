@@ -1,19 +1,33 @@
 <section id="systemstatus">
   <h4 class="text-center">System Status</h4>
   <dl class="row">
-    <dt class="col-sm-6">Navigation:</dt>
-    <dd class="col-sm-6 text-right">{{navigationSystemStatus}}</dd>
-    <dt class="col-sm-6">Short Range Scan:</dt>
-    <dd class="col-sm-6 text-right">{{shortRangeScanSystemStatus}}</dd>
-    <dt class="col-sm-6">Long Range Scan:</dt>
-    <dd class="col-sm-6 text-right">{{longRangeScanSystemStatus}}</dd>
-    <dt class="col-sm-6">Shield Control:</dt>
-    <dd class="col-sm-6 text-right">{{shieldControlSystemStatus}}</dd>
-    <dt class="col-sm-6">Computer:</dt>
-    <dd class="col-sm-6 text-right">{{computerSystemStatus}}</dd>
-    <dt class="col-sm-6">Photon Torpedoes:</dt>
-    <dd class="col-sm-6 text-right">{{photonSystemStatus}}</dd>
-    <dt class="col-sm-6">Phasers:</dt>
-    <dd class="col-sm-6 text-right">{{phaserSystemStatus}}</dd>
+    <system-status-item-component
+       name="Navigation"
+       :damage="navigationDamage">
+    </system-status-item-component>
+    <system-status-item-component
+       name="Short Range Scan"
+       :damage="shortRangeScanDamage">
+    </system-status-item-component>
+    <system-status-item-component
+       name="Long Range Scan"
+       :damage="longRangeScanDamage">
+    </system-status-item-component>
+    <system-status-item-component
+       name="Shield Control"
+       :damage="shieldControlDamage">
+    </system-status-item-component>
+    <system-status-item-component
+       name="Computer"
+       :damage="computerDamage">
+    </system-status-item-component>
+    <system-status-item-component
+       name="Photon Torpedoes"
+       :damage="photonDamage">
+    </system-status-item-component>
+    <system-status-item-component
+       name="Phasers"
+       :damage="phaserDamage">
+    </system-status-item-component>
   </dl>
 </section>
