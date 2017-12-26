@@ -9,7 +9,9 @@
   <tbody>
     <tr v-for="(row, rowIndex) in quadrants">
       <th scope="row">{{rowIndex + 1}}</th>
-      <td class="text-center" v-for="quadrant in row" v-bind:class="{ 'bg-primary': quadrant.ship }">
+      <td class="text-center"
+          v-for="quadrant in row"
+          v-bind:class="{ 'bg-primary': quadrant.ship, 'text-danger': quadrant.klingons > 0 }">
         {{quadrant.klingons}}{{quadrant.starbases}}{{quadrant.stars}}
       </td>
     </tr>
