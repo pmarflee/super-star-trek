@@ -21,7 +21,7 @@ export default class Quadrant {
 
   public createSectors(): void {
     this.sectors = Array.from(new Array(Sector.rows), (row, rowIndex) => 
-      Array.from(new Array(Sector.columns), (col, colIndex) => new Sector()));
+      Array.from(new Array(Sector.columns), (col, colIndex) => new Sector(row + 1, col + 1)));
   }
 
   public positionEntities(ship: Entities.Ship, shipPosition: Position): void {
@@ -32,29 +32,29 @@ export default class Quadrant {
 
     ship.setSector(shipSector);
 
-    do {
+    while (klingons < this.klingons) {
       let sector = this.getRandomSector();
       if (!sector.entity) {
         sector.entity = new Entities.Klingon();
         klingons++;
       }
-    } while (klingons < this.klingons);
+    } 
 
-    do {
+    while (this.hasStarbase && !hasStarbase) {
       let sector = this.getRandomSector();
       if (!sector.entity) {
         sector.entity = new Entities.Starbase();
         hasStarbase = true;
       }
-    } while (!hasStarbase);
+    }
 
-    do {
+    while (stars < this.stars) {
       let sector = this.getRandomSector();
       if (!sector.entity) {
         sector.entity = new Entities.Star();
         stars++;
       }
-    } while (stars < this.stars);
+    }
   }
 
   public getRandomPosition(): Position {
