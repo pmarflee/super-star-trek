@@ -21,7 +21,8 @@ export default class Quadrant {
 
   public createSectors(): void {
     this.sectors = Array.from(new Array(Sector.rows), (row, rowIndex) => 
-      Array.from(new Array(Sector.columns), (col, colIndex) => new Sector(row + 1, col + 1)));
+      Array.from(new Array(Sector.columns), (col, colIndex) =>
+        new Sector(rowIndex + 1, colIndex + 1)));
   }
 
   public positionEntities(ship: Entities.Ship, shipPosition: Position): void {

@@ -8,6 +8,17 @@ export interface Entity {
 }
 
 export class Ship implements Entity {
+  private static readonly offsets: Position[] = [
+    { row: -1, column: -1 },
+    { row: -1, column: 0 },
+    { row: -1, column: 1 },
+    { row: 0, column: 1 },
+    { row: 1, column: 1 },
+    { row: 1, column: 0 },
+    { row: 1, column: -1 },
+    { row: 0, column: -1 }
+  ];
+
   public quadrant: Quadrant;
   public sector: Sector;
   public energy: number = 3000;
@@ -24,6 +35,20 @@ export class Ship implements Entity {
   public setSector(sector: Sector): void {
     sector.entity = this;
     this.sector = sector;
+  }
+
+  public get isDocked(): boolean {
+    return !this.quadrant.hasStarbase
+      ? false
+      : Ship.offsets.some(offset => {
+        let position = {
+          row: this.sector.row + offset.row,
+          column: this.sector.column + offset.column
+        };
+        if (position.row < 1 || position.row > Sector.rows
+          || position.column < 1 || position.column > Sector.columns) return false;
+        return this.quadrant.sectors[position.row - 1][position.column - 1].containsStarbase;
+      });
   }
 }
 

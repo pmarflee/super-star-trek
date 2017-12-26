@@ -7,6 +7,10 @@ export default class Sector {
 
   public entity: Entities.Entity;
 
+  constructor(public readonly row: number, public readonly column: number) {
+
+  }
+
   public get containsKlingon(): boolean {
     return this.entity instanceof Entities.Klingon;
   }
