@@ -8,15 +8,30 @@
           </short-range-sensor-scan-component>
         </div>
         <div class="col-md-4">
-          <system-status-component
-            :navigationDamage="navigationDamage"
-            :shortRangeScanDamage="shortRangeScanDamage"
-            :longRangeScanDamage="longRangeScanDamage"
-            :shieldControlDamage="shieldControlDamage"
-            :computerDamage="computerDamage"
-            :photonDamage="photonDamage"
-            :phaserDamage="phaserDamage">
-          </system-status-component>
+          <div class="row">
+            <system-status-component
+              :navigationDamage="navigationDamage"
+              :shortRangeScanDamage="shortRangeScanDamage"
+              :longRangeScanDamage="longRangeScanDamage"
+              :shieldControlDamage="shieldControlDamage"
+              :computerDamage="computerDamage"
+              :photonDamage="photonDamage"
+              :phaserDamage="phaserDamage">
+            </system-status-component>
+          </div>
+          <div class="row">
+            <game-stats-component
+              :timeRemaining="timeRemaining"
+              :stardate="stardate"
+              :condition="condition"
+              :quadrant="quadrant"
+              :sector="sector"
+              :photonTorpedoes="photonTorpedoes"
+              :energy="energy"
+              :shields="shields"
+              :klingons="klingons">
+            </game-stats-component>
+          </div>
         </div>
         <div class="col-md-4">
           <long-range-sensor-scan-component

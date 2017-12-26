@@ -1,10 +1,12 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Game, LongRangeSensorScanResult } from '../../game/game';
 import * as Entities from '../../game/entities';
+import Quadrant from '../../game/quadrant';
 import Sector from '../../game/sector';
 import { LongRangeSensorScanComponent } from '../longrangesensorscan/';
 import { ShortRangeSensorScanComponent } from '../shortrangesensorscan/';
 import { SystemStatusComponent } from '../systemstatus';
+import { GameStatsComponent } from '../gamestats';
 
 import './home.scss';
 
@@ -13,7 +15,8 @@ import './home.scss';
   components: {
     LongRangeSensorScanComponent,
     ShortRangeSensorScanComponent,
-    SystemStatusComponent
+    SystemStatusComponent,
+    GameStatsComponent
   }
 })
 export class HomeComponent extends Vue {
@@ -60,5 +63,41 @@ export class HomeComponent extends Vue {
 
   get phaserDamage(): number {
     return this.ship.phaserDamage;
+  }
+
+  get timeRemaining(): number {
+    return this.game.timeRemaining;
+  }
+
+  get stardate(): number {
+    return this.game.stardate;
+  }
+
+  get condition(): string {
+    return this.ship.quadrant.klingons > 0 ? 'Red' : 'Green';
+  }
+
+  get quadrant(): Quadrant {
+    return this.ship.quadrant;
+  }
+
+  get sector(): Sector {
+    return this.ship.sector;
+  }
+
+  get photonTorpedoes(): number {
+    return this.ship.photonTorpedoes;
+  }
+
+  get energy(): number {
+    return this.ship.energy;
+  }
+
+  get shields(): number {
+    return this.ship.shields;
+  }
+
+  get klingons(): number {
+    return this.game.klingons;
   }
 }

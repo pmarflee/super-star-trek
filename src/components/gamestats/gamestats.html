@@ -1,0 +1,25 @@
+<section id="gamestats">
+  <dl>
+    <dt class="col-sm-6">Remaining Dates:</dt>
+    <dd class="col-sm-6 text-right">{{ timeRemaining }}</dd>
+    <dt class="col-sm-6">Star Date:</dt>
+    <dd class="col-sm-6 text-right">{{ stardate }}</dd>
+    <dt class="col-sm-6"
+        v-bind:class="{ 'bg-danger': condition === 'Red' }">Condition:</dt>
+    <dd class="col-sm-6 text-right"
+        v-bind:class="{ 'bg-danger': condition === 'Red' }"
+        v-bind:style="{ 'fontWeight': condition === 'Red' ? 'bold' : 'normal' }">{{ condition }}</dd>
+    <dt class="col-sm-6">Quadrant:</dt>
+    <dd class="col-sm-6 text-right">{{ quadrant.row }}, {{ quadrant.column }}</dd>
+    <dt class="col-sm-6">Sector:</dt>
+    <dd class="col-sm-6 text-right">{{ sector.row }}, {{ sector.column }}</dd>
+    <dt class="col-sm-6">Photon Torpedoes:</dt>
+    <dd class="col-sm-6 text-right">{{ photonTorpedoes }}</dd>
+    <dt class="col-sm-6">Energy:</dt>
+    <dd class="col-sm-6 text-right">{{ energy }}</dd>
+    <dt class="col-sm-6">Shields:</dt>
+    <dd class="col-sm-6 text-right">{{ shields }}</dd>
+    <dt class="col-sm-6">Klingons:</dt>
+    <dd class="col-sm-6 text-right">{{ klingons }}</dd>
+  </dl>
+</section>
