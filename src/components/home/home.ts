@@ -1,12 +1,14 @@
 import { Component, Vue } from 'vue-property-decorator';
 import { Game, LongRangeSensorScanResult } from '../../game/game';
+import Sector from '../../game/sector';
 import { LongRangeSensorScanComponent } from '../longrangesensorscan/';
+import { ShortRangeSensorScanComponent } from '../shortrangesensorscan/';
 
 import './home.scss';
 
 @Component({
   template: require('./home.html'),
-  components: { LongRangeSensorScanComponent }
+  components: { LongRangeSensorScanComponent, ShortRangeSensorScanComponent }
 })
 export class HomeComponent extends Vue {
 
@@ -20,4 +22,7 @@ export class HomeComponent extends Vue {
     return this.game.longRangeSensorScan;
   }
 
+  get shortRangeSensorScan(): Sector[][] {
+    return this.game.shortRangeSensorScan;
+  }
 }

@@ -1,5 +1,6 @@
 import Prando from 'prando';
 import Quadrant from './quadrant';
+import Sector from './sector';
 import * as Entities from './entities';
 
 export interface Position {
@@ -82,6 +83,10 @@ export class Game {
           starbases: q.hasStarbase ? 1 : 0,
           stars: q.stars
         }));
+  }
+
+  public get shortRangeSensorScan(): Sector[][] {
+    return this.ship.quadrant.sectors;
   }
 
   private createQuadrants(maxKlingons: number, maxStarbases: number): Quadrant[][] {

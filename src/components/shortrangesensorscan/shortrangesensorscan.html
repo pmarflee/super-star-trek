@@ -1,0 +1,21 @@
+<table class="table">
+  <caption class="text-center">Short Range Sensor Scan</caption>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col" class="text-center" v-for="(col, colIndex) in sectors[0]">{{colIndex + 1}}</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr v-for="(row, rowIndex) in sectors">
+      <th scope="row">{{rowIndex + 1}}</th>
+      <td class="text-center" v-for="sector in row">
+        <div v-if="sector.containsKlingon">K</div>
+        <div v-else-if="sector.containsShip">E</div>
+        <div v-else-if="sector.containsStarbase">S</div>
+        <div v-else-if="sector.containsStar">@</div>
+        <div v-else>.</div>
+      </td>
+    </tr>
+  </tbody>
+</table>
