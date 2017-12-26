@@ -54,7 +54,7 @@ describe('Ship', () => {
     it('Should not be docked when in a quadrant with a starbase and not adjacent to it', () => {
       quadrant.sectors[2][0].entity = new Entities.Starbase();
       expect(ship.isDocked).to.equal(false);
-    })
+    });
 
     it('Should be docked when in a quadrant with a starbase and adjacent to it', () => {
       quadrant.hasStarbase = true;

@@ -25,6 +25,14 @@ export class Ship implements Entity {
   public photonTorpedoes: number = 10;
   public shields: number = 0;
 
+  public navigationDamage: number = 0;
+  public shortRangeScanDamage: number = 0;
+  public longRangeScanDamage: number = 0;
+  public shieldControlDamage: number = 0;
+  public computerDamage: number = 0;
+  public photonDamage: number = 0;
+  public phaserDamage: number = 0;
+
   public setPosition(quadrant: Quadrant, position: Position): void {
     this.quadrant = quadrant;
 
