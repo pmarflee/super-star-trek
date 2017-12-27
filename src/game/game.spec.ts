@@ -10,12 +10,12 @@ describe('Create Game from seed', () => {
 
   let game = new Game({ seed: 1 });
 
-  it('should have number of klingons between 5 and 20', () => {
-    expect(game.klingons).to.be.within(5, 20);
+  it('should have intial number of klingons between 5 and 20', () => {
+    expect(game.initialKlingons).to.be.within(5, 20);
   });
 
-  it('should have number of starbases between 2 and 4', () => {
-    expect(game.starbases).to.be.within(2, 4);
+  it('should have initial number of starbases between 2 and 4', () => {
+    expect(game.initialStarbases).to.be.within(2, 4);
   });
 
   it('should have stardate between 2250 and 2300', () => {
@@ -23,7 +23,7 @@ describe('Create Game from seed', () => {
   });
 
   it('should have time remaining between 40 and 49', () => {
-    expect(game.timeRemaining).to.be.within(40, 49);
+    expect(game.initialTimeRemaining).to.be.within(40, 49);
   });
 
   describe('Quadrant map', () => {
@@ -32,16 +32,12 @@ describe('Create Game from seed', () => {
       game.quadrants.every(quadrant => expect(quadrant.length).to.equal(Quadrant.columns));
     });
 
-    it('should contain klingons equal to the number in the game', () => {
-      let klingons = game.quadrants.reduce((acc, row) =>
-        acc + row.reduce((acc1, quadrant) => acc1 + quadrant.klingons, 0), 0);
-      expect(klingons).to.equal(game.klingons);
+    it('should contain klingons equal to the initial number for the game', () => {
+      expect(game.klingons).to.equal(game.initialKlingons);
     });
 
-    it('should contain starbases equal to the number in the game', () => {
-      let starbases = game.quadrants.reduce((acc, row) =>
-        acc + row.reduce((acc1, quadrant) => acc1 + (quadrant.hasStarbase ? 1 : 0), 0), 0);
-      expect(starbases).to.equal(game.starbases);
+    it('should contain starbases equal to the initial number for the game', () => {
+      expect(game.starbases).to.equal(game.initialStarbases);
     });
 
     it('should contain between 1 and MAX_STARS stars in each quadrant', () => {

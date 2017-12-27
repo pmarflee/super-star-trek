@@ -33,11 +33,12 @@ export class Game {
 
   private readonly rng: Prando;
   public readonly quadrants: Quadrant[][];
-  public klingons: number;
-  public starbases: number;
+  public readonly initialKlingons: number;
+  public readonly initialTimeRemaining: number;
+  public readonly initialStarbases: number;
+  public timeRemaining: number;
   public ship: Entities.Ship;
   public stardate: number;
-  public timeRemaining: number;
 
   constructor(state?: GameState) {
     let seed = state && state.seed ? state.seed : undefined;
@@ -46,11 +47,12 @@ export class Game {
     let gameState = !state || state.seed ? this.createFromSeed(seed) : state;
 
     this.quadrants = gameState.quadrants;
-    this.klingons = gameState.klingons;
-    this.starbases = gameState.starbases;
+    this.initialKlingons = gameState.klingons;
+    this.initialStarbases = gameState.starbases;
+    this.initialTimeRemaining = gameState.timeRemaining;
+    this.timeRemaining = gameState.timeRemaining;
     this.ship = gameState.ship;
     this.stardate = gameState.stardate;
-    this.timeRemaining = gameState.timeRemaining;
   }
 
   public createFromSeed(seed: number): GameState {
@@ -70,6 +72,16 @@ export class Game {
       stardate: stardate,
       timeRemaining: timeRemaining
     };
+  }
+
+  public get klingons(): number {
+    return this.quadrants.reduce((acc, row) =>
+      acc + row.reduce((acc1, quadrant) => acc1 + quadrant.klingons, 0), 0);
+  }
+
+  public get starbases(): number {
+    return this.quadrants.reduce((acc, row) =>
+      acc + row.reduce((acc1, quadrant) => acc1 + (quadrant.hasStarbase ? 1 : 0), 0), 0);
   }
 
   public get longRangeSensorScan(): LongRangeSensorScanResult[][] {

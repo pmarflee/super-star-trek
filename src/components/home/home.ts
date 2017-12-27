@@ -65,6 +65,26 @@ export class HomeComponent extends Vue {
     return this.ship.phaserDamage;
   }
 
+  get initialKlingons(): number {
+    return this.game.initialKlingons;
+  }
+
+  get initialStarbases(): number {
+    return this.game.initialStarbases;
+  }
+
+  get initialTimeRemaining(): number {
+    return this.game.initialTimeRemaining;
+  }
+
+  get klingons(): number {
+    return this.game.klingons;
+  }
+
+  get starbases(): number {
+    return this.game.starbases;
+  }
+
   get timeRemaining(): number {
     return this.game.timeRemaining;
   }
@@ -97,7 +117,7 @@ export class HomeComponent extends Vue {
     return this.ship.shields;
   }
 
-  get klingons(): number {
+  get klingonsInQuadrant(): number {
     return this.ship.quadrant.klingons;
   }
 }
