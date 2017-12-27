@@ -39,6 +39,7 @@ export class Game {
   public timeRemaining: number;
   public ship: Entities.Ship;
   public stardate: number;
+  public readonly messages: string[] = [];
 
   constructor(state?: GameState) {
     let seed = state && state.seed ? state.seed : undefined;

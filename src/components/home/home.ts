@@ -120,4 +120,8 @@ export class HomeComponent extends Vue {
   get klingonsInQuadrant(): number {
     return this.ship.quadrant.klingons;
   }
+
+  get messages(): string[] {
+    return this.game.messages;
+  }
 }

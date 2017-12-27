@@ -1,3 +1,10 @@
 .content h1 {
     text-align: center;
 }
+
+div.messages {
+  padding-left: 15px;
+  max-height: 250px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
