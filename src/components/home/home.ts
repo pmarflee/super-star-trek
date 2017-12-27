@@ -98,6 +98,6 @@ export class HomeComponent extends Vue {
   }
 
   get klingons(): number {
-    return this.game.klingons;
+    return this.ship.quadrant.klingons;
   }
 }
