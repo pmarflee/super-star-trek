@@ -1,3 +1,4 @@
+import { RandomNumberGenerator } from './rng';
 import Game from './game';
 import Quadrant from './quadrant';
 import Sector from './sector';
@@ -8,6 +9,12 @@ export interface Entity {
 }
 
 export class Ship implements Entity {
+  private static readonly min_direction = 1.0;
+  private static readonly max_direction = 8.9;
+
+  private static readonly min_distance = 0.1;
+  private static readonly max_distance = 8;
+
   private static readonly offsets: Position[] = [
     { row: -1, column: -1 },
     { row: -1, column: 0 },
@@ -33,11 +40,25 @@ export class Ship implements Entity {
   public photonDamage: number = 0;
   public phaserDamage: number = 0;
 
-  public setPosition(quadrant: Quadrant, position: Position): void {
+  constructor(quadrant: Quadrant, position: Position, rng: RandomNumberGenerator) {
+    this.setQuadrant(quadrant, position, rng);
+  }
+
+  public navigate(direction: number, distance: number): void {
+    if (direction < Ship.min_direction || direction > Ship.max_direction) {
+      throw new Error('Invalid course');
+    }
+
+    if (distance < Ship.min_distance || distance > Ship.max_distance) {
+      throw new Error('Invalid warp factor');
+    }
+  }
+
+  private setQuadrant(quadrant: Quadrant, position: Position, rng: RandomNumberGenerator) {
     this.quadrant = quadrant;
 
     quadrant.createSectors();
-    quadrant.positionEntities(this, position);
+    quadrant.positionEntities(this, position, rng);
   }
 
   public setSector(sector: Sector): void {

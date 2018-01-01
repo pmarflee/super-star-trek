@@ -1,4 +1,4 @@
-import Prando from 'prando';
+import { RandomNumberGenerator } from './rng';
 import Quadrant from './quadrant';
 import Sector from './sector';
 import * as Entities from './entities';
@@ -9,13 +9,13 @@ export interface Position {
 }
 
 export interface GameState {
-  seed?: number;
-  klingons?: number;
-  starbases?: number;
-  quadrants?: Quadrant[][];
-  ship?: Entities.Ship;
-  stardate?: number;
-  timeRemaining?: number;
+  rng: RandomNumberGenerator;
+  klingons: number;
+  starbases: number;
+  quadrants: Quadrant[][];
+  ship: Entities.Ship;
+  stardate: number;
+  timeRemaining: number;
 }
 
 export interface LongRangeSensorScanResult {
@@ -31,7 +31,7 @@ export class Game {
 
   public static readonly max_stars: number = 8;
 
-  private readonly rng: Prando;
+  private readonly rng: RandomNumberGenerator;
   public readonly quadrants: Quadrant[][];
   public readonly initialKlingons: number;
   public readonly initialTimeRemaining: number;
@@ -41,38 +41,35 @@ export class Game {
   public stardate: number;
   public readonly messages: string[] = [];
 
-  constructor(state?: GameState) {
-    let seed = state && state.seed ? state.seed : undefined;
-    this.rng = new Prando(seed);
-
-    let gameState = !state || state.seed ? this.createFromSeed(seed) : state;
-
-    this.quadrants = gameState.quadrants;
-    this.initialKlingons = gameState.klingons;
-    this.initialStarbases = gameState.starbases;
-    this.initialTimeRemaining = gameState.timeRemaining;
-    this.timeRemaining = gameState.timeRemaining;
-    this.ship = gameState.ship;
-    this.stardate = gameState.stardate;
+  constructor(state: GameState) {
+    this.rng = state.rng;
+    this.quadrants = state.quadrants;
+    this.initialKlingons = state.klingons;
+    this.initialStarbases = state.starbases;
+    this.initialTimeRemaining = state.timeRemaining;
+    this.timeRemaining = state.timeRemaining;
+    this.ship = state.ship;
+    this.stardate = state.stardate;
   }
 
-  public createFromSeed(seed: number): GameState {
-    let rng = this.rng,
+  public static fromSeed(seed: number, rngFactory: (seed: number) => RandomNumberGenerator): Game {
+    let rng = rngFactory(seed),
       klingons = 15 + rng.nextInt(0, 5),
       starbases = 2 + rng.nextInt(0, 2),
-      quadrants = this.createQuadrants(klingons, starbases),
-      ship = this.createShip(quadrants),
+      quadrants = Game.createQuadrants(klingons, starbases, rng),
+      ship = Game.createShip(quadrants, rng),
       stardate = rng.nextInt(0, 50) + 2250,
       timeRemaining = rng.nextInt(0, 9) + 40;
 
-    return {
+    return new Game({
+      rng: rng,
       klingons: klingons,
       starbases: starbases,
       quadrants: quadrants,
       ship: ship,
       stardate: stardate,
       timeRemaining: timeRemaining
-    };
+    });
   }
 
   public get klingons(): number {
@@ -102,15 +99,16 @@ export class Game {
     return this.ship.quadrant.sectors;
   }
 
-  private createQuadrants(maxKlingons: number, maxStarbases: number): Quadrant[][] {
+  private static createQuadrants(maxKlingons: number, maxStarbases: number,
+    rng: RandomNumberGenerator): Quadrant[][] {
     let quadrants = Array.from(new Array(Quadrant.rows), (row, rowIndex) =>
       Array.from(new Array(Quadrant.columns), (col, colIndex) =>
-        new Quadrant(this.rng, rowIndex + 1, colIndex + 1, this.rng.nextInt(1, Game.max_stars)))),
+        new Quadrant(rowIndex + 1, colIndex + 1, rng.nextInt(1, Game.max_stars)))),
       klingons = 0,
       starbases = 0;
 
     do {
-      let quadrant = this.getRandomQuadrant(quadrants);
+      let quadrant = Game.getRandomQuadrant(quadrants, rng);
 
       if (quadrant.klingons < 3) {
         quadrant.klingons++;
@@ -119,7 +117,7 @@ export class Game {
     } while (klingons < maxKlingons);
 
     do {
-      let quadrant = this.getRandomQuadrant(quadrants);
+      let quadrant = Game.getRandomQuadrant(quadrants, rng);
 
       if (!quadrant.hasStarbase) {
         quadrant.hasStarbase = true;
@@ -130,18 +128,16 @@ export class Game {
     return quadrants;
   }
 
-  private createShip(quadrants: Quadrant[][]): Entities.Ship {
-    let quadrant = this.getRandomQuadrant(quadrants),
-      ship = new Entities.Ship();
+  private static createShip(quadrants: Quadrant[][], rng: RandomNumberGenerator): Entities.Ship {
+    let quadrant = Game.getRandomQuadrant(quadrants, rng),
+      position = quadrant.getRandomPosition(rng);
 
-    ship.setPosition(quadrant, quadrant.getRandomPosition());
-
-    return ship;
+    return new Entities.Ship(quadrant, position, rng);
   }
 
-  private getRandomQuadrant(quadrants: Quadrant[][]): Quadrant {
-      let row = this.rng.nextInt(0, Quadrant.rows - 1),
-        column = this.rng.nextInt(0, Quadrant.columns - 1);
+  private static getRandomQuadrant(quadrants: Quadrant[][], rng: RandomNumberGenerator): Quadrant {
+      let row = rng.nextInt(0, Quadrant.rows - 1),
+        column = rng.nextInt(0, Quadrant.columns - 1);
 
       return quadrants[row][column];
   }

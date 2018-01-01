@@ -9,13 +9,10 @@ import { quadrantState } from './quadrant.testdata';
 
 describe('Create sectors', () => {
   let rng = new Prando(1),
-    quadrants = Quadrant.createQuadrants(quadrantState, rng),
+    quadrants = Quadrant.createQuadrants(quadrantState),
     quadrant = quadrants[3][4],
-    ship = new Entities.Ship();
-
-  ship.setPosition(quadrant, { row: 4, column: 3 });
-
-  let sectors = quadrant.sectors;
+    ship = new Entities.Ship(quadrant, { row: 4, column: 3 }, rng),
+    sectors = quadrant.sectors;
 
   it('should create a sector grid of the correct height', () => {
     expect(sectors.length).to.equal(Sector.rows);

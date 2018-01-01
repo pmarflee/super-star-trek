@@ -1,4 +1,5 @@
 import { Component, Vue } from 'vue-property-decorator';
+import Prando from 'prando';
 import { Game, LongRangeSensorScanResult } from '../../game/game';
 import * as Entities from '../../game/entities';
 import Quadrant from '../../game/quadrant';
@@ -21,11 +22,12 @@ import './home.scss';
 })
 export class HomeComponent extends Vue {
 
+  private static readonly seed = 1;
   public game: Game;
   public ship: Entities.Ship;
 
   created() {
-    this.game = new Game({ seed: 1 });
+    this.game = Game.fromSeed(HomeComponent.seed, seed => new Prando(seed));
     this.ship = this.game.ship;
   }
 

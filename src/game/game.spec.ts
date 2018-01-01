@@ -7,8 +7,7 @@ import Quadrant from './quadrant';
 import { quadrantState } from './quadrant.testdata';
 
 describe('Create Game from seed', () => {
-
-  let game = new Game({ seed: 1 });
+  let game = Game.fromSeed(1, seed => new Prando(seed));
 
   it('should have intial number of klingons between 5 and 20', () => {
     expect(game.initialKlingons).to.be.within(5, 20);
@@ -74,11 +73,11 @@ describe('Create Game from seed', () => {
 
 describe('Long range sensor scan', () => {
   let rng = new Prando(1),
-    quadrants = Quadrant.createQuadrants(quadrantState, rng),
+    quadrants = Quadrant.createQuadrants(quadrantState),
     quadrant = quadrants[4][3],
-    ship = new Ship();
-  ship.setPosition(quadrant, { row: 0, column: 6 });
-    let game = new Game({
+    ship = new Ship(quadrant, { row: 0, column: 6 }, rng),
+    game = new Game({
+      rng: rng,
       klingons: 4,
       starbases: 0,
       quadrants: quadrants,
