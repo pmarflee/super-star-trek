@@ -1,6 +1,6 @@
 import { spy, assert } from 'sinon';
 import { expect } from 'chai';
-import { RandomNumberGenerator } from './rng';
+import * as Rng from './rng';
 import Prando from 'prando';
 import { Game } from './game';
 import * as Entities from './entities';
@@ -11,7 +11,7 @@ import { quadrantState } from './quadrant.testdata';
 describe('Ship', () => {
   let quadrants: Quadrant[][],
     ship: Entities.Ship,
-    rng: RandomNumberGenerator;
+    rng: Rng.RandomNumberGenerator;
 
   beforeEach(() => {
     rng = new Prando(1);
@@ -74,27 +74,33 @@ describe('Ship', () => {
     });
 
     it('Should throw error if direction is less than minimum allowed', () => {
-      expect(() => ship.navigate(0, 1)).to.throw('Invalid course');
+      expect(() => ship.navigate(0, 1, null)).to.throw('Invalid course');
     });
 
     it('Should throw error if direction is greater than maximum allowed', () => {
-      expect(() => ship.navigate(9, 1)).to.throw('Invalid course');
+      expect(() => ship.navigate(9, 1, null)).to.throw('Invalid course');
     });
 
     it('Should throw error if warp factor is less than minimum allowed', () => {
-      expect(() => ship.navigate(3, 0)).to.throw('Invalid warp factor');
+      expect(() => ship.navigate(3, 0, null)).to.throw('Invalid warp factor');
     });
 
     it('Should throw error if warp factor is greater than maximum allowed', () => {
-      expect(() => ship.navigate(3, 9)).to.throw('Invalid warp factor');
+      expect(() => ship.navigate(3, 9, null)).to.throw('Invalid warp factor');
     });
 
     it('Should throw error if warp engines are damaged and warp factor exceeds maximum allowed', () => {
+      ship.navigationDamage = 1;
 
+      expect(() => ship.navigate(3, 8, new Rng.TestRandomNumberGenerator(8)))
+        .to.throw('Invalid warp factor');
     });
 
     it('Should throw error if insufficient energy to navigate', () => {
-      
+      ship.energy = 0;
+
+      expect(() => ship.navigate(3, 8, new Rng.TestRandomNumberGenerator(8)))
+        .to.throw('Insufficient energy');
     });
   });
 });
