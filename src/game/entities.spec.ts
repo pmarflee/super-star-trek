@@ -102,5 +102,11 @@ describe('Ship', () => {
       expect(() => ship.navigate(3, 8, new Rng.TestRandomNumberGenerator(8)))
         .to.throw('Insufficient energy');
     });
+
+    it('Should reduce energy if navigation is possible', () => {
+      let originalEnergy = ship.energy;
+      ship.navigate(3, 8, new Rng.TestRandomNumberGenerator(8));
+      expect(ship.energy).to.equal(originalEnergy - 64);
+    });
   });
 });

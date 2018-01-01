@@ -62,6 +62,8 @@ export class Ship implements Entity {
     if (energyRequired > this.energy) {
       throw new Error('Insufficient energy');
     }
+
+    this.energy -= energyRequired;
   }
 
   private setQuadrant(quadrant: Quadrant, position: Position, rng: RandomNumberGenerator) {
