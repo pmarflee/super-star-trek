@@ -10,9 +10,9 @@
         v-bind:class="{ 'bg-danger': condition === 'Red' }"
         v-bind:style="{ 'fontWeight': condition === 'Red' ? 'bold' : 'normal' }">{{ condition }}</dd>
     <dt class="col-sm-6">Quadrant:</dt>
-    <dd class="col-sm-6 text-right">{{ quadrant.row }}, {{ quadrant.column }}</dd>
+    <dd class="col-sm-6 text-right">{{ quadrant.column }}, {{ quadrant.row }}</dd>
     <dt class="col-sm-6">Sector:</dt>
-    <dd class="col-sm-6 text-right">{{ sector.row }}, {{ sector.column }}</dd>
+    <dd class="col-sm-6 text-right">{{ sector.column }}, {{ sector.row }}</dd>
     <dt class="col-sm-6">Photon Torpedoes:</dt>
     <dd class="col-sm-6 text-right">{{ photonTorpedoes }}</dd>
     <dt class="col-sm-6">Energy:</dt>
