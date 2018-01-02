@@ -26,4 +26,12 @@ export default class Sector {
   public get containsStar(): boolean {
     return this.entity instanceof Entities.Star;
   }
+
+  public get containsObstacle(): boolean {
+    return this.containsEntity && !this.containsShip;
+  }
+
+  public get containsEntity(): boolean {
+    return this.entity != null;
+  }
 }

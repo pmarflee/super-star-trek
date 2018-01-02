@@ -1,5 +1,5 @@
 import { RandomNumberGenerator } from './rng';
-import Game from './game';
+import { Game } from './game';
 import Quadrant from './quadrant';
 import Sector from './sector';
 import { Position } from './game';
@@ -44,7 +44,12 @@ export class Ship implements Entity {
     this.setQuadrant(quadrant, position, rng);
   }
 
-  public navigate(direction: number, distance: number, rng: RandomNumberGenerator): void {
+  public navigate(
+    direction: number,
+    distance: number,
+    game: Game,
+    rng: RandomNumberGenerator = game.rng): void {
+
     if (direction < Ship.min_direction || direction > Ship.max_direction) {
       throw new Error('Invalid course');
     }
@@ -57,13 +62,68 @@ export class Ship implements Entity {
       throw new Error('Invalid warp factor');
     }
 
-    let energyRequired = Math.floor(distance * 8);
+    distance *= 8;
+
+    let energyRequired = Math.floor(distance);
 
     if (energyRequired > this.energy) {
       throw new Error('Insufficient energy');
     }
 
     this.energy -= energyRequired;
+
+    let previousQuadrant = this.quadrant,
+      previousSector = this.sector,
+      angle = -(Math.PI * (direction - 1) / 4),
+      row = this.quadrant.row * 8 + this.sector.row,
+      column = this.quadrant.column * 8 + this.sector.column,
+      distanceX = distance * Math.cos(angle),
+      distanceY = distance * Math.sin(angle),
+      velocityX = distanceX / 1000,
+      velocityY = distanceY / 1000;
+
+    for (let i = 0; i < 1000; i++) {
+      column += velocityX;
+      row += velocityY;
+      let rowRounded = Math.round(row),
+        columnRounded = Math.round(column),
+        quadrantRow = Math.floor(rowRounded / Quadrant.rows),
+        quadrantColumn = Math.floor(columnRounded / Quadrant.columns);
+      if (quadrantRow === this.quadrant.row && quadrantColumn === this.quadrant.column) {
+        let sector = this.quadrant.sectors[rowRounded % Sector.rows][columnRounded % Sector.columns];
+        if (sector.containsObstacle) {
+          throw new Error(`Obstacle encountered at ${sector.column}, ${sector.row}`);
+        }
+      }
+    }
+
+    if (column < 0) column = 0;
+    else if (column > 63) column = 63;
+
+    if (row < 0) row = 0;
+    else if (row > 63) row = 63;
+
+    let rowRounded = Math.round(row),
+      columnRounded = Math.round(column),
+      quadrantRow = Math.floor(rowRounded / Quadrant.rows),
+      quadrantColumn = Math.floor(columnRounded / Quadrant.columns),
+      sectorRow = rowRounded % Sector.rows,
+      sectorColumn = columnRounded % Sector.columns,
+      newQuadrant = game.quadrants[quadrantRow][quadrantColumn];
+
+    if (this.quadrant !== newQuadrant) {
+      this.setQuadrant(newQuadrant, { row: sectorRow, column: sectorColumn }, rng);
+    } else {
+      this.setSector(this.quadrant.sectors[sectorRow][sectorColumn]);
+    }
+
+    if (this.isDocked) {
+      this.replenishSupplies();
+    }
+
+    if (previousQuadrant !== newQuadrant) {
+      game.advanceStardate();
+    }
   }
 
   private setQuadrant(quadrant: Quadrant, position: Position, rng: RandomNumberGenerator) {
@@ -86,10 +146,23 @@ export class Ship implements Entity {
           row: this.sector.row + offset.row,
           column: this.sector.column + offset.column
         };
-        if (position.row < 1 || position.row > Sector.rows
-          || position.column < 1 || position.column > Sector.columns) return false;
-        return this.quadrant.sectors[position.row - 1][position.column - 1].containsStarbase;
+        return position.row >= 0 && position.row < Sector.rows
+          && position.column >= 0 && position.column < Sector.columns
+          && this.quadrant.sectors[position.row][position.column].containsStarbase;
       });
+  }
+
+  private replenishSupplies(): void {
+    this.energy = 3000;
+    this.photonTorpedoes = 10;
+    this.navigationDamage = 0;
+    this.shortRangeScanDamage = 0;
+    this.longRangeScanDamage = 0;
+    this.shieldControlDamage = 0;
+    this.computerDamage = 0;
+    this.photonDamage = 0;
+    this.phaserDamage = 0;
+    this.shields = 0;
   }
 }
 

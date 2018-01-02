@@ -27,7 +27,7 @@ export class HomeComponent extends Vue {
   public ship: Entities.Ship;
 
   created() {
-    this.game = Game.fromSeed(HomeComponent.seed, seed => new Prando(seed));
+    this.game = Game.fromRandom(new Prando(HomeComponent.seed));
     this.ship = this.game.ship;
   }
 

@@ -7,7 +7,7 @@ import Quadrant from './quadrant';
 import { quadrantState } from './quadrant.testdata';
 
 describe('Create Game from seed', () => {
-  let game = Game.fromSeed(1, seed => new Prando(seed));
+  let game = Game.fromRandom(new Prando(1));
 
   it('should have intial number of klingons between 5 and 20', () => {
     expect(game.initialKlingons).to.be.within(5, 20);
@@ -94,7 +94,7 @@ describe('Long range sensor scan', () => {
 
   it('should report correct location of ship', () => {
     let shipQuadrant = game.ship.quadrant;
-    expect(scan[shipQuadrant.row - 1][shipQuadrant.column - 1].ship).to.be.true;
+    expect(scan[shipQuadrant.row][shipQuadrant.column].ship).to.be.true;
   });
 
   it('should report correct number of klingons for each quadrant', () => {

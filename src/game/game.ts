@@ -31,7 +31,7 @@ export class Game {
 
   public static readonly max_stars: number = 8;
 
-  private readonly rng: RandomNumberGenerator;
+  public readonly rng: RandomNumberGenerator;
   public readonly quadrants: Quadrant[][];
   public readonly initialKlingons: number;
   public readonly initialTimeRemaining: number;
@@ -52,9 +52,8 @@ export class Game {
     this.stardate = state.stardate;
   }
 
-  public static fromSeed(seed: number, rngFactory: (seed: number) => RandomNumberGenerator): Game {
-    let rng = rngFactory(seed),
-      klingons = 15 + rng.nextInt(0, 5),
+  public static fromRandom(rng: RandomNumberGenerator): Game {
+    let klingons = 15 + rng.nextInt(0, 5),
       starbases = 2 + rng.nextInt(0, 2),
       quadrants = Game.createQuadrants(klingons, starbases, rng),
       ship = Game.createShip(quadrants, rng),
@@ -99,11 +98,16 @@ export class Game {
     return this.ship.quadrant.sectors;
   }
 
+  public advanceStardate(): void {
+    this.timeRemaining--;
+    this.stardate++;
+  }
+
   private static createQuadrants(maxKlingons: number, maxStarbases: number,
     rng: RandomNumberGenerator): Quadrant[][] {
     let quadrants = Array.from(new Array(Quadrant.rows), (row, rowIndex) =>
       Array.from(new Array(Quadrant.columns), (col, colIndex) =>
-        new Quadrant(rowIndex + 1, colIndex + 1, rng.nextInt(1, Game.max_stars)))),
+        new Quadrant(rowIndex, colIndex, rng.nextInt(1, Game.max_stars)))),
       klingons = 0,
       starbases = 0;
 
