@@ -92,7 +92,7 @@ export class Ship implements Entity {
       if (quadrantRow === this.quadrant.row && quadrantColumn === this.quadrant.column) {
         let sector = this.quadrant.sectors[rowRounded % Sector.rows][columnRounded % Sector.columns];
         if (sector.containsObstacle) {
-          throw new Error(`Obstacle encountered at ${sector.column}, ${sector.row}`);
+          throw new Error(`Obstacle encountered at ${sector.column + 1}, ${sector.row + 1}`);
         }
       }
     }
