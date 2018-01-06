@@ -172,5 +172,33 @@ describe('Ship', () => {
 
       expect(game.timeRemaining).to.equal(timeRemaining - 1);
     });
+
+    it('Should replenish supplies if ship docks with starbase', () => {
+      ship.energy = 1000;
+      ship.photonTorpedoes = 0;
+      ship.navigationDamage = 100;
+      ship.shortRangeScanDamage = 100;
+      ship.longRangeScanDamage = 100;
+      ship.shieldControlDamage = 100;
+      ship.computerDamage = 100;
+      ship.photonDamage = 100;
+      ship.phaserDamage = 100;
+      ship.shields = 1000;
+
+      ship.quadrant.hasStarbase = true;
+      ship.quadrant.sectors[2][3].entity = new Entities.Starbase();
+      ship.navigate(1, 0.125, game);
+
+      expect(ship.isDocked).to.equal(true);
+      expect(ship.energy).to.equal(3000);
+      expect(ship.photonTorpedoes).to.equal(10);
+      expect(ship.shortRangeScanDamage).to.equal(0);
+      expect(ship.longRangeScanDamage).to.equal(0);
+      expect(ship.shieldControlDamage).to.equal(0);
+      expect(ship.computerDamage).to.equal(0);
+      expect(ship.photonDamage).to.equal(0);
+      expect(ship.phaserDamage).to.equal(0);
+      expect(ship.shields).to.equal(0);
+    });
   });
 });
