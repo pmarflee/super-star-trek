@@ -120,5 +120,41 @@ describe('Ship', () => {
       expect(() => ship.navigate(1, 0.25, game))
         .to.not.throw('Obstacle encountered');
     });
+
+    it('Should not change quadrant when navigating within the same quadrant', () => {
+      let quadrant = ship.quadrant;
+
+      ship.navigate(1, 0.25, game);
+
+      expect(ship.quadrant).to.equal(quadrant);
+    });
+
+    it('Should move ship to correct sector when navigating within the same quadrant', () => {
+      let sectorRow = ship.sector.row,
+        sectorColumn = ship.sector.column;
+
+      ship.navigate(1, 0.25, game);
+
+      expect(ship.sector.row).to.equal(sectorRow);
+      expect(ship.sector.column).to.equal(sectorColumn + 2);
+    });
+
+    it('Should change quadrant when navigating to another quadrant', () => {
+      let quadrant = ship.quadrant;
+
+      ship.navigate(3, 1, game);
+
+      expect(ship.quadrant.row).to.equal(quadrant.row - 1);
+      expect(ship.quadrant.column).to.equal(quadrant.column);
+    });
+
+    it('Should not change sector when navigating to another quadrant', () => {
+      let sector = ship.sector;
+
+      ship.navigate(3, 1, game);
+
+      expect(ship.sector.row).to.equal(sector.row);
+      expect(ship.sector.column).to.equal(sector.column);
+    });
   });
 });
