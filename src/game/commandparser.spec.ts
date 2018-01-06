@@ -18,7 +18,7 @@ describe('Navigation', () => {
       it('Should parse valid input', () => {
         let result = parser.parse(testCase[0]);
         expect(result, `input=${testCase[0]}`).to.have.property('direction', testCase[1]);
-        expect(result).to.have.property('distance', testCase[2]);
+        expect(result, `input=${testCase[0]}`).to.have.property('distance', testCase[2]);
       });
     });
   });
