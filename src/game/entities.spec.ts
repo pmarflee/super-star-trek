@@ -156,5 +156,21 @@ describe('Ship', () => {
       expect(ship.sector.row).to.equal(sector.row);
       expect(ship.sector.column).to.equal(sector.column);
     });
+
+    it('Should advance stardate if navigation is successful', () => {
+      let stardate = game.stardate;
+
+      ship.navigate(3, 1, game);
+
+      expect(game.stardate).to.equal(stardate + 1);
+    });
+
+    it('Should decrease time remaining if navigation is successful', () => {
+      let timeRemaining = game.timeRemaining;
+
+      ship.navigate(3, 1, game);
+
+      expect(game.timeRemaining).to.equal(timeRemaining - 1);
+    });
   });
 });
