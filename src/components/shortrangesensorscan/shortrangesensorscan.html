@@ -10,8 +10,8 @@
     <tr v-for="(row, rowIndex) in sectors">
       <th scope="row">{{rowIndex + 1}}</th>
       <td class="text-center" v-for="sector in row">
-        <div v-if="sector.containsKlingon">K</div>
-        <div v-else-if="sector.containsShip">E</div>
+        <div v-if="sector.containsKlingon" class="text-danger"><strong>K</strong></div>
+        <div v-else-if="sector.containsShip" class="text-info"><strong>E</strong></div>
         <div v-else-if="sector.containsStarbase">S</div>
         <div v-else-if="sector.containsStar">@</div>
         <div v-else>.</div>
