@@ -201,4 +201,50 @@ describe('Ship', () => {
       expect(ship.shields).to.equal(0);
     });
   });
+
+  describe('Adjust Shields', () => {
+    let game: Game,
+      ship: Entities.Ship;
+
+    beforeEach(() => {
+      game = Game.fromRandom(new Prando(1));
+      ship = game.ship;
+    });
+
+    it('Should transfer energy to shields if energy is available', () => {
+      let initialEnergy = ship.energy;
+
+      ship.adjustShields(100);
+
+      expect(ship.shields).to.equal(100);
+      expect(ship.energy).to.equal(initialEnergy - ship.shields);
+    })
+
+    it('Should transfer energy from shields if shield energy is available', () => {
+      ship.shields = 100;
+      ship.energy = 2900;
+
+      let initialEnergy = ship.energy,
+        initialShields = ship.shields;
+
+      ship.adjustShields(-100);
+
+      expect(ship.shields).to.equal(0);
+      expect(ship.energy).to.equal(initialEnergy + 100);
+    })
+
+    it('Should round adjustment amount down to nearest whole number', () => {
+      ship.adjustShields(100.5);
+
+      expect(ship.shields).to.equal(100);
+    });
+
+    it('Should throw error if insufficient energy available to transfer to shields', () => {
+      expect(() => ship.adjustShields(3100)).to.throw('Invalid amount of energy');
+    });
+
+    it('Should throw error if an attempt is made to reduce shield strength below zero', () => {
+      expect(() => ship.adjustShields(-100)).to.throw('Invalid amount of energy');
+    });
+  });
 });

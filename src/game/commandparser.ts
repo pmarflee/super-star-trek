@@ -5,7 +5,11 @@ export default class CommandParser {
     [ /^nav\s+(\d+(\.\d{1,3})?)\s+(\d+(\.\d{1,3})?)$/i,
       (match: RegExpExecArray) => new Commands.NavigateCommand(
         parseFloat(match[1]),
-        parseFloat(match[3])) ]
+        parseFloat(match[3]))],
+    [/^she\s+add\s+(\d+)$/i,
+      (match: RegExpExecArray) => new Commands.AdjustShieldsCommand(parseInt(match[1]))],
+    [/^she\s+sub\s+(\d+)$/i,
+      (match: RegExpExecArray) => new Commands.AdjustShieldsCommand(-parseInt(match[1]))]
   ];
 
   public parse(input: string): Commands.Command {

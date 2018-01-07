@@ -13,3 +13,13 @@ export class NavigateCommand implements Command {
     game.moveShip(this.direction, this.distance);
   }
 }
+
+export class AdjustShieldsCommand implements Command {
+  constructor(public readonly amount: number) {
+
+  }
+
+  execute(game: Game) {
+    
+  }
+}

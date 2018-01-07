@@ -138,6 +138,17 @@ export class Ship implements Entity {
     this.sector = sector;
   }
 
+  public adjustShields(amount: number) {
+    if ((amount < 0 && Math.abs(amount) > this.shields) || amount > this.energy) {
+      throw new Error('Invalid amount of energy');
+    }
+
+    amount = Math.floor(amount);
+
+    this.shields += amount;
+    this.energy -= amount;
+  };
+
   public get isDocked(): boolean {
     return !this.quadrant.hasStarbase
       ? false

@@ -107,6 +107,10 @@ export class Game {
     this.ship.navigate(direction, distance, this, this.rng);
   }
 
+  public adjustShields(amount: number) {
+    this.ship.adjustShields(amount);
+  }
+
   private static createQuadrants(maxKlingons: number, maxStarbases: number,
     rng: RandomNumberGenerator): Quadrant[][] {
     let quadrants = Array.from(new Array(Quadrant.rows), (row, rowIndex) =>
