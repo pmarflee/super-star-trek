@@ -12,7 +12,12 @@
       <td class="text-center"
           v-for="quadrant in row"
           v-bind:class="{ 'bg-primary': quadrant.ship, 'text-danger': quadrant.klingons > 0 }">
-        {{quadrant.klingons}}{{quadrant.starbases}}{{quadrant.stars}}
+        <strong v-if="quadrant.klingons > 0">
+          {{quadrant.klingons}}{{quadrant.starbases}}{{quadrant.stars}}
+        </strong>
+        <span v-else>
+          {{quadrant.klingons}}{{quadrant.starbases}}{{quadrant.stars}}
+        </span>
       </td>
     </tr>
   </tbody>
