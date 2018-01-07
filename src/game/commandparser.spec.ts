@@ -12,7 +12,8 @@ describe('Navigation', () => {
       ['nav 1.5 1', 1.5, 1],
       ['nav 1 1.25', 1, 1.25],
       ['nav 7 0.125', 7, 0.125],
-      ['nav 7.125 1', 7.125, 1]
+      ['nav 7.125 1', 7.125, 1],
+      ['Nav 3 1', 3, 1]
     ];
     testCases.forEach(testCase => {
       it('Should parse valid input', () => {
