@@ -147,7 +147,7 @@ export class Ship implements Entity {
 
     this.shields += amount;
     this.energy -= amount;
-  };
+  }
 
   public get isDocked(): boolean {
     return !this.quadrant.hasStarbase

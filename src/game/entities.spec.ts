@@ -218,7 +218,7 @@ describe('Ship', () => {
 
       expect(ship.shields).to.equal(100);
       expect(ship.energy).to.equal(initialEnergy - ship.shields);
-    })
+    });
 
     it('Should transfer energy from shields if shield energy is available', () => {
       ship.shields = 100;
@@ -231,7 +231,7 @@ describe('Ship', () => {
 
       expect(ship.shields).to.equal(0);
       expect(ship.energy).to.equal(initialEnergy + 100);
-    })
+    });
 
     it('Should round adjustment amount down to nearest whole number', () => {
       ship.adjustShields(100.5);
