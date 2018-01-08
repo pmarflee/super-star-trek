@@ -25,6 +25,7 @@ export interface LongRangeSensorScanResult {
   klingons: number;
   starbases: number;
   stars: number;
+  scanned: boolean;
 }
 
 export class Game {
@@ -82,15 +83,26 @@ export class Game {
   }
 
   public get longRangeSensorScan(): LongRangeSensorScanResult[][] {
+    let currentQuadrant = this.ship.quadrant;
+
+    for (let row = currentQuadrant.row - 1; row <= currentQuadrant.row + 1; row++) {
+      for (let col = currentQuadrant.column - 1; col <= currentQuadrant.column + 1; col++) {
+        if (row >= 0 && col >= 0 && row < Quadrant.rows && col < Quadrant.columns) {
+          this.quadrants[row][col].scanned = true;
+        }
+      }
+    }
+
     return this.quadrants.map(
       row => row.map(
-        q => <LongRangeSensorScanResult>{
-          row: q.row,
-          column: q.column,
-          ship: q === this.ship.quadrant,
-          klingons: q.klingons,
-          starbases: q.hasStarbase ? 1 : 0,
-          stars: q.stars
+        quadrant => <LongRangeSensorScanResult>{
+          row: quadrant.row,
+          column: quadrant.column,
+          ship: quadrant === this.ship.quadrant,
+          klingons: quadrant.scanned ? quadrant.klingons : null,
+          starbases: quadrant.scanned ? quadrant.hasStarbase ? 1 : 0 : null,
+          stars: quadrant.scanned ? quadrant.stars : null,
+          scanned: quadrant.scanned
         }));
   }
 

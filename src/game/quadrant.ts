@@ -9,6 +9,7 @@ export default class Quadrant {
   public static readonly rows: number = 8;
 
   public sectors: Sector[][];
+  public scanned: boolean = false;
 
   constructor(
     public readonly row: number,

@@ -97,26 +97,68 @@ describe('Long range sensor scan', () => {
     expect(scan[shipQuadrant.row][shipQuadrant.column].ship).to.be.true;
   });
 
-  it('should report correct number of klingons for each quadrant', () => {
+  it('should report correct number of klingons for scanned quadrants', () => {
     for (let row = 0; row < Quadrant.rows; row++) {
       for (let col = 0; col < Quadrant.columns; col++) {
-        expect(scan[row][col].klingons).to.equal(game.quadrants[row][col].klingons);
+        let quadrant = scan[row][col];
+        if (quadrant.scanned) {
+          expect(quadrant.klingons).to.equal(game.quadrants[row][col].klingons);
+        }
       }
     }
   });
 
-  it('should report correct number of starbases for each quadrant', () => {
+  it('should report correct number of starbases for scanned quadrants', () => {
     for (let row = 0; row < Quadrant.rows; row++) {
       for (let col = 0; col < Quadrant.columns; col++) {
-        expect(scan[row][col].starbases).to.equal(game.quadrants[row][col].hasStarbase ? 1 : 0);
+        let quadrant = scan[row][col];
+        if (quadrant.scanned) {
+          expect(quadrant.starbases).to.equal(game.quadrants[row][col].hasStarbase ? 1 : 0);
+        }
       }
     }
   });
 
-  it('should report correct number of stars for each quadrant', () => {
+  it('should report correct number of stars for scanned quadrants', () => {
     for (let row = 0; row < Quadrant.rows; row++) {
       for (let col = 0; col < Quadrant.columns; col++) {
-        expect(scan[row][col].stars).to.equal(game.quadrants[row][col].stars);
+        let quadrant = scan[row][col];
+        if (quadrant.scanned) {
+          expect(quadrant.stars).to.equal(game.quadrants[row][col].stars);
+        }
+      }
+    }
+  });
+
+  it('should not report number of klingons for unscanned quadrants', () => {
+    for (let row = 0; row < Quadrant.rows; row++) {
+      for (let col = 0; col < Quadrant.columns; col++) {
+        let quadrant = scan[row][col];
+        if (!quadrant.scanned) {
+          expect(quadrant.klingons).to.be.null;
+        }
+      }
+    }
+  });
+
+  it('should not report number of starbases for unscanned quadrants', () => {
+    for (let row = 0; row < Quadrant.rows; row++) {
+      for (let col = 0; col < Quadrant.columns; col++) {
+        let quadrant = scan[row][col];
+        if (!quadrant.scanned) {
+          expect(quadrant.starbases).to.be.null;
+        }
+      }
+    }
+  });
+
+  it('should not report number of stars for unscanned quadrants', () => {
+    for (let row = 0; row < Quadrant.rows; row++) {
+      for (let col = 0; col < Quadrant.columns; col++) {
+        let quadrant = scan[row][col];
+        if (!quadrant.scanned) {
+          expect(quadrant.stars).to.be.null;
+        }
       }
     }
   });
