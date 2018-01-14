@@ -8,6 +8,7 @@ import { LongRangeSensorScanComponent } from '../longrangesensorscan/';
 import { ShortRangeSensorScanComponent } from '../shortrangesensorscan/';
 import { SystemStatusComponent } from '../systemstatus';
 import { GameStatsComponent } from '../gamestats';
+import { CommandInputComponent } from '../commandinput';
 
 import './home.scss';
 
@@ -17,7 +18,8 @@ import './home.scss';
     LongRangeSensorScanComponent,
     ShortRangeSensorScanComponent,
     SystemStatusComponent,
-    GameStatsComponent
+    GameStatsComponent,
+    CommandInputComponent
   }
 })
 export class HomeComponent extends Vue {

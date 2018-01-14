@@ -1,4 +1,4 @@
-<div class="container content">
+<div class="container custom-container content" style="margin-top: 10px;">
   <div class="row">
     <div class="content col-md-12">
       <div class="row">
@@ -44,24 +44,40 @@
   <div class="row">
     <div class="col-md-5">
       <div class="row">
-        <h4 class="text-center"><strong>Original Mission</strong></h4>
-        <div>
-          Destroy <strong>{{ initialKlingons }}</strong> Klingons in <strong>{{ initialTimeRemaining }}</strong> Star Dates with <strong>{{ initialStarbases }}</strong> Star Bases
-        </div>
-      </div>
-      <div class="row">
-        <h4 class="text-center"><strong>Remaining</strong></h4>
-        <div>
-          Destroy <strong>{{ klingons }}</strong> Klingons in <strong>{{ timeRemaining }}</strong> Star Dates with <strong>{{ starbases }}</strong> Star Bases
+        <div class="panel panel-default panel-objectives">
+          <div class="panel-heading">
+            <h4 class="text-center panel-title"><strong>Objectives</strong></h4>
+          </div>
+          <div class="panel-body objectives-content">
+            <div class="row">
+              <h5 class="text-center"><strong>Original Mission:</strong></h5>
+              <div>
+                Destroy <strong>{{ initialKlingons }}</strong> Klingons in <strong>{{ initialTimeRemaining }}</strong> Star Dates with <strong>{{ initialStarbases }}</strong> Star Bases
+              </div>
+            </div>
+            <div class="row">
+              <h5 class="text-center"><strong>Remaining:</strong></h5>
+              <div>
+                Destroy <strong>{{ klingons }}</strong> Klingons in <strong>{{ timeRemaining }}</strong> Star Dates with <strong>{{ starbases }}</strong> Star Bases
+              </div>
+            </div>
+            <div class="row">
+              <command-input-component></command-input-component>
+            </div>
+          </div>
         </div>
       </div>
     </div>
     <div class="col-md-7">
       <div class="row">
-        <h4 class="text-center"><strong>Messages</strong></h4>
-        <div class="messages">
-          <div v-for="message in messages" class="row">
-            {{ message }}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title text-center"><strong>Messages</strong></h4>
+          </div>
+          <div class="messages panel-body">
+            <div v-for="message in messages" class="row">
+              {{ message }}
+            </div>
           </div>
         </div>
       </div>

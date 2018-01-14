@@ -1,1 +1,18 @@
-<form id="command-input-form" role="form"></form>
+<div id="commandinput" class="text-center">
+  <form id="command-input-form" role="form">
+    <div class="controls">
+      <div class="row">
+        <div class="form-group">
+          <div class="col-md-9">
+            <input id="input" name="input" type="text"
+                   placeholder="Enter Command" class="form-control"
+                   v-model="input" />
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

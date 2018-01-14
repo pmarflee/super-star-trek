@@ -1,10 +1,26 @@
+.container.customer-container {
+  margin-top: 25px !important;
+}
+
 .content h1 {
     text-align: center;
 }
 
 div.messages {
   padding-left: 15px;
-  max-height: 250px;
+  height: 193px;
   overflow-x: hidden;
   overflow-y: scroll;
+}
+
+div.objectives-content {
+  margin-left: 10px;
+}
+
+#commandinput {
+  margin-top: 20px;
+}
+
+hr {
+  border-top: 3px double #8c8b8b;
 }
