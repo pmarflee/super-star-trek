@@ -1,25 +1,42 @@
 import { Game } from './game';
 
-export interface Command {
-  execute(game: Game): void;
-}
-
-export class NavigateCommand implements Command {
-  constructor(public readonly direction: number, public readonly distance: number) {
-
+export abstract class Command {
+  execute(game: Game): void {
+    try {
+      this.doAction(game);
+      game.addMessage(this.getSuccessMessage(game));
+    } catch (e) {
+      game.addMessage(`ERROR: ${e.message}`);
+    }
   }
 
-  execute(game: Game): void {
+  protected abstract doAction(game: Game): void;
+  protected abstract getSuccessMessage(game: Game): string;
+}
+
+export class NavigateCommand extends Command {
+  constructor(public readonly direction: number, public readonly distance: number) {
+    super();
+  }
+
+  doAction(game: Game): void {
     game.moveShip(this.direction, this.distance);
   }
+
+  getSuccessMessage(game: Game): string {
+    return 'Warp engines engaged';
+  }
 }
 
-export class AdjustShieldsCommand implements Command {
+export class AdjustShieldsCommand extends Command {
   constructor(public readonly amount: number) {
-
+    super();
   }
 
-  execute(game: Game) {
+  doAction(game: Game) {
     game.adjustShields(this.amount);
+  }
+  getSuccessMessage(game: Game): string {
+    return `Shields ${this.amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(this.amount)} to ${game.shields}`;
   }
 }

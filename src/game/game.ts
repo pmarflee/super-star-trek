@@ -149,10 +149,9 @@ export class Game {
 
   public adjustShields(amount: number) {
     this.ship.adjustShields(amount);
-    this.addMessage(`Shields ${amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(amount)} to ${this.shields}`);
   }
 
-  private addMessage(message: string): void {
+  public addMessage(message: string): void {
     this.messages.splice(0, 0, message);
   }
 
