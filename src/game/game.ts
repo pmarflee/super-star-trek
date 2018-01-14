@@ -82,6 +82,34 @@ export class Game {
       acc + row.reduce((acc1, quadrant) => acc1 + (quadrant.hasStarbase ? 1 : 0), 0), 0);
   }
 
+  public get shields(): number {
+    return this.ship.shields;
+  }
+
+  public get quadrant(): Quadrant {
+    return this.ship.quadrant;
+  }
+
+  public get sector(): Sector {
+    return this.ship.sector;
+  }
+
+  get condition(): string {
+    return this.quadrant.klingons > 0 ? 'Red' : 'Green';
+  }
+
+  get photonTorpedoes(): number {
+    return this.ship.photonTorpedoes;
+  }
+
+  get energy(): number {
+    return this.ship.energy;
+  }
+
+  get klingonsInQuadrant(): number {
+    return this.quadrant.klingons;
+  }
+
   public get longRangeSensorScan(): LongRangeSensorScanResult[][] {
     let currentQuadrant = this.ship.quadrant;
 
@@ -121,6 +149,7 @@ export class Game {
 
   public adjustShields(amount: number) {
     this.ship.adjustShields(amount);
+    this.messages.push(`Shields ${amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(amount)} to ${this.shields}`);
   }
 
   private static createQuadrants(maxKlingons: number, maxStarbases: number,

@@ -4,6 +4,7 @@ import { Game, LongRangeSensorScanResult } from '../../game/game';
 import * as Entities from '../../game/entities';
 import Quadrant from '../../game/quadrant';
 import Sector from '../../game/sector';
+import * as Commands from '../../game/commands';
 import { LongRangeSensorScanComponent } from '../longrangesensorscan/';
 import { ShortRangeSensorScanComponent } from '../shortrangesensorscan/';
 import { SystemStatusComponent } from '../systemstatus';
@@ -33,99 +34,104 @@ export class HomeComponent extends Vue {
     this.ship = this.game.ship;
   }
 
-  get longRangeSensorScan(): LongRangeSensorScanResult[][] {
+  getLongRangeSensorScan(): LongRangeSensorScanResult[][] {
     return this.game.longRangeSensorScan;
   }
 
-  get shortRangeSensorScan(): Sector[][] {
+  getShortRangeSensorScan(): Sector[][] {
     return this.game.shortRangeSensorScan;
   }
 
-  get navigationDamage(): number {
+  getNavigationDamage(): number {
     return this.ship.navigationDamage;
   }
 
-  get shortRangeScanDamage(): number {
+  getShortRangeScanDamage(): number {
     return this.ship.shortRangeScanDamage;
   }
 
-  get longRangeScanDamage(): number {
+  getLongRangeScanDamage(): number {
     return this.ship.longRangeScanDamage;
   }
 
-  get shieldControlDamage(): number {
+  getShieldControlDamage(): number {
     return this.ship.shieldControlDamage;
   }
 
-  get computerDamage(): number {
+  getComputerDamage(): number {
     return this.ship.computerDamage;
   }
 
-  get photonDamage(): number {
+  getPhotonDamage(): number {
     return this.ship.photonDamage;
   }
 
-  get phaserDamage(): number {
+  getPhaserDamage(): number {
     return this.ship.phaserDamage;
   }
 
-  get initialKlingons(): number {
+  getInitialKlingons(): number {
     return this.game.initialKlingons;
   }
 
-  get initialStarbases(): number {
+  getInitialStarbases(): number {
     return this.game.initialStarbases;
   }
 
-  get initialTimeRemaining(): number {
+  getInitialTimeRemaining(): number {
     return this.game.initialTimeRemaining;
   }
 
-  get klingons(): number {
+  getKlingons(): number {
     return this.game.klingons;
   }
 
-  get starbases(): number {
+  getStarbases(): number {
     return this.game.starbases;
   }
 
-  get timeRemaining(): number {
+  getTimeRemaining(): number {
     return this.game.timeRemaining;
   }
 
-  get stardate(): number {
+  getStardate(): number {
     return this.game.stardate;
   }
 
-  get condition(): string {
-    return this.ship.quadrant.klingons > 0 ? 'Red' : 'Green';
+  getCondition(): string {
+    return this.game.condition;
   }
 
-  get quadrant(): Quadrant {
-    return this.ship.quadrant;
+  getQuadrant(): Quadrant {
+    return this.game.quadrant;
   }
 
-  get sector(): Sector {
-    return this.ship.sector;
+  getSector(): Sector {
+    return this.game.sector;
   }
 
-  get photonTorpedoes(): number {
-    return this.ship.photonTorpedoes;
+  getPhotonTorpedoes(): number {
+    return this.game.photonTorpedoes;
   }
 
-  get energy(): number {
-    return this.ship.energy;
+  getEnergy(): number {
+    return this.game.energy;
   }
 
-  get shields(): number {
-    return this.ship.shields;
+  getShields(): number {
+    return this.game.shields;
   }
 
-  get klingonsInQuadrant(): number {
-    return this.ship.quadrant.klingons;
+  getKlingonsInQuadrant(): number {
+    return this.game.klingonsInQuadrant;
   }
 
-  get messages(): string[] {
+  getMessages(): string[] {
     return this.game.messages;
+  }
+
+  executeCommand(command: Commands.Command): void {
+    command.execute(this.game);
+    this.$forceUpdate();
   }
 }

@@ -4,38 +4,38 @@
       <div class="row">
         <div class="col-md-4">
           <short-range-sensor-scan-component
-             :sectors="shortRangeSensorScan">
+             :sectors="getShortRangeSensorScan()">
           </short-range-sensor-scan-component>
         </div>
         <div class="col-md-4">
           <div class="row">
             <system-status-component
-              :navigationDamage="navigationDamage"
-              :shortRangeScanDamage="shortRangeScanDamage"
-              :longRangeScanDamage="longRangeScanDamage"
-              :shieldControlDamage="shieldControlDamage"
-              :computerDamage="computerDamage"
-              :photonDamage="photonDamage"
-              :phaserDamage="phaserDamage">
+              :navigationDamage="getNavigationDamage()"
+              :shortRangeScanDamage="getShortRangeScanDamage()"
+              :longRangeScanDamage="getLongRangeScanDamage()"
+              :shieldControlDamage="getShieldControlDamage()"
+              :computerDamage="getComputerDamage()"
+              :photonDamage="getPhotonDamage()"
+              :phaserDamage="getPhaserDamage()">
             </system-status-component>
           </div>
           <div class="row">
             <game-stats-component
-              :timeRemaining="timeRemaining"
-              :stardate="stardate"
-              :condition="condition"
-              :quadrant="quadrant"
-              :sector="sector"
-              :photonTorpedoes="photonTorpedoes"
-              :energy="energy"
-              :shields="shields"
-              :klingons="klingonsInQuadrant">
+              :timeRemaining="getTimeRemaining()"
+              :stardate="getStardate()"
+              :condition="getCondition()"
+              :quadrant="getQuadrant()"
+              :sector="getSector()"
+              :photonTorpedoes="getPhotonTorpedoes()"
+              :energy="getEnergy()"
+              :shields="getShields()"
+              :klingons="getKlingonsInQuadrant()">
             </game-stats-component>
           </div>
         </div>
         <div class="col-md-4">
           <long-range-sensor-scan-component
-            :quadrants="longRangeSensorScan">
+            :quadrants="getLongRangeSensorScan()">
           </long-range-sensor-scan-component>
         </div>
       </div>
@@ -52,17 +52,17 @@
             <div class="row">
               <h5 class="text-center"><strong>Original Mission:</strong></h5>
               <div>
-                Destroy <strong>{{ initialKlingons }}</strong> Klingons in <strong>{{ initialTimeRemaining }}</strong> Star Dates with <strong>{{ initialStarbases }}</strong> Star Bases
+                Destroy <strong>{{ getInitialKlingons() }}</strong> Klingons in <strong>{{ getInitialTimeRemaining() }}</strong> Star Dates with <strong>{{ getInitialStarbases() }}</strong> Star Bases
               </div>
             </div>
             <div class="row">
               <h5 class="text-center"><strong>Remaining:</strong></h5>
               <div>
-                Destroy <strong>{{ klingons }}</strong> Klingons in <strong>{{ timeRemaining }}</strong> Star Dates with <strong>{{ starbases }}</strong> Star Bases
+                Destroy <strong>{{ getKlingons() }}</strong> Klingons in <strong>{{ getTimeRemaining() }}</strong> Star Dates with <strong>{{ getStarbases() }}</strong> Star Bases
               </div>
             </div>
             <div class="row">
-              <command-input-component></command-input-component>
+              <command-input-component v-on:command="executeCommand"></command-input-component>
             </div>
           </div>
         </div>
@@ -75,7 +75,7 @@
             <h4 class="panel-title text-center"><strong>Messages</strong></h4>
           </div>
           <div class="messages panel-body">
-            <div v-for="message in messages" class="row">
+            <div v-for="message in getMessages()" class="row">
               {{ message }}
             </div>
           </div>

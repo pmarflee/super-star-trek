@@ -20,6 +20,6 @@ export class AdjustShieldsCommand implements Command {
   }
 
   execute(game: Game) {
-    
+    game.adjustShields(this.amount);
   }
 }
