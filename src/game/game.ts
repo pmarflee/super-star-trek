@@ -149,7 +149,11 @@ export class Game {
 
   public adjustShields(amount: number) {
     this.ship.adjustShields(amount);
-    this.messages.push(`Shields ${amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(amount)} to ${this.shields}`);
+    this.addMessage(`Shields ${amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(amount)} to ${this.shields}`);
+  }
+
+  private addMessage(message: string): void {
+    this.messages.splice(0, 0, message);
   }
 
   private static createQuadrants(maxKlingons: number, maxStarbases: number,
