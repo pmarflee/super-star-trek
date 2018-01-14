@@ -8,7 +8,7 @@ import CommandParser from '../../game/commandparser';
 export class CommandInputComponent extends Vue {
   input: string = '';
 
-  submit(event: Event) {
+  execute(event: Event) {
     let parser = new CommandParser();
 
     try {
