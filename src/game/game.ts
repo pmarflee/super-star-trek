@@ -8,7 +8,7 @@ export interface Position {
   column: number;
 }
 
-export interface GameState {
+export interface InitialGameState {
   rng: RandomNumberGenerator;
   klingons: number;
   starbases: number;
@@ -42,7 +42,7 @@ export class Game {
   public stardate: number;
   public readonly messages: string[] = [];
 
-  constructor(state: GameState) {
+  constructor(state: InitialGameState) {
     this.rng = state.rng;
     this.quadrants = state.quadrants;
     this.initialKlingons = state.klingons;
