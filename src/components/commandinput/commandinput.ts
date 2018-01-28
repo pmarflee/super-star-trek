@@ -8,6 +8,12 @@ import CommandParser from '../../game/commandparser';
 export class CommandInputComponent extends Vue {
   input: string = '';
 
+  mounted() {
+    setTimeout(() => {
+      (<any>this.$refs.textInput).focus();
+    });
+  }
+
   execute(event: Event) {
     let parser = new CommandParser();
 
