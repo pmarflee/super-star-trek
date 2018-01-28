@@ -4,7 +4,10 @@ export abstract class Command {
   execute(game: Game): void {
     try {
       this.doAction(game);
-      game.addMessage(this.getSuccessMessage(game));
+      let successMessage = this.getSuccessMessage(game);
+      if (successMessage) {
+        game.addMessage(successMessage);
+      }
     } catch (e) {
       game.addMessage(`ERROR: ${e.message}`);
     }
@@ -24,7 +27,7 @@ export class NavigateCommand extends Command {
   }
 
   getSuccessMessage(game: Game): string {
-    return 'Warp engines engaged';
+    return game.ship.isDestroyed ? null : 'Warp engines engaged';
   }
 }
 

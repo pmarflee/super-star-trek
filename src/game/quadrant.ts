@@ -94,6 +94,7 @@ export default class Quadrant {
         }
         game.addMessage(`Enterprise hit by ship at sector [${klingon.sector.column + 1}, ${klingon.sector.row + 1}].  Shields dropped to ${ship.shields}.`);
         if (ship.isDestroyed) {
+          game.addMessage('MISSION FAILED: ENTERPRISE DESTROYED!!!');
           return;
         }
       }
