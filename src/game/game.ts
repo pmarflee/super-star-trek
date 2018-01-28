@@ -74,7 +74,7 @@ export class Game {
 
   public get klingons(): number {
     return this.quadrants.reduce((acc, row) =>
-      acc + row.reduce((acc1, quadrant) => acc1 + quadrant.klingons, 0), 0);
+      acc + row.reduce((acc1, quadrant) => acc1 + quadrant.numberOfKlingons, 0), 0);
   }
 
   public get starbases(): number {
@@ -95,7 +95,7 @@ export class Game {
   }
 
   get condition(): string {
-    return this.quadrant.klingons > 0 ? 'Red' : 'Green';
+    return this.quadrant.numberOfKlingons > 0 ? 'Red' : 'Green';
   }
 
   get photonTorpedoes(): number {
@@ -107,7 +107,7 @@ export class Game {
   }
 
   get klingonsInQuadrant(): number {
-    return this.quadrant.klingons;
+    return this.quadrant.numberOfKlingons;
   }
 
   public get longRangeSensorScan(): LongRangeSensorScanResult[][] {
@@ -127,7 +127,7 @@ export class Game {
           row: quadrant.row,
           column: quadrant.column,
           ship: quadrant === this.ship.quadrant,
-          klingons: quadrant.scanned ? quadrant.klingons : null,
+          klingons: quadrant.scanned ? quadrant.numberOfKlingons : null,
           starbases: quadrant.scanned ? quadrant.hasStarbase ? 1 : 0 : null,
           stars: quadrant.scanned ? quadrant.stars : null,
           scanned: quadrant.scanned
@@ -166,8 +166,8 @@ export class Game {
     do {
       let quadrant = Game.getRandomQuadrant(quadrants, rng);
 
-      if (quadrant.klingons < 3) {
-        quadrant.klingons++;
+      if (quadrant.numberOfKlingons < 3) {
+        quadrant.numberOfKlingons++;
         klingons++;
       }
     } while (klingons < maxKlingons);

@@ -31,6 +31,7 @@ export class Ship implements Entity {
   public energy: number = 3000;
   public photonTorpedoes: number = 10;
   public shields: number = 0;
+  public isDestroyed: boolean = false;
 
   public navigationDamage: number = 0;
   public shortRangeScanDamage: number = 0;
@@ -114,14 +115,19 @@ export class Ship implements Entity {
     if (this.quadrant !== newQuadrant) {
       this.setQuadrant(newQuadrant, { row: sectorRow, column: sectorColumn }, rng);
     } else {
+      previousSector.entity = null;
       this.setSector(this.quadrant.sectors[sectorRow][sectorColumn]);
     }
 
     if (this.isDocked) {
+      game.addMessage('Lowering shields as part of docking sequence...');
+      game.addMessage('Enterprise successfully docked with starbase');
       this.replenishSupplies();
     }
 
-    if (previousQuadrant !== newQuadrant) {
+    if (previousQuadrant === newQuadrant) {
+      newQuadrant.klingonsAttack(game);
+    } else {
       game.advanceStardate();
     }
   }
@@ -178,7 +184,9 @@ export class Ship implements Entity {
 }
 
 export class Klingon implements Entity {
+  constructor(public readonly sector: Sector) {
 
+  }
 }
 
 export class Starbase implements Entity {

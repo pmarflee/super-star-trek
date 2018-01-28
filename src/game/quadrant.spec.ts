@@ -29,7 +29,7 @@ describe('Create sectors', () => {
         return acc1 + (isKlingon ? 1 : 0);
       }, 0), 0);
 
-    expect(klingons).to.equal(quadrant.klingons);
+    expect(klingons).to.equal(quadrant.numberOfKlingons);
   });
 
   it('should position all starbases within sector', () => {

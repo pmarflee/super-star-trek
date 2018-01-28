@@ -1,6 +1,5 @@
-import Prando from 'prando';
-
 export interface RandomNumberGenerator {
+  next(min?: number, max?: number): number;
   nextInt(min?: number, max?: number): number;
 }
 
@@ -12,6 +11,10 @@ export class TestRandomNumberGenerator implements RandomNumberGenerator {
     this.numbers = params;
   }
 
+  next(min?: number, max?: number) {
+    return this.numbers[this.position++];
+  }
+  
   nextInt(min?: number, max?: number): number {
     return this.numbers[this.position++];
   }

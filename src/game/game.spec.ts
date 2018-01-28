@@ -102,7 +102,7 @@ describe('Long range sensor scan', () => {
       for (let col = 0; col < Quadrant.columns; col++) {
         let quadrant = scan[row][col];
         if (quadrant.scanned) {
-          expect(quadrant.klingons).to.equal(game.quadrants[row][col].klingons);
+          expect(quadrant.klingons).to.equal(game.quadrants[row][col].numberOfKlingons);
         }
       }
     }
