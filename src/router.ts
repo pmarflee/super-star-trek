@@ -3,7 +3,7 @@ import VueRouter, { Location, Route, RouteConfig } from 'vue-router';
 import { makeHot, reload } from './util/hot-reload';
 
 const homeComponent = () => import('./components/home').then(({ HomeComponent }) => HomeComponent);
-// const homeComponent = () => import(/* webpackChunkName: 'home' */'./components/home').then(({ HomeComponent }) => HomeComponent);
+const gameComponent = () => import('./components/game').then(({ GameComponent }) => GameComponent);
 
 if (process.env.ENV === 'development' && module.hot) {
   const homeModuleId = './components/home';
@@ -18,9 +18,16 @@ Vue.use(VueRouter);
 
 export const createRoutes: () => RouteConfig[] = () => [
   {
+    name: 'home',
     path: '/',
     component: homeComponent,
   },
+  {
+    name: 'game',
+    path: '/game/:seed',
+    component: gameComponent,
+    props: true
+  }
 ];
 
 export const createRouter = () => new VueRouter({ mode: 'history', routes: createRoutes() });

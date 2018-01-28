@@ -1,0 +1,15 @@
+<div class="center-block">
+  <form class="form-horizontal" role="form" @submit.prevent="newgame">
+    <div class="form-group">
+      <div class="col-md-8">
+        <input ref="seedInput" type="number" name="seed"
+               min="1" step="1"
+               placeholder="Enter seed value (empty = random game)"
+               class="form-control" v-model="seed" />
+      </div>
+      <div class="col-md-2">
+        <button type="button" class="btn btn-default" v-on:click="newgame">New Game</button>
+      </div>
+    </div>
+  </form>
+</div>
