@@ -60,6 +60,7 @@ export interface ShortRangeSensorScanResult {
   column: number;
   containsKlingon: boolean;
   containsShip: boolean;
+  containsDestroyedShip: boolean;
   containsStarbase: boolean;
   containsStar: boolean;
 }
@@ -207,6 +208,7 @@ export class Game {
           column: columnIndex,
           containsKlingon: sector.containsKlingon,
           containsShip: sector.containsShip,
+          containsDestroyedShip: sector.containsShip && this.ship.isDestroyed,
           containsStarbase: sector.containsStarbase,
           containsStar: sector.containsStar
         }));
