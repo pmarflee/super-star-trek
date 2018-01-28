@@ -18,6 +18,33 @@ export interface InitialGameState {
   timeRemaining: number;
 }
 
+export interface GameState {
+  longRangeSensorScan: LongRangeSensorScanResult[][];
+  shortRangeSensorScan: ShortRangeSensorScanResult[][];
+  navigationDamage: number;
+  shortRangeScanDamage: number;
+  longRangeScanDamage: number;
+  shieldControlDamage: number;
+  computerDamage: number;
+  photonDamage: number;
+  phaserDamage: number;
+  initialKlingons: number;
+  initialStarbases: number;
+  initialTimeRemaining: number;
+  klingons: number;
+  starbases: number;
+  timeRemaining: number;
+  stardate: number;
+  condition: string;
+  quadrant: Quadrant;
+  sector: Sector;
+  photonTorpedoes: number;
+  energy: number;
+  shields: number;
+  klingonsInQuadrant: number;
+  messages: string[];
+}
+
 export interface LongRangeSensorScanResult {
   row: number;
   column: number;
@@ -26,6 +53,15 @@ export interface LongRangeSensorScanResult {
   starbases: number;
   stars: number;
   scanned: boolean;
+}
+
+export interface ShortRangeSensorScanResult {
+  row: number;
+  column: number;
+  containsKlingon: boolean;
+  containsShip: boolean;
+  containsStarbase: boolean;
+  containsStar: boolean;
 }
 
 export class Game {
@@ -110,6 +146,35 @@ export class Game {
     return this.quadrant.numberOfKlingons;
   }
 
+  get currentState(): GameState {
+    return {
+      longRangeSensorScan: this.longRangeSensorScan,
+      shortRangeSensorScan: this.shortRangeSensorScan,
+      navigationDamage: this.ship.navigationDamage,
+      shortRangeScanDamage: this.ship.shortRangeScanDamage,
+      longRangeScanDamage: this.ship.longRangeScanDamage,
+      shieldControlDamage: this.ship.shieldControlDamage,
+      computerDamage: this.ship.computerDamage,
+      photonDamage: this.ship.photonDamage,
+      phaserDamage: this.ship.phaserDamage,
+      initialKlingons: this.initialKlingons,
+      initialStarbases: this.initialStarbases,
+      initialTimeRemaining: this.initialTimeRemaining,
+      klingons: this.klingons,
+      starbases: this.starbases,
+      timeRemaining: this.timeRemaining,
+      stardate: this.stardate,
+      condition: this.condition,
+      quadrant: this.quadrant,
+      sector: this.sector,
+      photonTorpedoes: this.photonTorpedoes,
+      energy: this.energy,
+      shields: this.shields,
+      klingonsInQuadrant: this.klingonsInQuadrant,
+      messages: this.messages
+    };
+  }
+
   public get longRangeSensorScan(): LongRangeSensorScanResult[][] {
     let currentQuadrant = this.ship.quadrant;
 
@@ -134,8 +199,17 @@ export class Game {
         }));
   }
 
-  public get shortRangeSensorScan(): Sector[][] {
-    return this.ship.quadrant.sectors;
+  public get shortRangeSensorScan(): ShortRangeSensorScanResult[][] {
+    return this.ship.quadrant.sectors.map(
+      (row, rowIndex) => row.map(
+        (sector, columnIndex) => <ShortRangeSensorScanResult>{
+          row: rowIndex,
+          column: columnIndex,
+          containsKlingon: sector.containsKlingon,
+          containsShip: sector.containsShip,
+          containsStarbase: sector.containsStarbase,
+          containsStar: sector.containsStar
+        }));
   }
 
   public advanceStardate(): void {

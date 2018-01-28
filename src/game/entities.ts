@@ -4,8 +4,16 @@ import Quadrant from './quadrant';
 import Sector from './sector';
 import { Position } from './game';
 
-export interface Entity {
+export enum EntityType {
+  None = 0,
+  Ship = 1,
+  Klingon = 2,
+  Starbase = 3,
+  Star = 4
+}
 
+export interface Entity {
+  type: EntityType;
 }
 
 export class Ship implements Entity {
@@ -44,6 +52,10 @@ export class Ship implements Entity {
   constructor(quadrant: Quadrant, position: Position, rng: RandomNumberGenerator) {
     this.setQuadrant(quadrant, position, rng);
   }
+
+  public get type(): EntityType {
+    return EntityType.Ship;
+  } 
 
   public navigate(
     direction: number,
@@ -187,12 +199,20 @@ export class Klingon implements Entity {
   constructor(public readonly sector: Sector) {
 
   }
+
+  public get type(): EntityType {
+    return EntityType.Klingon;
+  }
 }
 
 export class Starbase implements Entity {
-
+  public get type(): EntityType {
+    return EntityType.Starbase;
+  }
 }
 
 export class Star implements Entity {
-
+  public get type(): EntityType {
+    return EntityType.Star;
+  }
 }

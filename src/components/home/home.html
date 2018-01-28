@@ -4,38 +4,38 @@
       <div class="row">
         <div class="col-md-4">
           <short-range-sensor-scan-component
-             :sectors="getShortRangeSensorScan()">
+             :sectors="gameState.shortRangeSensorScan">
           </short-range-sensor-scan-component>
         </div>
         <div class="col-md-4">
           <div class="row">
             <system-status-component
-              :navigationDamage="getNavigationDamage()"
-              :shortRangeScanDamage="getShortRangeScanDamage()"
-              :longRangeScanDamage="getLongRangeScanDamage()"
-              :shieldControlDamage="getShieldControlDamage()"
-              :computerDamage="getComputerDamage()"
-              :photonDamage="getPhotonDamage()"
-              :phaserDamage="getPhaserDamage()">
+              :navigationDamage="gameState.navigationDamage"
+              :shortRangeScanDamage="gameState.shortRangeScanDamage"
+              :longRangeScanDamage="gameState.longRangeScanDamage"
+              :shieldControlDamage="gameState.shieldControlDamage"
+              :computerDamage="gameState.computerDamage"
+              :photonDamage="gameState.photonDamage"
+              :phaserDamage="gameState.phaserDamage">
             </system-status-component>
           </div>
           <div class="row">
             <game-stats-component
-              :timeRemaining="getTimeRemaining()"
-              :stardate="getStardate()"
-              :condition="getCondition()"
-              :quadrant="getQuadrant()"
-              :sector="getSector()"
-              :photonTorpedoes="getPhotonTorpedoes()"
-              :energy="getEnergy()"
-              :shields="getShields()"
-              :klingons="getKlingonsInQuadrant()">
+              :timeRemaining="gameState.timeRemaining"
+              :stardate="gameState.stardate"
+              :condition="gameState.condition"
+              :quadrant="gameState.quadrant"
+              :sector="gameState.sector"
+              :photonTorpedoes="gameState.photonTorpedoes"
+              :energy="gameState.energy"
+              :shields="gameState.shields"
+              :klingons="gameState.klingonsInQuadrant">
             </game-stats-component>
           </div>
         </div>
         <div class="col-md-4">
           <long-range-sensor-scan-component
-            :quadrants="getLongRangeSensorScan()">
+            :quadrants="gameState.longRangeSensorScan">
           </long-range-sensor-scan-component>
         </div>
       </div>
@@ -52,13 +52,13 @@
             <div class="row">
               <h5 class="text-center"><strong>Original Mission:</strong></h5>
               <div>
-                Destroy <strong>{{ getInitialKlingons() }}</strong> Klingons in <strong>{{ getInitialTimeRemaining() }}</strong> Star Dates with <strong>{{ getInitialStarbases() }}</strong> Star Bases
+                Destroy <strong>{{ gameState.initialKlingons }}</strong> Klingons in <strong>{{ gameState.initialTimeRemaining }}</strong> Star Dates with <strong>{{ gameState.initialStarbases }}</strong> Star Bases
               </div>
             </div>
             <div class="row">
               <h5 class="text-center"><strong>Remaining:</strong></h5>
               <div>
-                Destroy <strong>{{ getKlingons() }}</strong> Klingons in <strong>{{ getTimeRemaining() }}</strong> Star Dates with <strong>{{ getStarbases() }}</strong> Star Bases
+                Destroy <strong>{{ gameState.klingons }}</strong> Klingons in <strong>{{ gameState.timeRemaining }}</strong> Star Dates with <strong>{{ gameState.starbases }}</strong> Star Bases
               </div>
             </div>
             <div class="row">
@@ -75,7 +75,7 @@
             <h4 class="panel-title text-center"><strong>Messages</strong></h4>
           </div>
           <div class="messages panel-body">
-            <div v-for="message in getMessages()" class="row">
+            <div v-for="message in gameState.messages" class="row">
               {{ message }}
             </div>
           </div>
