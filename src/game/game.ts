@@ -19,6 +19,7 @@ export interface InitialGameState {
 }
 
 export interface GameState {
+  inProgress: boolean;
   longRangeSensorScan: LongRangeSensorScanResult[][];
   shortRangeSensorScan: ShortRangeSensorScanResult[][];
   navigationDamage: number;
@@ -149,6 +150,7 @@ export class Game {
 
   get currentState(): GameState {
     return {
+      inProgress: !this.ship.isDestroyed,
       longRangeSensorScan: this.longRangeSensorScan,
       shortRangeSensorScan: this.shortRangeSensorScan,
       navigationDamage: this.ship.navigationDamage,

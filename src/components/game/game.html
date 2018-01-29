@@ -62,7 +62,9 @@
               </div>
             </div>
             <div class="row">
-              <command-input-component v-on:command="executeCommand"></command-input-component>
+              <command-input-component
+                 :disabled="!gameState.inProgress"
+                 v-on:command="executeCommand" />
             </div>
           </div>
         </div>

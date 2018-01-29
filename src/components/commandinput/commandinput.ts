@@ -6,6 +6,7 @@ import CommandParser from '../../game/commandparser';
   template: require('./commandinput.html'),
 })
 export class CommandInputComponent extends Vue {
+  @Prop() disabled: boolean;
   input: string = '';
 
   mounted() {

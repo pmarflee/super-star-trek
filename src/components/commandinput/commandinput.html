@@ -6,10 +6,12 @@
           <div class="col-md-9">
             <input ref="textInput" id="input" name="input" type="text"
                    placeholder="Enter Command" class="form-control"
-                   v-model="input" />
+                   v-model="input" :disabled="disabled" />
           </div>
           <div class="col-md-2">
-            <button type="button" class="btn btn-primary" v-on:click="execute">Submit</button>
+            <button type="button" class="btn btn-primary"
+                    :disabled="disabled"
+                    v-on:click="execute">Submit</button>
           </div>
         </div>
       </div>
