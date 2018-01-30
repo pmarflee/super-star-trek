@@ -233,6 +233,34 @@ export class Game {
     this.messages.splice(0, 0, message);
   }
 
+  public klingonsAttack(rng: RandomNumberGenerator = this.rng): void {
+    for (let klingon of this.quadrant.klingons) {
+      if (this.ship.isDocked) {
+        this.addMessage(`Enterprise hit by ship at sector [${klingon.sector.column + 1}, ${klingon.sector.row + 1}].  No damage due to starbase shields`);
+      } else {
+        let distance = this.getDistanceBetweenKlingonAndShip(klingon.sector, this.ship.sector),
+          deliveredEnergy = 300 * rng.next() * (1 - distance / 11.3);
+        this.ship.shields -= Math.floor(deliveredEnergy);
+        if (this.ship.shields < 0) {
+          this.ship.shields = 0;
+          this.ship.isDestroyed = true;
+        }
+        this.addMessage(`Enterprise hit by ship at sector [${klingon.sector.column + 1}, ${klingon.sector.row + 1}].  Shields dropped to ${this.ship.shields}.`);
+        if (this.ship.isDestroyed) {
+          this.addMessage('MISSION FAILED: ENTERPRISE DESTROYED!!!');
+          return;
+        }
+      }
+    }
+  }
+
+  private getDistanceBetweenKlingonAndShip(klingonSector: Sector, shipSector: Sector): number {
+    let column = shipSector.column - klingonSector.column,
+      row = shipSector.row - klingonSector.row;
+
+    return Math.sqrt(row * row + column * column);
+  }
+
   private static createQuadrants(maxKlingons: number, maxStarbases: number,
     rng: RandomNumberGenerator): Quadrant[][] {
     let quadrants = Array.from(new Array(Quadrant.rows), (row, rowIndex) =>

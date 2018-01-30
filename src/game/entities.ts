@@ -138,7 +138,7 @@ export class Ship implements Entity {
     }
 
     if (previousQuadrant === newQuadrant) {
-      newQuadrant.klingonsAttack(game);
+      game.klingonsAttack();
     } else {
       game.advanceStardate();
     }
