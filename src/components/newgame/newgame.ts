@@ -15,6 +15,6 @@ export class NewGameComponent extends Vue {
   }
 
   public newgame(): void {
-    this.$emit('new-game', this.seed | new Prando().nextInt(1, 99999));
+    this.$emit('new-game', this.seed || new Prando().nextInt(1, 99999));
   }
 }
