@@ -12,8 +12,9 @@ export enum EntityType {
   Star = 4
 }
 
-export interface Entity {
+export abstract class Entity {
   type: EntityType;
+  sector: Sector;
 }
 
 export class Ship implements Entity {
@@ -196,7 +197,7 @@ export class Ship implements Entity {
 }
 
 export class Klingon implements Entity {
-  constructor(public readonly sector: Sector) {
+  constructor(public readonly sector: Sector, public shields: number) {
 
   }
 
@@ -206,12 +207,20 @@ export class Klingon implements Entity {
 }
 
 export class Starbase implements Entity {
+  constructor(public readonly sector: Sector) {
+
+  }
+
   public get type(): EntityType {
     return EntityType.Starbase;
   }
 }
 
 export class Star implements Entity {
+  constructor(public readonly sector: Sector) {
+
+  }
+
   public get type(): EntityType {
     return EntityType.Star;
   }

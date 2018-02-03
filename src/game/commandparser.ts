@@ -9,7 +9,9 @@ export default class CommandParser {
     [/^she\s+add\s+(\d+)$/i,
       (match: RegExpExecArray) => new Commands.AdjustShieldsCommand(parseInt(match[1]))],
     [/^she\s+sub\s+(\d+)$/i,
-      (match: RegExpExecArray) => new Commands.AdjustShieldsCommand(-parseInt(match[1]))]
+      (match: RegExpExecArray) => new Commands.AdjustShieldsCommand(-parseInt(match[1]))],
+    [/^pha\s+(\d+)$/i,
+      (match: RegExpExecArray) => new Commands.FirePhasersCommand(parseInt(match[1]))]
   ];
 
   public parse(input: string): Commands.Command {

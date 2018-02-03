@@ -41,7 +41,7 @@ export default class Quadrant {
     while (klingons < this.numberOfKlingons) {
       let sector = this.getRandomSector(rng);
       if (!sector.entity) {
-        let klingon = new Entities.Klingon(sector);
+        let klingon = new Entities.Klingon(sector, 300 + rng.nextInt(0, 200));
         sector.entity = klingon;
         this.klingons.push(klingon);
         klingons++;
@@ -51,7 +51,7 @@ export default class Quadrant {
     while (this.hasStarbase && !hasStarbase) {
       let sector = this.getRandomSector(rng);
       if (!sector.entity) {
-        sector.entity = new Entities.Starbase();
+        sector.entity = new Entities.Starbase(sector);
         hasStarbase = true;
       }
     }
@@ -59,7 +59,7 @@ export default class Quadrant {
     while (stars < this.stars) {
       let sector = this.getRandomSector(rng);
       if (!sector.entity) {
-        sector.entity = new Entities.Star();
+        sector.entity = new Entities.Star(sector);
         stars++;
       }
     }

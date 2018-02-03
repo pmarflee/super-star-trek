@@ -51,4 +51,25 @@ describe('Command parser', () => {
       });
     });
   });
+
+  describe('Phasers', () => {
+
+    it('Should parse valid input', () => {
+      let testCases: [string, number][] = [
+        ['pha 100', 100],
+        ['Pha 100', 100]
+      ];
+
+      testCases.forEach(testCase => {
+        let result = parser.parse(testCase[0]);
+
+        expect(result).is.instanceOf(Commands.FirePhasersCommand);
+        expect(result, `input=${testCase[0]}`).to.have.property('energy', testCase[1]);
+      });
+    });
+
+    it('Should throw error for invalid input', () => {
+      expect(() => parser.parse('pha 125.5')).to.throw('Unable to parse command');
+    });
+  });
 });

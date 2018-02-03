@@ -34,4 +34,8 @@ export default class Sector {
   public get containsEntity(): boolean {
     return this.entity != null;
   }
+
+  public toString(): string {
+    return `[${this.column + 1}, ${this.row + 1}]`;
+  }
 }

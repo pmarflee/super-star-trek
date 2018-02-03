@@ -53,13 +53,15 @@ describe('Ship', () => {
     });
 
     it('Should not be docked when in a quadrant with a starbase and not adjacent to it', () => {
-      quadrant.sectors[2][0].entity = new Entities.Starbase();
+      let sector = quadrant.sectors[2][0];
+      sector.entity = new Entities.Starbase(sector);
       expect(ship.isDocked).to.be.false;
     });
 
     it('Should be docked when in a quadrant with a starbase and adjacent to it', () => {
       quadrant.hasStarbase = true;
-      quadrant.sectors[1][0].entity = new Entities.Starbase();
+      let sector = quadrant.sectors[1][0];
+      sector.entity = new Entities.Starbase(sector);
       expect(ship.isDocked).to.be.true;
     });
   });
@@ -174,6 +176,8 @@ describe('Ship', () => {
     });
 
     it('Should replenish supplies if ship docks with starbase', () => {
+      let sector = ship.quadrant.sectors[2][3];
+
       ship.energy = 1000;
       ship.photonTorpedoes = 0;
       ship.navigationDamage = 100;
@@ -186,7 +190,7 @@ describe('Ship', () => {
       ship.shields = 1000;
 
       ship.quadrant.hasStarbase = true;
-      ship.quadrant.sectors[2][3].entity = new Entities.Starbase();
+      sector.entity = new Entities.Starbase(sector);
       ship.navigate(1, 0.125, game);
 
       expect(ship.isDocked).to.equal(true);

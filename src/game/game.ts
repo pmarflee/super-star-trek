@@ -230,22 +230,21 @@ export class Game {
   }
 
   public addMessage(message: string): void {
-    this.messages.splice(0, 0, message);
+    this.messages.unshift(message);
   }
 
   public klingonsAttack(rng: RandomNumberGenerator = this.rng): void {
     for (let klingon of this.quadrant.klingons) {
       if (this.ship.isDocked) {
-        this.addMessage(`Enterprise hit by ship at sector [${klingon.sector.column + 1}, ${klingon.sector.row + 1}].  No damage due to starbase shields`);
+        this.addMessage(`Enterprise hit by ship at sector ${klingon.sector.toString()}.  No damage due to starbase shields`);
       } else {
-        let distance = this.getDistanceBetweenKlingonAndShip(klingon.sector, this.ship.sector),
-          deliveredEnergy = 300 * rng.next() * (1 - distance / 11.3);
-        this.ship.shields -= Math.floor(deliveredEnergy);
+        let damage = this.getPhaserDamage(klingon, this.ship, rng);
+        this.ship.shields -= Math.floor(damage);
         if (this.ship.shields < 0) {
           this.ship.shields = 0;
           this.ship.isDestroyed = true;
         }
-        this.addMessage(`Enterprise hit by ship at sector [${klingon.sector.column + 1}, ${klingon.sector.row + 1}].  Shields dropped to ${this.ship.shields}.`);
+        this.addMessage(`Enterprise hit by ship at sector ${klingon.sector.toString()}.  Shields dropped to ${this.ship.shields}.`);
         if (this.ship.isDestroyed) {
           this.addMessage('MISSION FAILED: ENTERPRISE DESTROYED!!!');
           return;
@@ -254,10 +253,50 @@ export class Game {
     }
   }
 
-  private getDistanceBetweenKlingonAndShip(klingonSector: Sector, shipSector: Sector): number {
-    let column = shipSector.column - klingonSector.column,
-      row = shipSector.row - klingonSector.row;
+  public firePhasers(phaserEnergy: number): void {
+    if (this.ship.phaserDamage > 0) {
+      throw new Error('Phasers are damaged. Repairs are underway.');
+    }
 
+    if (this.quadrant.numberOfKlingons === 0) {
+      throw new Error('There are no Klingon ships in this quadrant.');
+    }
+
+    this.addMessage('Phasers locked on target.');
+
+    for (let i = 0; i < this.quadrant.klingons.length; i++) {
+      let klingon = this.quadrant.klingons[i];
+      this.ship.energy -= phaserEnergy;
+      if (this.ship.energy < 0) {
+        this.ship.energy = 0;
+        break;
+      }
+      let phaserDamage = this.getPhaserDamage(this.ship, klingon, this.rng);
+      klingon.shields -= phaserDamage;
+      if (klingon.shields <= 0) {
+        this.quadrant.klingons.splice(i, 1);
+        this.quadrant.numberOfKlingons--;
+        klingon.sector.entity = null;
+        this.addMessage(`Klingon ship destroyed at sector ${klingon.sector.toString()}`);
+      } else {
+        this.addMessage(`Hit ship at sector ${klingon.sector.toString()}. Klingon shield strength dropped to ${klingon.shields}.`);
+      }
+      if (this.quadrant.klingons.length > 0) {
+        this.klingonsAttack(this.rng);
+      }
+    }
+
+  }
+
+  private getPhaserDamage(entity1: Entities.Entity, entity2: Entities.Entity,
+    rng: RandomNumberGenerator): number {
+    let distance = this.getDistanceBetweenSectors(entity1.sector, entity2.sector);
+    return Math.floor(300 * rng.next() * (1 - distance / 11.3));
+  }
+
+  private getDistanceBetweenSectors(sector1: Sector, sector2: Sector): number {
+    let column = sector2.column - sector1.column,
+      row = sector2.row - sector1.row;
     return Math.sqrt(row * row + column * column);
   }
 

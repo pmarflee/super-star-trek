@@ -14,7 +14,10 @@ export abstract class Command {
   }
 
   protected abstract doAction(game: Game): void;
-  protected abstract getSuccessMessage(game: Game): string;
+
+  protected getSuccessMessage(game: Game): string {
+    return null;
+  }
 }
 
 export class NavigateCommand extends Command {
@@ -41,5 +44,15 @@ export class AdjustShieldsCommand extends Command {
   }
   getSuccessMessage(game: Game): string {
     return `Shields ${this.amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(this.amount)} to ${game.shields}`;
+  }
+}
+
+export class FirePhasersCommand extends Command {
+  constructor(public readonly energy: number) {
+    super();
+  }
+
+  doAction(game: Game) {
+    game.firePhasers(this.energy);
   }
 }
