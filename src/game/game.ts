@@ -22,7 +22,7 @@ export interface InitialGameState {
 }
 
 export interface GameState {
-  inProgress: boolean;
+  isInProgress: boolean;
   longRangeSensorScan: LongRangeSensorScanResult[][];
   shortRangeSensorScan: ShortRangeSensorScanResult[][];
   navigationDamage: number;
@@ -162,9 +162,16 @@ export class Game {
     return this.quadrant.numberOfKlingons;
   }
 
+  get isInProgress(): boolean {
+    return !this.ship.isDestroyed
+      && this.ship.energy > 0
+      && this.klingons > 0
+      && this.timeRemaining > 0;
+  }
+
   get currentState(): GameState {
     return {
-      inProgress: !this.ship.isDestroyed,
+      isInProgress: this.isInProgress,
       longRangeSensorScan: this.longRangeSensorScan,
       shortRangeSensorScan: this.shortRangeSensorScan,
       navigationDamage: this.ship.navigationDamage,
@@ -188,7 +195,7 @@ export class Game {
       energy: this.energy,
       shields: this.shields,
       klingonsInQuadrant: this.klingonsInQuadrant,
-      isDocked: this.ship.isDocked
+      isDocked: this.ship.isDocked,
     };
   }
 

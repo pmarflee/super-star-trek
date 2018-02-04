@@ -21,12 +21,12 @@
         v-bind:class="{ 'bg-warning': active && condition === 'Yellow' }">Energy:</dt>
     <dd class="col-sm-6 text-right"
         v-bind:class="{ 'bg-warning': active && condition === 'Yellow' }"
-        v-bind:style="{ 'fontWeight': active && condition === 'Yellow' ? 'bold' : normal }">{{ active ? energy : '???' }}</dd>
+        v-bind:style="{ 'fontWeight': active && condition === 'Yellow' ? 'bold' : 'normal' }">{{ active ? energy : '???' }}</dd>
     <dt class="col-sm-6"
         v-bind:class="{ 'bg-danger': active && condition === 'Red' && shields === 0 }">Shields:</dt>
     <dd class="col-sm-6 text-right"
         v-bind:class="{ 'bg-danger': active && condition === 'Red' && shields === 0 }"
-        v-bind:style="{ 'fontWeight': active && condition === 'Red' && shields === 0 ? 'bold' : normal }">{{ active ? shields : '???' }}</dd>
+        v-bind:style="{ 'fontWeight': active && condition === 'Red' && shields === 0 ? 'bold' : 'normal' }">{{ active ? shields : '???' }}</dd>
     <dt class="col-sm-6">Klingons:</dt>
     <dd class="col-sm-6 text-right">{{ active ? klingons : '???' }}</dd>
   </dl>
