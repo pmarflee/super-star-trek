@@ -8,4 +8,5 @@ import { EntityType } from '../../game/entities';
 })
 export class ShortRangeSensorScanComponent extends Vue {
   @Prop() sectors: ShortRangeSensorScanResult[][];
+  @Prop() active: boolean;
 }

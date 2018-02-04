@@ -1,9 +1,9 @@
 <div>
   <dt class="col-sm-6"
-      v-bind:class="{ 'bg-danger': damage > 0 }">{{name}}:</dt>
+      v-bind:class="{ 'bg-danger': !active || damage > 0 }">{{name}}:</dt>
   <dd class="col-sm-6 text-right"
-      v-bind:class="{ 'bg-danger': damage > 0 }"
-      v-bind:style="{ 'fontWeight': damage > 0 ? 'bold' : 'normal' }">
-      {{ damage === 0 ? 'Online' : `Offline (${damage} day${damage > 1 ? 's' : ''})`}}
+      v-bind:class="{ 'bg-danger': !active || damage > 0 }"
+      v-bind:style="{ 'fontWeight': !active || damage > 0 ? 'bold' : 'normal' }">
+      {{ !active ? 'Offline' : damage === 0 ? 'Online' : `Offline (${damage} day${damage > 1 ? 's' : ''})`}}
   </dd>
 </div>

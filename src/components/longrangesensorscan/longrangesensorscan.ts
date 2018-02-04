@@ -7,4 +7,5 @@ import { LongRangeSensorScanResult } from '../../game/game';
 })
 export class LongRangeSensorScanComponent extends Vue {
   @Prop() quadrants: LongRangeSensorScanResult[][];
+  @Prop() active: boolean;
 }

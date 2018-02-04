@@ -3,31 +3,38 @@
   <dl>
     <system-status-item-component
        name="Navigation"
-       :damage="navigationDamage">
+       :damage="navigationDamage"
+       :active="computerDamage === 0">
     </system-status-item-component>
     <system-status-item-component
        name="Short Range Scan"
-       :damage="shortRangeScanDamage">
+       :damage="shortRangeScanDamage"
+       :active="computerDamage === 0">
     </system-status-item-component>
     <system-status-item-component
        name="Long Range Scan"
-       :damage="longRangeScanDamage">
+       :damage="longRangeScanDamage"
+       :active="computerDamage === 0">
     </system-status-item-component>
     <system-status-item-component
        name="Shield Control"
-       :damage="shieldControlDamage">
+       :damage="shieldControlDamage"
+       :active="computerDamage === 0">
     </system-status-item-component>
     <system-status-item-component
        name="Computer"
-       :damage="computerDamage">
+       :damage="computerDamage"
+       :active="computerDamage === 0">
     </system-status-item-component>
     <system-status-item-component
        name="Photon Torpedoes"
-       :damage="photonDamage">
+       :damage="photonDamage"
+       :active="computerDamage === 0">
     </system-status-item-component>
     <system-status-item-component
        name="Phasers"
-       :damage="phaserDamage">
+       :damage="phaserDamage"
+       :active="computerDamage === 0">
     </system-status-item-component>
   </dl>
 </section>

@@ -4,7 +4,8 @@
       <div class="row">
         <div class="col-md-4">
           <short-range-sensor-scan-component
-             :sectors="gameState.shortRangeSensorScan">
+             :sectors="gameState.shortRangeSensorScan"
+             :active="gameState.shortRangeScanDamage === 0">
           </short-range-sensor-scan-component>
         </div>
         <div class="col-md-4">
@@ -29,13 +30,15 @@
               :photonTorpedoes="gameState.photonTorpedoes"
               :energy="gameState.energy"
               :shields="gameState.shields"
-              :klingons="gameState.klingonsInQuadrant">
+              :klingons="gameState.klingonsInQuadrant"
+              :active="gameState.shortRangeScanDamage === 0">
             </game-stats-component>
           </div>
         </div>
         <div class="col-md-4">
           <long-range-sensor-scan-component
-            :quadrants="gameState.longRangeSensorScan">
+            :quadrants="gameState.longRangeSensorScan"
+            :active="gameState.longRangeScanDamage === 0">
           </long-range-sensor-scan-component>
         </div>
       </div>

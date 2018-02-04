@@ -12,6 +12,16 @@ export enum EntityType {
   Star = 4
 }
 
+export enum DamageType {
+  Navigation = 0,
+  ShortRangeScan = 1,
+  LongRangeScan = 2,
+  ShieldControl = 3,
+  Computer = 4,
+  Photon = 5,
+  Phaser = 6
+}
+
 export abstract class Entity {
   type: EntityType;
   sector: Sector;
@@ -127,6 +137,7 @@ export class Ship implements Entity {
 
     if (this.quadrant !== newQuadrant) {
       this.setQuadrant(newQuadrant, { row: sectorRow, column: sectorColumn }, rng);
+      game.advanceStardate();
     } else {
       previousSector.entity = null;
       this.setSector(this.quadrant.sectors[sectorRow][sectorColumn]);
@@ -136,12 +147,12 @@ export class Ship implements Entity {
       game.addMessage('Lowering shields as part of docking sequence...');
       game.addMessage('Enterprise successfully docked with starbase');
       this.replenishSupplies();
-    }
-
-    if (previousQuadrant === newQuadrant) {
-      game.klingonsAttack();
     } else {
-      game.advanceStardate();
+      if (previousQuadrant === this.quadrant && this.quadrant.numberOfKlingons > 0) {
+        game.klingonsAttack();
+      } else if (!this.repairDamage()) {
+        this.induceDamage(rng);
+      }
     }
   }
 
@@ -193,6 +204,68 @@ export class Ship implements Entity {
     this.photonDamage = 0;
     this.phaserDamage = 0;
     this.shields = 0;
+  }
+
+  private repairDamage(): boolean {
+    if (this.navigationDamage > 0) {
+      this.navigationDamage--;
+      return true;
+    }
+    if (this.shortRangeScanDamage > 0) {
+      this.shortRangeScanDamage--;
+      return true;
+    }
+    if (this.longRangeScanDamage > 0) {
+      this.longRangeScanDamage--;
+      return true;
+    }
+    if (this.shieldControlDamage > 0) {
+      this.shieldControlDamage--;
+      return true;
+    }
+    if (this.computerDamage > 0) {
+      this.computerDamage--;
+      return true;
+    }
+    if (this.photonDamage > 0) {
+      this.photonDamage--;
+      return true;
+    }
+    if (this.phaserDamage > 0) {
+      this.phaserDamage--;
+      return true;
+    }
+    return false;
+  }
+
+  private induceDamage(rng: RandomNumberGenerator, type: DamageType = rng.nextInt(0, 7)): void {
+    if (rng.nextInt(0, 7) > 0) return;
+
+    let damage = 1 + rng.nextInt(0, 5);
+
+    switch (type) {
+      case DamageType.Navigation:
+        this.navigationDamage = damage;
+        break;
+      case DamageType.ShortRangeScan:
+        this.shortRangeScanDamage = damage;
+        break;
+      case DamageType.LongRangeScan:
+        this.longRangeScanDamage = damage;
+        break;
+      case DamageType.ShieldControl:
+        this.shieldControlDamage = damage;
+        break;
+      case DamageType.Computer:
+        this.computerDamage = damage;
+        break;
+      case DamageType.Photon:
+        this.photonDamage = damage;
+        break;
+      case DamageType.Phaser:
+        this.phaserDamage = damage;
+        break;
+    }
   }
 }
 

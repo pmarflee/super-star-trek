@@ -16,4 +16,5 @@ export class GameStatsComponent extends Vue {
   @Prop() energy: number;
   @Prop() shields: number;
   @Prop() klingons: number;
+  @Prop() active: boolean;
 }

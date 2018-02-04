@@ -11,11 +11,11 @@
       <th scope="row">{{rowIndex + 1}}</th>
       <td class="text-center"
           v-for="quadrant in row"
-          v-bind:class="{ 'bg-primary': quadrant.ship, 'text-danger': quadrant.scanned && quadrant.klingons > 0, 'scanned': quadrant.scanned }">
-        <strong v-if="quadrant.scanned && quadrant.klingons > 0">
+          v-bind:class="{ 'bg-primary': active && quadrant.ship, 'text-danger': active && quadrant.scanned && quadrant.klingons > 0, 'scanned': quadrant.scanned }">
+        <strong v-if="active && quadrant.scanned && quadrant.klingons > 0">
           {{quadrant.klingons}}{{quadrant.starbases}}{{quadrant.stars}}
         </strong>
-        <span v-else-if="quadrant.scanned">
+        <span v-else-if="active && quadrant.scanned">
           {{quadrant.klingons}}{{quadrant.starbases}}{{quadrant.stars}}
         </span>
         <span v-else>

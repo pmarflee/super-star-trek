@@ -1,25 +1,27 @@
 <section id="gamestats">
   <dl>
     <dt class="col-sm-6">Remaining Dates:</dt>
-    <dd class="col-sm-6 text-right">{{ timeRemaining }}</dd>
+    <dd class="col-sm-6 text-right">{{ active ? timeRemaining : '???' }}</dd>
     <dt class="col-sm-6">Star Date:</dt>
-    <dd class="col-sm-6 text-right">{{ stardate }}</dd>
+    <dd class="col-sm-6 text-right">{{ active ? stardate : '???' }}</dd>
     <dt class="col-sm-6"
-        v-bind:class="{ 'bg-danger': condition === 'Red' }">Condition:</dt>
+        v-bind:class="{ 'bg-danger': active && condition === 'Red', 'bg-warning': active && condition === 'Yellow' }">Condition:</dt>
     <dd class="col-sm-6 text-right"
-        v-bind:class="{ 'bg-danger': condition === 'Red' }"
-        v-bind:style="{ 'fontWeight': condition === 'Red' ? 'bold' : 'normal' }">{{ condition }}</dd>
+        v-bind:class="{ 'bg-danger': active && condition === 'Red', 'bg-warning': active && condition === 'Yellow' }"
+        v-bind:style="{ 'fontWeight': active && (condition === 'Red' || condition === 'Yellow') ? 'bold' : 'normal' }">{{ active ? condition : '???' }}</dd>
     <dt class="col-sm-6">Quadrant:</dt>
-    <dd class="col-sm-6 text-right">{{ quadrant.column + 1 }}, {{ quadrant.row + 1 }}</dd>
+    <dd v-if="active" class="col-sm-6 text-right">{{ quadrant.column + 1 }}, {{ quadrant.row + 1 }}</dd>
+    <dd v-else class="col-sm-6 text-right">???</dd>
     <dt class="col-sm-6">Sector:</dt>
-    <dd class="col-sm-6 text-right">{{ sector.column + 1 }}, {{ sector.row + 1 }}</dd>
+    <dd v-if="active" class="col-sm-6 text-right">{{ sector.column + 1 }}, {{ sector.row + 1 }}</dd>
+    <dd v-else class="col-sm-6 text-right">???</dd>
     <dt class="col-sm-6">Photon Torpedoes:</dt>
-    <dd class="col-sm-6 text-right">{{ photonTorpedoes }}</dd>
+    <dd class="col-sm-6 text-right">{{ active ? photonTorpedoes : '???' }}</dd>
     <dt class="col-sm-6">Energy:</dt>
-    <dd class="col-sm-6 text-right">{{ energy }}</dd>
+    <dd class="col-sm-6 text-right">{{ active ? energy : '???' }}</dd>
     <dt class="col-sm-6">Shields:</dt>
-    <dd class="col-sm-6 text-right">{{ shields }}</dd>
+    <dd class="col-sm-6 text-right">{{ active ? shields : '???' }}</dd>
     <dt class="col-sm-6">Klingons:</dt>
-    <dd class="col-sm-6 text-right">{{ klingons }}</dd>
+    <dd class="col-sm-6 text-right">{{ active ? klingons : '???' }}</dd>
   </dl>
 </section>

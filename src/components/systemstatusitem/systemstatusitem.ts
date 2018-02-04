@@ -7,4 +7,5 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 export class SystemStatusItemComponent extends Vue {
   @Prop() name: string;
   @Prop() damage: number;
+  @Prop() active: boolean;
 }

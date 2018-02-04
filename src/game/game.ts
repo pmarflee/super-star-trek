@@ -133,7 +133,9 @@ export class Game {
   }
 
   get condition(): string {
-    return this.quadrant.numberOfKlingons > 0 ? 'Red' : 'Green';
+    if (this.quadrant.numberOfKlingons > 0) return 'Red';
+    else if (this.ship.energy < 300) return 'Yellow';
+    return 'Green';
   }
 
   get photonTorpedoes(): number {
