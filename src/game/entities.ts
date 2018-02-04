@@ -330,7 +330,9 @@ export class Ship implements Entity {
 
   public firePhotonTorpedoes(
     direction: number, distance: number, game: Game, rng: RandomNumberGenerator = game.rng): void {
-
+    if (this.photonTorpedoes === 0) {
+      throw new Error('Photon torpedoes exhausted.');
+    }
   }
 }
 

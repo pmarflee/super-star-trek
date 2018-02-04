@@ -314,3 +314,23 @@ describe('Fire phasers', () => {
     });
   });
 });
+
+describe('Fire Photon Torpedoes', () => {
+
+  describe('Klingons in quadrant', () => {
+    let rng: Prando,
+      game: Game,
+      ship: Entities.Ship;
+
+    beforeEach(() => {
+      rng = new Prando('1748');
+      game = Game.fromRandom(rng);
+      ship = game.ship;
+    });
+
+    it('should throw error if photon torpedoes exhausted', () => {
+      ship.photonTorpedoes = 0;
+      expect(() => ship.firePhotonTorpedoes(1, 1, game)).to.throw('Photon torpedoes exhausted.');
+    });
+  });
+});
