@@ -327,6 +327,11 @@ export class Ship implements Entity {
     }
 
   }
+
+  public firePhotonTorpedoes(
+    direction: number, distance: number, game: Game, rng: RandomNumberGenerator = game.rng): void {
+
+  }
 }
 
 export class Klingon implements Entity {

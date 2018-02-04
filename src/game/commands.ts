@@ -56,3 +56,13 @@ export class FirePhasersCommand extends Command {
     game.firePhasers(this.energy);
   }
 }
+
+export class FirePhotonTorpedoesCommand extends Command {
+  constructor(public readonly direction: number, public readonly distance: number) {
+    super();
+  }
+
+  doAction(game: Game): void {
+    game.firePhotonTorpedoes(this.direction, this.distance);
+  }
+}
