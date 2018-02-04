@@ -5,9 +5,9 @@
     <dt class="col-sm-6">Star Date:</dt>
     <dd class="col-sm-6 text-right">{{ active ? stardate : '???' }}</dd>
     <dt class="col-sm-6"
-        v-bind:class="{ 'bg-danger': active && condition === 'Red', 'bg-warning': active && condition === 'Yellow' }">Condition:</dt>
+        v-bind:class="{ 'bg-danger': active && condition === 'Red', 'bg-warning': active && condition === 'Yellow', 'bg-success': active && condition === 'Green' }">Condition:</dt>
     <dd class="col-sm-6 text-right"
-        v-bind:class="{ 'bg-danger': active && condition === 'Red', 'bg-warning': active && condition === 'Yellow' }"
+        v-bind:class="{ 'bg-danger': active && condition === 'Red', 'bg-warning': active && condition === 'Yellow', 'bg-success': active && condition === 'Green' }"
         v-bind:style="{ 'fontWeight': active && (condition === 'Red' || condition === 'Yellow') ? 'bold' : 'normal' }">{{ active ? condition : '???' }}</dd>
     <dt class="col-sm-4">Quadrant:</dt>
     <dd v-if="active" class="col-sm-8 text-right">{{ quadrant.column + 1 }}, {{ quadrant.row + 1 }} ({{quadrant.name}})</dd>
