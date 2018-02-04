@@ -333,4 +333,14 @@ describe('Fire Photon Torpedoes', () => {
       expect(() => ship.firePhotonTorpedoes(1, 1, game)).to.throw('Photon torpedoes exhausted.');
     });
   });
+
+  describe('No Klingons in quadrant', () => {
+    let rng = new Prando(1),
+      game = Game.fromRandom(rng);
+
+    it('should throw error', () => {
+      expect(() => game.ship.firePhotonTorpedoes(1, 1, game))
+        .to.throw('There are no Klingon ships in this quadrant.');
+    });
+  });
 });

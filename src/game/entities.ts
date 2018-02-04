@@ -333,6 +333,9 @@ export class Ship implements Entity {
     if (this.photonTorpedoes === 0) {
       throw new Error('Photon torpedoes exhausted.');
     }
+    if (this.quadrant.numberOfKlingons === 0) {
+      throw new Error('There are no Klingon ships in this quadrant.');
+    }
   }
 }
 
