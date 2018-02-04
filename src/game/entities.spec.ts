@@ -328,6 +328,12 @@ describe('Fire Photon Torpedoes', () => {
       ship = game.ship;
     });
 
+    it('should throw error if photon torpedo control is damaged', () => {
+      ship.photonDamage = 10;
+      expect(() => ship.firePhotonTorpedoes(1, 1, game))
+        .to.throw('Photon torpedo control is damaged. Repairs are underway.');
+    })
+
     it('should throw error if photon torpedoes exhausted', () => {
       ship.photonTorpedoes = 0;
       expect(() => ship.firePhotonTorpedoes(1, 1, game)).to.throw('Photon torpedoes exhausted.');
