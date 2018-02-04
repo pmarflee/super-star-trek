@@ -261,10 +261,14 @@ export class Ship implements Entity {
     return false;
   }
 
-  private induceDamage(rng: RandomNumberGenerator, type: DamageType = rng.nextInt(0, 7)): void {
+  private induceDamage(rng: RandomNumberGenerator, type?: DamageType): void {
     if (rng.nextInt(0, 7) > 0) return;
 
-    let damage = 1 + rng.nextInt(0, 5);
+    if (type == null || type === undefined) {
+      type = rng.nextInt(0, 6);
+    }
+
+    let damage = rng.nextInt(1, 6);
 
     switch (type) {
       case DamageType.Navigation:
