@@ -3,6 +3,7 @@ import { Game } from './game';
 import Quadrant from './quadrant';
 import Sector from './sector';
 import { Position } from './game';
+import * as GameEvents from './gameevents';
 
 export enum EntityType {
   None = 0,
@@ -144,13 +145,14 @@ export class Ship implements Entity {
     }
 
     if (this.isDocked) {
-      game.addMessage('Lowering shields as part of docking sequence...');
-      game.addMessage('Enterprise successfully docked with starbase');
+      game.raiseSimpleEvent(
+        'Lowering shields as part of docking sequence...',
+        'Enterprise successfully docked with starbase');
       this.replenishSupplies();
     } else {
       if (previousQuadrant === this.quadrant && this.quadrant.numberOfKlingons > 0) {
         game.klingonsAttack();
-      } else if (!this.repairDamage()) {
+      } else if (!this.repairDamage(game)) {
         this.induceDamage(rng);
       }
     }
@@ -206,33 +208,54 @@ export class Ship implements Entity {
     this.shields = 0;
   }
 
-  private repairDamage(): boolean {
+  private repairDamage(game: Game): boolean {
     if (this.navigationDamage > 0) {
       this.navigationDamage--;
+      if (this.navigationDamage === 0) {
+        game.raiseSimpleEvent('Warp engines have been repaired.');
+      }
       return true;
     }
     if (this.shortRangeScanDamage > 0) {
       this.shortRangeScanDamage--;
+      if (this.shortRangeScanDamage === 0) {
+        game.raiseSimpleEvent('Short range scanner has been repaired.');
+      }
       return true;
     }
     if (this.longRangeScanDamage > 0) {
       this.longRangeScanDamage--;
+      if (this.longRangeScanDamage === 0) {
+        game.raiseSimpleEvent('Long range scanner has been repaired.');
+      }
       return true;
     }
     if (this.shieldControlDamage > 0) {
       this.shieldControlDamage--;
+      if (this.shieldControlDamage === 0) {
+        game.raiseSimpleEvent('Shield controls have been repaired.');
+      }
       return true;
     }
     if (this.computerDamage > 0) {
       this.computerDamage--;
+      if (this.computerDamage === 0) {
+        game.raiseSimpleEvent('The main computer has been repaired.');
+      }
       return true;
     }
     if (this.photonDamage > 0) {
       this.photonDamage--;
+      if (this.photonDamage === 0) {
+        game.raiseSimpleEvent('Photon torpedo controls have been repaired.');
+      }
       return true;
     }
     if (this.phaserDamage > 0) {
       this.phaserDamage--;
+      if (this.phaserDamage === 0) {
+        game.raiseSimpleEvent('Phasers have been repaired');
+      }
       return true;
     }
     return false;

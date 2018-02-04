@@ -6,10 +6,10 @@ export abstract class Command {
       this.doAction(game);
       let successMessage = this.getSuccessMessage(game);
       if (successMessage) {
-        game.addMessage(successMessage);
+        game.raiseSimpleEvent(successMessage);
       }
     } catch (e) {
-      game.addMessage(`ERROR: ${e.message}`);
+      game.raiseSimpleEvent(`ERROR: ${e.message}`);
     }
   }
 

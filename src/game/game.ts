@@ -2,6 +2,8 @@ import { RandomNumberGenerator } from './rng';
 import Quadrant from './quadrant';
 import Sector from './sector';
 import * as Entities from './entities';
+import * as LiteEvents from './events';
+import * as GameEvents from './gameevents';
 
 export interface Position {
   row: number;
@@ -43,7 +45,6 @@ export interface GameState {
   energy: number;
   shields: number;
   klingonsInQuadrant: number;
-  messages: string[];
 }
 
 export interface LongRangeSensorScanResult {
@@ -78,7 +79,8 @@ export class Game {
   public timeRemaining: number;
   public ship: Entities.Ship;
   public stardate: number;
-  public readonly messages: string[] = [];
+
+  public readonly event = new LiteEvents.LiteEvent<GameEvents.GameEvent>();
 
   constructor(state: InitialGameState) {
     this.rng = state.rng;
@@ -108,6 +110,14 @@ export class Game {
       stardate: stardate,
       timeRemaining: timeRemaining
     });
+  }
+
+  public raiseEvent(event: GameEvents.GameEvent): void {
+    this.event.trigger(event);
+  }
+
+  public raiseSimpleEvent(...messages: string[]): void {
+    this.event.trigger(new GameEvents.SimpleGameEvent(...messages));
   }
 
   public get klingons(): number {
@@ -175,8 +185,7 @@ export class Game {
       photonTorpedoes: this.photonTorpedoes,
       energy: this.energy,
       shields: this.shields,
-      klingonsInQuadrant: this.klingonsInQuadrant,
-      messages: this.messages
+      klingonsInQuadrant: this.klingonsInQuadrant
     };
   }
 
@@ -231,26 +240,17 @@ export class Game {
     this.ship.adjustShields(amount);
   }
 
-  public addMessage(message: string): void {
-    this.messages.unshift(message);
-  }
-
   public klingonsAttack(rng: RandomNumberGenerator = this.rng): void {
     for (let klingon of this.quadrant.klingons) {
-      if (this.ship.isDocked) {
-        this.addMessage(`Enterprise hit by ship at sector ${klingon.sector.toString()}.  No damage due to starbase shields`);
-      } else {
+      if (!this.ship.isDocked) {
         let damage = this.getPhaserDamage(klingon, this.ship, rng);
         this.ship.shields -= Math.floor(damage);
         if (this.ship.shields < 0) {
           this.ship.shields = 0;
           this.ship.isDestroyed = true;
         }
-        this.addMessage(`Enterprise hit by ship at sector ${klingon.sector.toString()}.  Shields dropped to ${this.ship.shields}.`);
-        if (this.ship.isDestroyed) {
-          this.addMessage('MISSION FAILED: ENTERPRISE DESTROYED!!!');
-          return;
-        }
+        this.raiseEvent(new GameEvents.EnterpriseHitByKlingonEvent(this.ship, klingon));
+        if (this.ship.isDestroyed) return;
       }
     }
   }
@@ -264,7 +264,7 @@ export class Game {
       throw new Error('There are no Klingon ships in this quadrant.');
     }
 
-    this.addMessage('Phasers locked on target.');
+    this.raiseSimpleEvent('Phasers locked on target.');
 
     for (let i = 0; i < this.quadrant.klingons.length; i++) {
       let klingon = this.quadrant.klingons[i];
@@ -279,10 +279,8 @@ export class Game {
         this.quadrant.klingons.splice(i, 1);
         this.quadrant.numberOfKlingons--;
         klingon.sector.entity = null;
-        this.addMessage(`Klingon ship destroyed at sector ${klingon.sector.toString()}`);
-      } else {
-        this.addMessage(`Hit ship at sector ${klingon.sector.toString()}. Klingon shield strength dropped to ${klingon.shields}.`);
       }
+      this.raiseEvent(new GameEvents.KlingonHitByEnterpriseEvent(klingon));
       if (this.quadrant.klingons.length > 0) {
         this.klingonsAttack(this.rng);
       }
