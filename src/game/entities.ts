@@ -294,6 +294,39 @@ export class Ship implements Entity {
         break;
     }
   }
+
+  public firePhasers(phaserEnergy: number, game: Game, rng: RandomNumberGenerator = game.rng): void {
+    if (this.phaserDamage > 0) {
+      throw new Error('Phasers are damaged. Repairs are underway.');
+    }
+
+    if (this.quadrant.numberOfKlingons === 0) {
+      throw new Error('There are no Klingon ships in this quadrant.');
+    }
+
+    game.raiseSimpleEvent('Phasers locked on target.');
+
+    for (let i = 0; i < this.quadrant.klingons.length; i++) {
+      let klingon = this.quadrant.klingons[i];
+      this.energy -= phaserEnergy;
+      if (this.energy < 0) {
+        this.energy = 0;
+        break;
+      }
+      let phaserDamage = game.getPhaserDamage(this, klingon, rng);
+      klingon.shields -= phaserDamage;
+      if (klingon.shields <= 0) {
+        this.quadrant.klingons.splice(i, 1);
+        this.quadrant.numberOfKlingons--;
+        klingon.sector.entity = null;
+      }
+      game.raiseEvent(new GameEvents.KlingonHitByEnterpriseEvent(klingon));
+      if (this.quadrant.klingons.length > 0) {
+        game.klingonsAttack(rng);
+      }
+    }
+
+  }
 }
 
 export class Klingon implements Entity {

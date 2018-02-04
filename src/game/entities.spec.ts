@@ -252,3 +252,65 @@ describe('Ship', () => {
     });
   });
 });
+
+describe('Fire phasers', () => {
+  
+  describe('Klingons in quadrant', () => {
+    let rng: Prando,
+      game: Game,
+      ship: Entities.Ship;
+
+    beforeEach(() => {
+      rng = new Prando('1748');
+      game = Game.fromRandom(rng);
+      ship = game.ship;
+    });
+
+    it('should throw error if ship has sustained phaser damage', () => {
+      ship.phaserDamage = 50;
+      expect(() => ship.firePhasers(100, game)).to.throw('Phasers are damaged. Repairs are underway.');
+    });
+
+    it('should reduce ship energy when firing phasers', () => {
+      let initialEnergy = ship.energy,
+        phaserEnergy = 100;
+      ship.firePhasers(phaserEnergy, game);
+      expect(ship.energy).to.equal(initialEnergy - phaserEnergy);
+    });
+
+    it('should inflict damage on Klingon ships', () => {
+      let klingon = ship.quadrant.klingons[0],
+        initialKlingonShields = klingon.shields;
+      ship.firePhasers(100, game);
+      expect(klingon.shields).to.be.below(initialKlingonShields);
+    });
+
+    it('should destroy klingon ship if its shields are less than or equal to zero', () => {
+      let klingon = ship.quadrant.klingons[0];
+      klingon.shields = 0;
+      ship.firePhasers(100, game);
+      expect(ship.quadrant.numberOfKlingons).to.equal(0);
+      expect(ship.quadrant.klingons).to.be.empty;
+    });
+
+    it('should report ship as destroyed if its shield strength is less than zero', () => {
+      ship.firePhasers(100, game);
+      expect(ship.isDestroyed).to.be.true;
+    });
+
+    it('should not report ship as destroyed if its shield strength is not less than zero', () => {
+      ship.shields = 500;
+      ship.firePhasers(100, game);
+      expect(ship.isDestroyed).to.be.false;
+    });
+  });
+
+  describe('No Klingons in quadrant', () => {
+    let rng = new Prando(1),
+      game = Game.fromRandom(rng);
+
+    it('should throw error', () => {
+      expect(() => game.firePhasers(100)).to.throw('There are no Klingon ships in this quadrant.');
+    });
+  });
+});

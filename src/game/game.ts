@@ -257,39 +257,10 @@ export class Game {
   }
 
   public firePhasers(phaserEnergy: number): void {
-    if (this.ship.phaserDamage > 0) {
-      throw new Error('Phasers are damaged. Repairs are underway.');
-    }
-
-    if (this.quadrant.numberOfKlingons === 0) {
-      throw new Error('There are no Klingon ships in this quadrant.');
-    }
-
-    this.raiseSimpleEvent('Phasers locked on target.');
-
-    for (let i = 0; i < this.quadrant.klingons.length; i++) {
-      let klingon = this.quadrant.klingons[i];
-      this.ship.energy -= phaserEnergy;
-      if (this.ship.energy < 0) {
-        this.ship.energy = 0;
-        break;
-      }
-      let phaserDamage = this.getPhaserDamage(this.ship, klingon, this.rng);
-      klingon.shields -= phaserDamage;
-      if (klingon.shields <= 0) {
-        this.quadrant.klingons.splice(i, 1);
-        this.quadrant.numberOfKlingons--;
-        klingon.sector.entity = null;
-      }
-      this.raiseEvent(new GameEvents.KlingonHitByEnterpriseEvent(klingon));
-      if (this.quadrant.klingons.length > 0) {
-        this.klingonsAttack(this.rng);
-      }
-    }
-
+    this.ship.firePhasers(phaserEnergy, this);
   }
 
-  private getPhaserDamage(entity1: Entities.Entity, entity2: Entities.Entity,
+  public getPhaserDamage(entity1: Entities.Entity, entity2: Entities.Entity,
     rng: RandomNumberGenerator): number {
     let distance = this.getDistanceBetweenSectors(entity1.sector, entity2.sector);
     return Math.floor(300 * rng.next() * (1 - distance / 11.3));
