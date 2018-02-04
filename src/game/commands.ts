@@ -4,20 +4,12 @@ export abstract class Command {
   execute(game: Game): void {
     try {
       this.doAction(game);
-      let successMessage = this.getSuccessMessage(game);
-      if (successMessage) {
-        game.raiseSimpleEvent(successMessage);
-      }
     } catch (e) {
       game.raiseSimpleEvent(`ERROR: ${e.message}`);
     }
   }
 
   protected abstract doAction(game: Game): void;
-
-  protected getSuccessMessage(game: Game): string {
-    return null;
-  }
 }
 
 export class NavigateCommand extends Command {
@@ -28,10 +20,6 @@ export class NavigateCommand extends Command {
   doAction(game: Game): void {
     game.moveShip(this.direction, this.distance);
   }
-
-  getSuccessMessage(game: Game): string {
-    return game.ship.isDestroyed ? null : 'Warp engines engaged';
-  }
 }
 
 export class AdjustShieldsCommand extends Command {
@@ -41,9 +29,6 @@ export class AdjustShieldsCommand extends Command {
 
   doAction(game: Game) {
     game.adjustShields(this.amount);
-  }
-  getSuccessMessage(game: Game): string {
-    return `Shields ${this.amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(this.amount)} to ${game.shields}`;
   }
 }
 

@@ -239,6 +239,7 @@ export class Game {
 
   public adjustShields(amount: number) {
     this.ship.adjustShields(amount);
+    this.raiseSimpleEvent(`Shields ${amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(amount)} to ${this.shields}`);
   }
 
   public klingonsAttack(rng: RandomNumberGenerator = this.rng): void {

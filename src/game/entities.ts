@@ -95,6 +95,8 @@ export class Ship implements Entity {
       throw new Error('Insufficient energy');
     }
 
+    game.raiseSimpleEvent('Warp engines engaged.');
+
     this.energy -= energyRequired;
 
     let previousQuadrant = this.quadrant,
