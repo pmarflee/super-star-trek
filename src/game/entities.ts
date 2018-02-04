@@ -336,6 +336,9 @@ export class Ship implements Entity {
     if (this.quadrant.numberOfKlingons === 0) {
       throw new Error('There are no Klingon ships in this quadrant.');
     }
+    if (direction < 1 || direction > 9) {
+      throw new Error('Invalid direction.');
+    }
   }
 }
 
