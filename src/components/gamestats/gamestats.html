@@ -9,9 +9,9 @@
     <dd class="col-sm-6 text-right"
         v-bind:class="{ 'bg-danger': active && condition === 'Red', 'bg-warning': active && condition === 'Yellow' }"
         v-bind:style="{ 'fontWeight': active && (condition === 'Red' || condition === 'Yellow') ? 'bold' : 'normal' }">{{ active ? condition : '???' }}</dd>
-    <dt class="col-sm-6">Quadrant:</dt>
-    <dd v-if="active" class="col-sm-6 text-right">{{ quadrant.column + 1 }}, {{ quadrant.row + 1 }}</dd>
-    <dd v-else class="col-sm-6 text-right">???</dd>
+    <dt class="col-sm-4">Quadrant:</dt>
+    <dd v-if="active" class="col-sm-8 text-right">{{ quadrant.column + 1 }}, {{ quadrant.row + 1 }} ({{quadrant.name}})</dd>
+    <dd v-else class="col-sm-8 text-right">???</dd>
     <dt class="col-sm-6">Sector:</dt>
     <dd v-if="active" class="col-sm-6 text-right">{{ sector.column + 1 }}, {{ sector.row + 1 }}</dd>
     <dd v-else class="col-sm-6 text-right">???</dd>

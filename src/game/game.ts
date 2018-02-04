@@ -4,6 +4,7 @@ import Sector from './sector';
 import * as Entities from './entities';
 import * as LiteEvents from './events';
 import * as GameEvents from './gameevents';
+import { quadrantNames } from './quadrantnames';
 
 export interface Position {
   row: number;
@@ -303,8 +304,10 @@ export class Game {
   private static createQuadrants(maxKlingons: number, maxStarbases: number,
     rng: RandomNumberGenerator): Quadrant[][] {
     let quadrants = Array.from(new Array(Quadrant.rows), (row, rowIndex) =>
-      Array.from(new Array(Quadrant.columns), (col, colIndex) =>
-        new Quadrant(rowIndex, colIndex, rng.nextInt(1, Game.max_stars)))),
+        Array.from(new Array(Quadrant.columns), (col, colIndex) =>
+          new Quadrant(
+            quadrantNames[(rowIndex * Quadrant.rows) + colIndex],
+            rowIndex, colIndex, rng.nextInt(1, Game.max_stars)))),
       klingons = 0,
       starbases = 0;
 

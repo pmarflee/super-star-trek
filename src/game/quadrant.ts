@@ -14,6 +14,7 @@ export default class Quadrant {
   public scanned: boolean = false;
 
   constructor(
+    public readonly name: string,
     public readonly row: number,
     public readonly column: number,
     public readonly stars: number,
@@ -79,10 +80,11 @@ export default class Quadrant {
     return this.sectors[row][column];
   }
 
-  public static createQuadrants(state: [number, number, boolean][][]): Quadrant[][] {
+  public static createQuadrants(state: [number, number, boolean, string][][]): Quadrant[][] {
     return Array.from(state, (row, rowIndex) =>
       Array.from(row, (quadState, colIndex) =>
         new Quadrant(
+          quadState[3],
           rowIndex,
           colIndex,
           quadState[1],
