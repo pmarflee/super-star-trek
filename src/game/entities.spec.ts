@@ -310,7 +310,7 @@ describe('Fire phasers', () => {
       game = Game.fromRandom(rng);
 
     it('should throw error', () => {
-      expect(() => game.firePhasers(100)).to.throw('There are no Klingon ships in this quadrant.');
+      expect(() => game.ship.firePhasers(100, game)).to.throw('There are no Klingon ships in this quadrant.');
     });
   });
 });
