@@ -38,7 +38,7 @@ export class EnterpriseHitByKlingonEvent extends GameEvent {
   }
 }
 
-export class KlingonHitByEnterpriseEvent extends GameEvent {
+export class KlingonHitByPhasersEvent extends GameEvent {
   constructor(public readonly klingon: Entities.Klingon) {
     super();
   }
@@ -49,5 +49,35 @@ export class KlingonHitByEnterpriseEvent extends GameEvent {
       : `Hit ship at sector ${this.klingon.sector.toString()}. Klingon shield strength dropped to ${this.klingon.shields}.`;
     
     return [message];
+  }
+}
+
+export class KlingonHitByPhotonTorpedoEvent extends GameEvent {
+  constructor(public readonly klingon: Entities.Klingon) {
+    super();
+  }
+
+  public get messages(): string[] {
+    return [`Klingon ship destroyed at ${this.klingon.sector.toString()}`];
+  }
+}
+
+export class StarbaseHitByPhotonTorpedoEvent extends GameEvent {
+  constructor(public readonly starbase: Entities.Starbase) {
+    super();
+  }
+
+  public get messages(): string[] {
+    return [`The Enterprise destroyed a Federation starbase at sector ${this.starbase.sector.toString()}!`];
+  }
+}
+
+export class PhotonTorpedoCapturedByStarEvent extends GameEvent {
+  constructor(public readonly star: Entities.Star) {
+    super();
+  }
+
+  public get messages(): string[] {
+    return [`The torpedo was captured by a star's gravitational field at sector ${this.star.sector.toString()}.`];
   }
 }

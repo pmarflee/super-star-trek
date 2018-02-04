@@ -330,24 +330,24 @@ describe('Fire Photon Torpedoes', () => {
 
     it('should throw error if photon torpedo control is damaged', () => {
       ship.photonDamage = 10;
-      expect(() => ship.firePhotonTorpedoes(1, 1, game))
+      expect(() => ship.firePhotonTorpedoes(1,  game))
         .to.throw('Photon torpedo control is damaged. Repairs are underway.');
-    })
+    });
 
     it('should throw error if photon torpedoes exhausted', () => {
       ship.photonTorpedoes = 0;
-      expect(() => ship.firePhotonTorpedoes(1, 1, game)).to.throw('Photon torpedoes exhausted.');
+      expect(() => ship.firePhotonTorpedoes(1, game)).to.throw('Photon torpedoes exhausted.');
     });
 
     it('should throw error for invalid direction', () => {
       [0.9, 9.1].forEach(testCase => {
-        expect(() => ship.firePhotonTorpedoes(testCase, 1, game)).to.throw('Invalid direction.');
+        expect(() => ship.firePhotonTorpedoes(testCase, game)).to.throw('Invalid direction.');
       });
     });
 
     it('should reduce number of photon torpedoes by 1 when successfully fired', () => {
       let initialPhotonTorpedoes = ship.photonTorpedoes;
-      ship.firePhotonTorpedoes(1, 1, game);
+      ship.firePhotonTorpedoes(1, game);
       expect(ship.photonTorpedoes).to.equal(initialPhotonTorpedoes - 1);
     });
   });
@@ -357,7 +357,7 @@ describe('Fire Photon Torpedoes', () => {
       game = Game.fromRandom(rng);
 
     it('should throw error', () => {
-      expect(() => game.ship.firePhotonTorpedoes(1, 1, game))
+      expect(() => game.ship.firePhotonTorpedoes(1, game))
         .to.throw('There are no Klingon ships in this quadrant.');
     });
   });

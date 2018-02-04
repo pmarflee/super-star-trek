@@ -12,10 +12,8 @@ export default class CommandParser {
       (match: RegExpExecArray) => new Commands.AdjustShieldsCommand(-parseInt(match[1]))],
     [/^pha\s+(\d+)$/i,
       (match: RegExpExecArray) => new Commands.FirePhasersCommand(parseInt(match[1]))],
-    [/^pho\s+(\d+(\.\d{1,3})?)\s+(\d+(\.\d{1,3})?)$/i,
-      (match: RegExpExecArray) => new Commands.FirePhotonTorpedoesCommand(
-        parseFloat(match[1]),
-        parseFloat(match[3]))],
+    [/^pho\s+(\d+(\.\d{1,3})?)$/i,
+      (match: RegExpExecArray) => new Commands.FirePhotonTorpedoesCommand(parseFloat(match[1]))],
   ];
 
   public parse(input: string): Commands.Command {

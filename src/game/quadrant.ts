@@ -80,6 +80,18 @@ export default class Quadrant {
     return this.sectors[row][column];
   }
 
+  public destroyKlingon(klingon: Entities.Klingon): void {
+    let klingonIndex = this.klingons.indexOf(klingon);
+    this.klingons.splice(klingonIndex, 1);
+    this.numberOfKlingons--;
+    klingon.sector.entity = null;
+  }
+
+  public destroyStarbase(starbase: Entities.Starbase): void {
+    this.hasStarbase = false;
+    starbase.sector.entity = null;
+  }
+
   public static createQuadrants(state: [number, number, boolean, string][][]): Quadrant[][] {
     return Array.from(state, (row, rowIndex) =>
       Array.from(row, (quadState, colIndex) =>

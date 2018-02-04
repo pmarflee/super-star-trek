@@ -318,11 +318,9 @@ export class Ship implements Entity {
       let phaserDamage = game.getPhaserDamage(this, klingon, rng);
       klingon.shields -= phaserDamage;
       if (klingon.shields <= 0) {
-        this.quadrant.klingons.splice(i, 1);
-        this.quadrant.numberOfKlingons--;
-        klingon.sector.entity = null;
+        this.quadrant.destroyKlingon(klingon);
       }
-      game.raiseEvent(new GameEvents.KlingonHitByEnterpriseEvent(klingon));
+      game.raiseEvent(new GameEvents.KlingonHitByPhasersEvent(klingon));
       if (this.quadrant.klingons.length > 0) {
         game.klingonsAttack(rng);
       }
@@ -331,7 +329,7 @@ export class Ship implements Entity {
   }
 
   public firePhotonTorpedoes(
-    direction: number, distance: number, game: Game, rng: RandomNumberGenerator = game.rng): void {
+    direction: number, game: Game, rng: RandomNumberGenerator = game.rng): void {
     if (this.photonDamage > 0) {
       throw new Error('Photon torpedo control is damaged. Repairs are underway.');
     }
@@ -344,8 +342,61 @@ export class Ship implements Entity {
     if (direction < 1 || direction > 9) {
       throw new Error('Invalid direction.');
     }
+
     game.raiseSimpleEvent('Photon torpedo fired...');
     this.photonTorpedoes--;
+
+    let angle = -(Math.PI * (direction - 1) / 4);
+    if (rng.nextInt(0, 3) === 0) {
+      angle += ((1.0 - 2.0 * rng.next()) * Math.PI * 2.0) * 0.03;
+    }
+    let sectorColumn = this.sector.column,
+      sectorRow = this.sector.row,
+      velocityX = Math.cos(angle) / 20,
+      velocityY = Math.sin(angle) / 20,
+      lastSectorColumn = -1,
+      lastSectorRow = -1,
+      newSectorColumn = sectorColumn,
+      newSectorRow = sectorRow,
+      collision = false;
+    while (sectorColumn >= 0 && sectorRow >= 0
+      && Math.round(sectorColumn) < Quadrant.columns
+      && Math.round(sectorRow) < Quadrant.rows) {
+      newSectorColumn = Math.round(sectorColumn);
+      newSectorRow = Math.round(sectorRow);
+      let newSector = this.quadrant.sectors[newSectorRow][newSectorColumn];
+      if (lastSectorColumn !== newSectorColumn || lastSectorRow !== newSectorRow) {
+        game.raiseSimpleEvent(`  ${newSector.toString()}`);
+        lastSectorColumn = newSectorColumn;
+        lastSectorRow = newSectorRow;
+      }
+      let klingonHitByPhotonTorpedo = this.quadrant.klingons.find(k => k.sector === newSector);
+      if (klingonHitByPhotonTorpedo) {
+        this.quadrant.destroyKlingon(klingonHitByPhotonTorpedo);
+        game.raiseEvent(new GameEvents.KlingonHitByPhotonTorpedoEvent(klingonHitByPhotonTorpedo));
+        collision = true;
+        break;
+      }
+      if (newSector.containsStarbase) {
+        let starbase = <Starbase>newSector.entity;
+        this.quadrant.destroyStarbase(starbase);
+        game.raiseEvent(new GameEvents.StarbaseHitByPhotonTorpedoEvent(starbase));
+        collision = true;
+        break;
+      } else if (newSector.containsStar) {
+        game.raiseEvent(new GameEvents.PhotonTorpedoCapturedByStarEvent(<Star>newSector.entity));
+        collision = true;
+        break;
+      }
+      sectorColumn += velocityX;
+      sectorRow += velocityY;
+    }
+    if (!collision) {
+      game.raiseSimpleEvent('Photon torpedo failed to hit anything.');
+    }
+    if (this.quadrant.numberOfKlingons > 0) {
+      game.klingonsAttack();
+    }
   }
 }
 

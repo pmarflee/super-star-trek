@@ -261,8 +261,8 @@ export class Game {
     this.ship.firePhasers(phaserEnergy, this);
   }
 
-  public firePhotonTorpedoes(direction: number, distance: number): void {
-    this.ship.firePhotonTorpedoes(direction, distance, this);
+  public firePhotonTorpedoes(direction: number): void {
+    this.ship.firePhotonTorpedoes(direction, this);
   }
 
   public getPhaserDamage(entity1: Entities.Entity, entity2: Entities.Entity,

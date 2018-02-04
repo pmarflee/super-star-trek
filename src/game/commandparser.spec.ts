@@ -76,13 +76,13 @@ describe('Command parser', () => {
   describe('Photon torpedoes', () => {
 
     describe('Valid input', () => {
-      let testCases: [string, number, number][] = [
-        ['pho 3 1', 3, 1],
-        ['pho 1.5 1', 1.5, 1],
-        ['pho 1 1.25', 1, 1.25],
-        ['pho 7 0.125', 7, 0.125],
-        ['pho 7.125 1', 7.125, 1],
-        ['Pho 3 1', 3, 1]
+      let testCases: [string, number][] = [
+        ['pho 3', 3],
+        ['pho 1.5', 1.5],
+        ['pho 1', 1],
+        ['pho 7', 7],
+        ['pho 7.125', 7.125],
+        ['Pho 3', 3]
       ];
       testCases.forEach(testCase => {
         it('Should parse valid input', () => {
@@ -90,13 +90,12 @@ describe('Command parser', () => {
 
           expect(result).is.instanceOf(Commands.FirePhotonTorpedoesCommand);
           expect(result, `input=${testCase[0]}`).to.have.property('direction', testCase[1]);
-          expect(result, `input=${testCase[0]}`).to.have.property('distance', testCase[2]);
         });
       });
     });
 
     it('Should throw error for invalid input', () => {
-      expect(() => parser.parse('nav x 1')).to.throw('Unable to parse command');
+      expect(() => parser.parse('pho x')).to.throw('Unable to parse command');
     });
   });
 });
