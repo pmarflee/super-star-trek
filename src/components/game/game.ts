@@ -44,7 +44,7 @@ export class GameComponent extends Vue {
     command.execute(this.game);
     this.gameState = this.game.currentState;
     if (!this.gameState.isInProgress) {
-      if (this.gameState.timeRemaining === 0) {
+      if (this.gameState.energy === 0) {
         this.addMessage('MISSION FAILED. ENTERPRISE RAN OUT OF ENERGY.');
       } else if (this.gameState.klingons === 0) {
         this.addMessage('MISSION ACCOMPLISHED. ALL KLINGON SHIPS DESTROYED. WELL DONE!!!');
