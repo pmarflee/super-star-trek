@@ -336,8 +336,14 @@ describe('Fire Photon Torpedoes', () => {
     it('should throw error for invalid direction', () => {
       [0.9, 9.1].forEach(testCase => {
         expect(() => ship.firePhotonTorpedoes(testCase, 1, game)).to.throw('Invalid direction.');
-      })
-    })
+      });
+    });
+
+    it('should reduce number of photon torpedoes by 1 when successfully fired', () => {
+      let initialPhotonTorpedoes = ship.photonTorpedoes;
+      ship.firePhotonTorpedoes(1, 1, game);
+      expect(ship.photonTorpedoes).to.equal(initialPhotonTorpedoes - 1);
+    });
   });
 
   describe('No Klingons in quadrant', () => {

@@ -339,6 +339,8 @@ export class Ship implements Entity {
     if (direction < 1 || direction > 9) {
       throw new Error('Invalid direction.');
     }
+    game.raiseSimpleEvent('Photon torpedo fired...');
+    this.photonTorpedoes--;
   }
 }
 
