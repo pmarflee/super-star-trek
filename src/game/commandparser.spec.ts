@@ -98,4 +98,31 @@ describe('Command parser', () => {
       expect(() => parser.parse('pho x')).to.throw('Unable to parse command');
     });
   });
+
+  describe('Navigation calculator', () => {
+
+    describe('Valid input', () => {
+      let testCases: [string, number, number][] = [
+        ['nav calc 3 1', 3, 1],
+        ['nav calc 1.5 1', 1.5, 1],
+        ['nav calc 1 1.25', 1, 1.25],
+        ['nav calc 7 0.125', 7, 0.125],
+        ['nav calc 7.125 1', 7.125, 1],
+        ['Nav Calc 3 1', 3, 1]
+      ];
+      testCases.forEach(testCase => {
+        it('Should parse valid input', () => {
+          let result = parser.parse(testCase[0]);
+
+          expect(result).is.instanceOf(Commands.NavigationCalculatorCommand);
+          expect(result, `input=${testCase[0]}`).to.have.property('direction', testCase[1]);
+          expect(result, `input=${testCase[0]}`).to.have.property('distance', testCase[2]);
+        });
+      });
+    });
+
+    it('Should throw error for invalid input', () => {
+      expect(() => parser.parse('nav x 1')).to.throw('Unable to parse command');
+    });
+  });
 });

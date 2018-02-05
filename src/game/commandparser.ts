@@ -14,6 +14,10 @@ export default class CommandParser {
       (match: RegExpExecArray) => new Commands.FirePhasersCommand(parseInt(match[1]))],
     [/^pho\s+(\d+(\.\d{1,3})?)$/i,
       (match: RegExpExecArray) => new Commands.FirePhotonTorpedoesCommand(parseFloat(match[1]))],
+    [/^nav\s+calc\s+(\d+(\.\d{1,3})?)\s+(\d+(\.\d{1,3})?)$/i,
+      (match: RegExpExecArray) => new Commands.NavigationCalculatorCommand(
+        parseFloat(match[1]),
+        parseFloat(match[3]))]
   ];
 
   public parse(input: string): Commands.Command {
