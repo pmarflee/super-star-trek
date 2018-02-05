@@ -47,6 +47,7 @@ export interface GameState {
   shields: number;
   klingonsInQuadrant: number;
   isDocked: boolean;
+  isDestroyed: boolean;
 }
 
 export interface LongRangeSensorScanResult {
@@ -196,6 +197,7 @@ export class Game {
       shields: this.shields,
       klingonsInQuadrant: this.klingonsInQuadrant,
       isDocked: this.ship.isDocked,
+      isDestroyed: this.ship.isDestroyed
     };
   }
 

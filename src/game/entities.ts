@@ -141,6 +141,13 @@ export class Ship implements Entity {
     if (this.quadrant !== newQuadrant) {
       this.setQuadrant(newQuadrant, { row: sectorRow, column: sectorColumn }, rng);
       game.advanceStardate();
+      if (this.shortRangeScanDamage === 0 && this.quadrant.numberOfKlingons > 0) {
+        game.raiseSimpleEvent(
+          `Condition RED. Klingon ship${this.quadrant.numberOfKlingons > 1 ? 's' : ''} detected.`);
+        if (this.shields === 0 && !this.isDocked) {
+          game.raiseSimpleEvent('Warning: Shields are down.');
+        }
+      }
     } else {
       previousSector.entity = null;
       this.setSector(this.quadrant.sectors[sectorRow][sectorColumn]);

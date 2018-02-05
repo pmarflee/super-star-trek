@@ -44,26 +44,14 @@ export class GameComponent extends Vue {
     command.execute(this.game);
     this.gameState = this.game.currentState;
     if (!this.gameState.isInProgress) {
-      if (this.gameState.energy === 0) {
+      if (this.gameState.isDestroyed) {
+        this.addMessage('MISSION FAILED: ENTERPRISE DESTROYED!!!');
+      } else if (this.gameState.energy === 0) {
         this.addMessage('MISSION FAILED. ENTERPRISE RAN OUT OF ENERGY.');
       } else if (this.gameState.klingons === 0) {
         this.addMessage('MISSION ACCOMPLISHED. ALL KLINGON SHIPS DESTROYED. WELL DONE!!!');
       } else if (this.gameState.timeRemaining === 0) {
         this.addMessage('MISSION FAILED. ENTERPRISE RAN OUT OF TIME.');
-      }
-    }
-    else if (this.gameState.shortRangeScanDamage === 0) {
-      switch (this.gameState.condition) {
-        case 'Red':
-          this.addMessage(
-            `Condition RED. Klingon ship${this.gameState.klingonsInQuadrant > 1 ? 's' : ''} detected.`);
-          if (this.gameState.shields === 0 && !this.gameState.isDocked) {
-            this.addMessage('Warning: Shields are down.');
-          }
-          break;
-        case 'Yellow':
-          this.addMessage('Condition YELLOW. Low energy level.');
-          break;
       }
     }
     this.$forceUpdate();

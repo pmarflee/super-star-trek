@@ -30,10 +30,6 @@ export class EnterpriseHitByKlingonEvent extends GameEvent {
       : `Enterprise hit by ship at sector ${this.klingon.sector.toString()}.  Shields dropped to ${this.ship.shields}.`,
       msgs = [enterpriseHitMessage];
 
-    if (this.ship.isDestroyed) {
-      msgs.push('MISSION FAILED: ENTERPRISE DESTROYED!!!');
-    }
-
     return msgs;
   }
 }
