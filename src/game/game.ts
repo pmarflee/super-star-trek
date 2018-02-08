@@ -282,6 +282,10 @@ export class Game {
     return Math.floor(300 * rng.next() * (1 - distance / 11.3));
   }
 
+  public navigationCalculator(row: number, column: number): void {
+
+  }
+
   private getDistanceBetweenSectors(sector1: Sector, sector2: Sector): number {
     let column = sector2.column - sector1.column,
       row = sector2.row - sector1.row;

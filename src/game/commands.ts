@@ -53,7 +53,7 @@ export class FirePhotonTorpedoesCommand extends Command {
 }
 
 export class NavigationCalculatorCommand extends Command {
-  constructor(public readonly direction: number, public readonly distance: number) {
+  constructor(public readonly row: number, public readonly column: number) {
     super();
   }
 

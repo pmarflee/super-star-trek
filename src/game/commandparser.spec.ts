@@ -103,11 +103,8 @@ describe('Command parser', () => {
 
     describe('Valid input', () => {
       let testCases: [string, number, number][] = [
-        ['nav calc 3 1', 3, 1],
-        ['nav calc 1.5 1', 1.5, 1],
-        ['nav calc 1 1.25', 1, 1.25],
-        ['nav calc 7 0.125', 7, 0.125],
-        ['nav calc 7.125 1', 7.125, 1],
+        ['nav calc 1 1', 1, 1],
+        ['nav calc 3 8', 3, 8],
         ['Nav Calc 3 1', 3, 1]
       ];
       testCases.forEach(testCase => {
@@ -115,14 +112,30 @@ describe('Command parser', () => {
           let result = parser.parse(testCase[0]);
 
           expect(result).is.instanceOf(Commands.NavigationCalculatorCommand);
-          expect(result, `input=${testCase[0]}`).to.have.property('direction', testCase[1]);
-          expect(result, `input=${testCase[0]}`).to.have.property('distance', testCase[2]);
+          expect(result, `input=${testCase[0]}`).to.have.property('column', testCase[1]);
+          expect(result, `input=${testCase[0]}`).to.have.property('row', testCase[2]);
         });
       });
     });
 
-    it('Should throw error for invalid input', () => {
-      expect(() => parser.parse('nav x 1')).to.throw('Unable to parse command');
+    describe('Invalid input', () => {
+      let testCases = [ 'nav calc 1.5 1',
+        'nav calc 3 2.5',
+        'Nav Calc -1 1',
+        'nav cAlc 1 -1',
+        'nav calc x 1',
+        'nav calc 1 x',
+        'nav calc 0 1',
+        'nav calc 9 1',
+        'nav calc 5 9',
+        'nav calc 10 1',
+        'nav calc 1 10'
+      ];
+      testCases.forEach(testCase => {
+        it('Should throw error for invalid input', () => {
+          expect(() => parser.parse(testCase), `input=${testCase}`).to.throw('Unable to parse command');
+        });
+      });
     });
   });
 });
