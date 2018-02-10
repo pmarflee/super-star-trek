@@ -1,6 +1,19 @@
-# vue-star-trek
+# super-star-trek
 
-> An implementation of the 1971 Star Trek game written using Vue.js and Typescript
+          ______ _______ ______ ______    _______ ______  ______ __  __
+         / __  //__  __// __  // __  /   /__  __// __  / / ____// / / /
+        / / /_/   / /  / /_/ // /_/ /      / /  / /_/ / / /__  / // /
+        _\ \     / /  / __  //   __/      / /  /   __/ / __ / /   /
+      / /_/ /   / /  / / / // /\ \       / /  / /\ \  / /___ / /\ \
+     /_____/   /_/  /_/ /_//_/  \_\     /_/  /_/  \_\/_____//_/  \_\
+
+                      ________________        _
+                      \__(=======/_=_/____.--'-`--.___
+                                 \ \   `,--,-.___.----'
+                               .--`\\--'../
+                              '---._____.|]
+
+> An web-based port of Super Star Trek written using Typescript and Vue.js
 
 ## Build Setup
 
