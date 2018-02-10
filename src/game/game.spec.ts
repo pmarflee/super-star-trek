@@ -163,3 +163,29 @@ describe('Long range sensor scan', () => {
     }
   });
 });
+
+describe('Navigation calculator', () => {
+  let rng = new Prando(1),
+    quadrants = Quadrant.createQuadrants(quadrantState),
+    quadrant = quadrants[4][3],
+    ship = new Ship(quadrant, { row: 0, column: 6 }, rng),
+    game = new Game({
+      rng: rng,
+      klingons: 4,
+      starbases: 0,
+      quadrants: quadrants,
+      ship: ship,
+      stardate: 2250,
+      timeRemaining: 40
+    });
+
+  it('should throw an error when the specified quadrant is the current location of the Enterprise', () => {
+    expect(() => game.navigationCalculator(4, 3)).to.throw(
+      'That is the current location of the Enterprise.');
+  });
+
+  it('should not throw an error when the specified quadrant is not the current location of the Enterprise', () => {
+    expect(() => game.navigationCalculator(3, 3)).to.not.throw(
+      'That is the current location of the Enterprise.');
+  });
+});

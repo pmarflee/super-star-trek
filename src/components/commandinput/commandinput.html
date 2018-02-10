@@ -6,7 +6,8 @@
           <div class="col-md-9">
             <input ref="textInput" id="input" name="input" type="text"
                    placeholder="Enter Command" class="form-control"
-                   v-model="input" :disabled="disabled" />
+                   :value="value" :disabled="disabled"
+                   @input="updateCommand($event.target.value)"/>
           </div>
           <div class="col-md-2">
             <button type="button" class="btn btn-primary"

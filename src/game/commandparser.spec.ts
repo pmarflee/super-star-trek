@@ -103,9 +103,9 @@ describe('Command parser', () => {
 
     describe('Valid input', () => {
       let testCases: [string, number, number][] = [
-        ['nav calc 1 1', 1, 1],
-        ['nav calc 3 8', 3, 8],
-        ['Nav Calc 3 1', 3, 1]
+        ['nav calc 1 1', 0, 0],
+        ['nav calc 3 8', 2, 7],
+        ['Nav Calc 3 1', 2, 0]
       ];
       testCases.forEach(testCase => {
         it('Should parse valid input', () => {

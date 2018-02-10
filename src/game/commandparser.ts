@@ -16,8 +16,8 @@ export default class CommandParser {
       (match: RegExpExecArray) => new Commands.FirePhotonTorpedoesCommand(parseFloat(match[1]))],
     [/^nav\s+calc\s+([12345678])\s+([12345678])$/i,
       (match: RegExpExecArray) => new Commands.NavigationCalculatorCommand(
-        parseInt(match[2]),
-        parseInt(match[1]))]
+        parseInt(match[2]) - 1,
+        parseInt(match[1]) - 1)]
   ];
 
   public parse(input: string): Commands.Command {

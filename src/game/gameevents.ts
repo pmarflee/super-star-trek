@@ -1,4 +1,5 @@
 import * as Entities from './entities';
+import { DirectionDistanceCalculationResult } from './game';
 
 export abstract class GameEvent {
   public abstract get messages(): string[];
@@ -75,5 +76,15 @@ export class PhotonTorpedoCapturedByStarEvent extends GameEvent {
 
   public get messages(): string[] {
     return [`The torpedo was captured by a star's gravitational field at sector ${this.star.sector.toString()}.`];
+  }
+}
+
+export class DirectionDistanceCalculationEvent extends GameEvent {
+  constructor(public readonly result: DirectionDistanceCalculationResult) {
+    super();
+  }
+
+  public get messages(): string[] {
+    return [`Direction: ${this.result.direction} Distance: ${this.result.distance}`];
   }
 }

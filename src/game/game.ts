@@ -70,6 +70,12 @@ export interface ShortRangeSensorScanResult {
   containsStar: boolean;
 }
 
+export interface DirectionDistanceCalculationResult {
+  verb: string;
+  direction: number;
+  distance: number;
+}
+
 export class Game {
 
   public static readonly max_stars: number = 8;
@@ -278,18 +284,54 @@ export class Game {
 
   public getPhaserDamage(entity1: Entities.Entity, entity2: Entities.Entity,
     rng: RandomNumberGenerator): number {
-    let distance = this.getDistanceBetweenSectors(entity1.sector, entity2.sector);
+    let distance = this.computeDistance(
+      entity1.sector.row, entity1.sector.column, entity2.sector.row, entity2.sector.column);
     return Math.floor(300 * rng.next() * (1 - distance / 11.3));
   }
 
-  public navigationCalculator(row: number, column: number): void {
-
+  public navigationCalculator(row: number, column: number): DirectionDistanceCalculationResult {
+    let targetQuadrant = this.quadrants[row][column];
+    if (targetQuadrant === this.quadrant) {
+      throw new Error('That is the current location of the Enterprise.');
+    }
+    return {
+      verb: 'nav',
+      direction: this.computeDirection(this.quadrant, targetQuadrant),
+      distance: this.computeDistance(
+        this.quadrant.column, this.quadrant.row, targetQuadrant.column, targetQuadrant.row)
+    };
   }
 
-  private getDistanceBetweenSectors(sector1: Sector, sector2: Sector): number {
-    let column = sector2.column - sector1.column,
-      row = sector2.row - sector1.row;
-    return Math.sqrt(row * row + column * column);
+  private computeDirection(quadrant1: Quadrant, quadrant2: Quadrant): number {
+    let direction = 0;
+    if (quadrant1.column === quadrant2.column) {
+      direction = quadrant1.row < quadrant2.row ? 7 : 3;
+    } else if (quadrant1.row === quadrant2.row) {
+      direction = quadrant1.column < quadrant2.column ? 1 : 5;
+    } else {
+      let directionRow = Math.abs(quadrant2.row - quadrant1.row),
+        directionColumn = Math.abs(quadrant2.column - quadrant1.column),
+        angle = Math.atan2(directionRow, directionColumn);
+      if (quadrant1.column < quadrant2.column) {
+        direction = quadrant1.row < quadrant2.row
+          ? 9 - 4 * angle / Math.PI
+          : 1 + 4 * angle / Math.PI;
+      } else {
+        direction = quadrant1.row < quadrant2.row
+          ? 5 + 4 * angle / Math.PI
+          : 5 - 4 * angle / Math.PI;
+      }
+    }
+
+    return +(direction.toFixed(2));
+  }
+
+  private computeDistance(
+    sector1Column: number, sector1Row: number,
+    sector2Column: number, sector2Row: number): number {
+    let column = sector2Column - sector1Column,
+      row = sector2Row - sector1Row;
+    return +(Math.sqrt(row * row + column * column).toFixed(2));
   }
 
   private static createQuadrants(maxKlingons: number, maxStarbases: number,

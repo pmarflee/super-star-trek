@@ -1,4 +1,5 @@
 import { Game } from './game';
+import * as GameEvents from './gameevents';
 
 export abstract class Command {
   execute(game: Game): void {
@@ -58,6 +59,7 @@ export class NavigationCalculatorCommand extends Command {
   }
 
   doAction(game: Game): void {
-
+    let result = game.navigationCalculator(this.row, this.column);
+    game.raiseEvent(new GameEvents.DirectionDistanceCalculationEvent(result));
   }
 }

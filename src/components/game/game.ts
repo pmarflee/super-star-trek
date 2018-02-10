@@ -10,7 +10,7 @@ import { ShortRangeSensorScanComponent } from '../shortrangesensorscan/';
 import { SystemStatusComponent } from '../systemstatus';
 import { GameStatsComponent } from '../gamestats';
 import { CommandInputComponent } from '../commandinput';
-import { GameEvent } from '../../game/gameevents';
+import { GameEvent, DirectionDistanceCalculationEvent } from '../../game/gameevents';
 
 import './game.scss';
 
@@ -32,12 +32,22 @@ export class GameComponent extends Vue {
   public gameState: GameState; 
   public ship: Entities.Ship;
   public messages: string[] = [];
+  public command: string = '';
 
   created() {
     this.game = Game.fromRandom(new Prando(this.seed));
     this.ship = this.game.ship;
     this.gameState = this.game.currentState;
-    this.game.event.on(event => this.addMessage(...event.messages.reverse()));
+    this.game.event.on(event => {
+      if (event instanceof DirectionDistanceCalculationEvent) {
+        let directionDistanceCalculationEvent = <DirectionDistanceCalculationEvent>event;
+        let result = directionDistanceCalculationEvent.result;
+        this.command = `${result.verb} ${result.direction} ${result.distance}`;
+      } else {
+        this.command = '';
+      }
+      this.addMessage(...event.messages.reverse());
+    });
   }
 
   executeCommand(command: Commands.Command): void {

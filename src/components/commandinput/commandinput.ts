@@ -7,22 +7,36 @@ import CommandParser from '../../game/commandparser';
 })
 export class CommandInputComponent extends Vue {
   @Prop() disabled: boolean;
-  input: string = '';
+  @Prop() value: string;
+
+  commandInput: string = '';
+
+  get textInputElement(): any {
+    return (<any>this.$refs.textInput);
+  }
 
   mounted() {
     setTimeout(() => {
-      (<any>this.$refs.textInput).focus();
+      this.textInputElement.focus();
     });
+  }
+
+  @Watch('value')
+  onPropertyChanged(value: string, oldValue: string) {
+    this.commandInput = value;
+  }
+
+  updateCommand(commandInput: string) {
+    this.commandInput = commandInput;
   }
 
   execute(event: Event) {
     let parser = new CommandParser();
 
     try {
-      let input = this.input;
-      let command = parser.parse(input);
+      let command = parser.parse(this.commandInput);
       this.$emit('command', command);
-      this.input = '';
+      this.textInputElement.value = '';
     } catch (e) {
       alert(e);
     }
