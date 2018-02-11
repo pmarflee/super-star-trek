@@ -10,6 +10,7 @@
   },
   "scripts": {
     "build": "cross-env NODE_ENV=production npm run clean && npm run test && npm run compile",
+    "build-no-tests": "cross-env NODE_ENV=production npm run clean && npm run compile",
     "ci:teamcity": "karma --env=tc start karma.coverage.js && npm run coverage:remap",
     "ci:jenkins": "karma --env=jk start karma.coverage.js && npm run coverage:remap",
     "clean": "rimraf dist && rimraf coverage",
@@ -26,7 +27,7 @@
     "test:watch": "cross-env NODE_ENV=development karma start karma.unit.js --singleRun=false --auto-watch",
     "start": "npm run serve",
     "preinstall": "npm install -g http-server && npm install -g cross-env && npm install -g rimraf && npm install -g karma && npm install -g webpack",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build-no-tests"
   },
   "dependencies": {
     "axios": "~0.17.1",
