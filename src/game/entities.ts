@@ -168,6 +168,9 @@ export class Ship implements Entity {
   }
 
   private setQuadrant(quadrant: Quadrant, position: Position, rng: RandomNumberGenerator) {
+    if (this.quadrant) {
+      this.quadrant.sectors = null;
+    }
     this.quadrant = quadrant;
 
     quadrant.createSectors();

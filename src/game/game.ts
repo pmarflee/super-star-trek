@@ -223,7 +223,7 @@ export class Game {
         quadrant => <LongRangeSensorScanResult>{
           row: quadrant.row,
           column: quadrant.column,
-          ship: quadrant === this.ship.quadrant,
+          ship: quadrant.hasShip,
           klingons: quadrant.scanned ? quadrant.numberOfKlingons : null,
           starbases: quadrant.scanned ? quadrant.hasStarbase ? 1 : 0 : null,
           stars: quadrant.scanned ? quadrant.stars : null,

@@ -92,6 +92,10 @@ export default class Quadrant {
     starbase.sector.entity = null;
   }
 
+  public get hasShip(): boolean {
+    return this.sectors !== null && this.sectors !== undefined;
+  }
+
   public static createQuadrants(state: [number, number, boolean, string][][]): Quadrant[][] {
     return Array.from(state, (row, rowIndex) =>
       Array.from(row, (quadState, colIndex) =>
