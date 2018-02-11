@@ -25,7 +25,7 @@
     "test:debug": "cross-env NODE_ENV=development karma start karma.debug.js",
     "test:watch": "cross-env NODE_ENV=development karma start karma.unit.js --singleRun=false --auto-watch",
     "start": "npm run serve",
-    "preinstall": "npm install -g http-server",
+    "preinstall": "npm install -g http-server && npm install -g cross-env",
     "postinstall": "npm run build"
   },
   "dependencies": {
