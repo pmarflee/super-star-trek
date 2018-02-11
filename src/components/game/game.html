@@ -38,7 +38,8 @@
         <div class="col-md-4">
           <long-range-sensor-scan-component
             :quadrants="gameState.longRangeSensorScan"
-            :active="gameState.longRangeScanDamage === 0">
+            :active="gameState.longRangeScanDamage === 0"
+            v-on:command="executeCommand">
           </long-range-sensor-scan-component>
         </div>
       </div>

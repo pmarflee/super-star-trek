@@ -25,3 +25,9 @@ div.objectives-content {
 hr {
   border-top: 3px double #8c8b8b;
 }
+
+td:not(.bg-primary).long-range-sensor-scan.data-active:hover {
+  background-color: orange;
+}
+
+td { cursor: pointer; }

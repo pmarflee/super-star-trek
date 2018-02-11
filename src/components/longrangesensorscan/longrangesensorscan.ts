@@ -1,5 +1,6 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator';
 import { LongRangeSensorScanResult } from '../../game/game';
+import { NavigationCalculatorCommand } from '../../game/commands';
 
 @Component({
   name: 'long-range-sensor-scan',
@@ -8,4 +9,10 @@ import { LongRangeSensorScanResult } from '../../game/game';
 export class LongRangeSensorScanComponent extends Vue {
   @Prop() quadrants: LongRangeSensorScanResult[][];
   @Prop() active: boolean;
+
+  quadrantClicked(quadrant: LongRangeSensorScanResult): void {
+    if (this.active && !quadrant.ship) {
+      this.$emit('command', new NavigationCalculatorCommand(quadrant.row, quadrant.column));
+    }
+  }
 }
