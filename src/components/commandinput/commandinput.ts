@@ -9,8 +9,6 @@ export class CommandInputComponent extends Vue {
   @Prop() disabled: boolean;
   @Prop() value: string;
 
-  commandInput: string = '';
-
   get textInputElement(): any {
     return (<any>this.$refs.textInput);
   }
@@ -21,20 +19,11 @@ export class CommandInputComponent extends Vue {
     });
   }
 
-  @Watch('value')
-  onPropertyChanged(value: string, oldValue: string) {
-    this.commandInput = value;
-  }
-
-  updateCommand(commandInput: string) {
-    this.commandInput = commandInput;
-  }
-
   execute(event: Event) {
     let parser = new CommandParser();
 
     try {
-      let command = parser.parse(this.commandInput);
+      let command = parser.parse(this.textInputElement.value);
       this.$emit('command', command);
       this.textInputElement.value = '';
     } catch (e) {
