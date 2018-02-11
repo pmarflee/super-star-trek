@@ -13,7 +13,9 @@
                                .--`\\--'../
                               '---._____.|]
 
-> An web-based port of Super Star Trek written using Typescript and Vue.js
+A web-based port of Super Star Trek written using Typescript and Vue.js
+
+Game logic taken from this article: https://www.codeproject.com/Articles/28228/Star-Trek-Text-Game
 
 ## Build Setup
 
