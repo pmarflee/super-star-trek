@@ -4,6 +4,7 @@ import { makeHot, reload } from './util/hot-reload';
 
 const homeComponent = () => import('./components/home').then(({ HomeComponent }) => HomeComponent);
 const gameComponent = () => import('./components/game').then(({ GameComponent }) => GameComponent);
+const helpComponent = () => import('./components/help').then(({ HelpComponent }) => HelpComponent);
 
 if (process.env.ENV === 'development' && module.hot) {
   const homeModuleId = './components/home';
@@ -27,6 +28,11 @@ export const createRoutes: () => RouteConfig[] = () => [
     path: '/game/:seed',
     component: gameComponent,
     props: true
+  },
+  {
+    name: 'help',
+    path: '/help',
+    component: helpComponent
   }
 ];
 

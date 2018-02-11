@@ -21,6 +21,7 @@ export class NavbarComponent extends Vue {
 
   links: Link[] = [
     new Link('New Game', '/'),
+    new Link('Help', '/help', '_blank')
   ];
 
   @Watch('$route.path')
