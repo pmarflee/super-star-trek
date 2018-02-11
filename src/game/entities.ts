@@ -80,11 +80,11 @@ export class Ship implements Entity {
     }
 
     let maxDistance = this.navigationDamage > 0
-      ? 0.2 + rng.nextInt(0, Ship.max_distance) / 10
+      ? +((0.2 + rng.nextInt(0, Ship.max_distance) / 10).toFixed(2))
       : Ship.max_distance;
 
     if (distance < Ship.min_distance || distance > maxDistance) {
-      throw new Error('Invalid warp factor');
+      throw new Error(`Invalid warp factor. Maximum warp factor: ${maxDistance}.`);
     }
 
     distance *= 8;
