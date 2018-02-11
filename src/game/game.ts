@@ -262,6 +262,9 @@ export class Game {
   }
 
   public adjustShields(amount: number) {
+    if (this.ship.shieldControlDamage > 0) {
+      throw new Error('Shield controls are malfunctioning.');
+    }
     this.ship.adjustShields(amount);
     this.raiseSimpleEvent(`Shields ${amount > 0 ? 'increased' : 'decreased'} by ${Math.abs(amount)} to ${this.shields}`);
   }
