@@ -290,6 +290,9 @@ export class Game {
   }
 
   public navigationCalculator(row: number, column: number): DirectionDistanceCalculationResult {
+    if (this.ship.computerDamage > 0) {
+      throw new Error('The main computer is damaged. Repairs are underway.');
+    }
     let targetQuadrant = this.quadrants[row][column];
     if (targetQuadrant === this.quadrant) {
       throw new Error('That is the current location of the Enterprise.');

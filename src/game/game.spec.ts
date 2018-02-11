@@ -188,4 +188,10 @@ describe('Navigation calculator', () => {
     expect(() => game.navigationCalculator(3, 3)).to.not.throw(
       'That is the current location of the Enterprise.');
   });
+
+  it('should throw an error when the computer has sustained damage', () => {
+    ship.computerDamage = 100;
+    expect(() => game.navigationCalculator(3, 3)).to.throw(
+      'The main computer is damaged. Repairs are underway.');
+  });
 });
