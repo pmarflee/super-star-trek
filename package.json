@@ -24,7 +24,9 @@
     "test": "cross-env NODE_ENV=development karma start karma.unit.js",
     "test:debug": "cross-env NODE_ENV=development karma start karma.debug.js",
     "test:watch": "cross-env NODE_ENV=development karma start karma.unit.js --singleRun=false --auto-watch",
-    "start": "http-server dist/ -g -o"
+    "start": "npm run serve",
+    "preinstall": "npm install -g http-server",
+    "postinstall": "npm run build"
   },
   "dependencies": {
     "axios": "~0.17.1",
