@@ -57,7 +57,9 @@
     "compression-webpack-plugin": "~1.0.1",
     "copy-webpack-plugin": "~4.2.3",
     "extract-text-webpack-plugin": "^3.0.2",
-    "favicons-webpack-plugin": "0.0.7"
+    "favicons-webpack-plugin": "0.0.7",
+    "purify-css": "^1.2.5",
+    "purifycss-webpack": "^0.7.0"
   },
   "devDependencies": {
     "@types/mocha": "~2.2.44",
@@ -80,8 +82,6 @@
     "node-sass": "~4.7.2",
     "opn-cli": "~3.1.0",
     "postcss-loader": "^2.0.8",
-    "purify-css": "^1.2.5",
-    "purifycss-webpack": "^0.7.0",
     "raw-loader": "~0.5.1",
     "remap-istanbul": "~0.9.5",
     "sass-loader": "^6.0.6",
