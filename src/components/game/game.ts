@@ -42,7 +42,9 @@ export class GameComponent extends Vue {
       if (event instanceof DirectionDistanceCalculationEvent) {
         let directionDistanceCalculationEvent = <DirectionDistanceCalculationEvent>event;
         let result = directionDistanceCalculationEvent.result;
-        this.command = `${result.verb} ${result.direction} ${result.distance}`;
+        this.command = result.verb === 'pho'
+          ? `${result.verb} ${result.direction}`
+          : `${result.verb} ${result.direction} ${result.distance}`;
       } else {
         this.command = '';
       }

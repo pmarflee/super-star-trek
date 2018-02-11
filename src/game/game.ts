@@ -68,12 +68,18 @@ export interface ShortRangeSensorScanResult {
   containsDestroyedShip: boolean;
   containsStarbase: boolean;
   containsStar: boolean;
+  allowsSelection: boolean;
 }
 
 export interface DirectionDistanceCalculationResult {
   verb: string;
   direction: number;
   distance: number;
+}
+
+export interface Position {
+  row: number;
+  column: number;
 }
 
 export class Game {
@@ -241,7 +247,8 @@ export class Game {
           containsShip: sector.containsShip,
           containsDestroyedShip: sector.containsShip && this.ship.isDestroyed,
           containsStarbase: sector.containsStarbase,
-          containsStar: sector.containsStar
+          containsStar: sector.containsStar,
+          allowsSelection: !sector.containsEntity || sector.containsKlingon
         }));
   }
 
@@ -305,22 +312,36 @@ export class Game {
     };
   }
 
-  private computeDirection(quadrant1: Quadrant, quadrant2: Quadrant): number {
+  public sectorNavigationCalculator(row: number, column: number, verb: string)
+    : DirectionDistanceCalculationResult {
+    if (this.ship.computerDamage > 0) {
+      throw new Error('The main computer is damaged. Repairs are underway.');
+    }
+    let targetSector = this.quadrant.sectors[row][column];
+    return {
+      verb: verb,
+      direction: this.computeDirection(this.sector, targetSector),
+      distance: +((this.computeDistance(
+        this.sector.column, this.sector.row, targetSector.column, targetSector.row) / 8).toFixed(2))
+    };
+  }
+
+  private computeDirection(position1: Position, position2: Position): number {
     let direction = 0;
-    if (quadrant1.column === quadrant2.column) {
-      direction = quadrant1.row < quadrant2.row ? 7 : 3;
-    } else if (quadrant1.row === quadrant2.row) {
-      direction = quadrant1.column < quadrant2.column ? 1 : 5;
+    if (position1.column === position2.column) {
+      direction = position1.row < position2.row ? 7 : 3;
+    } else if (position1.row === position2.row) {
+      direction = position1.column < position2.column ? 1 : 5;
     } else {
-      let directionRow = Math.abs(quadrant2.row - quadrant1.row),
-        directionColumn = Math.abs(quadrant2.column - quadrant1.column),
+      let directionRow = Math.abs(position2.row - position1.row),
+        directionColumn = Math.abs(position2.column - position1.column),
         angle = Math.atan2(directionRow, directionColumn);
-      if (quadrant1.column < quadrant2.column) {
-        direction = quadrant1.row < quadrant2.row
+      if (position1.column < position2.column) {
+        direction = position1.row < position2.row
           ? 9 - 4 * angle / Math.PI
           : 1 + 4 * angle / Math.PI;
       } else {
-        direction = quadrant1.row < quadrant2.row
+        direction = position1.row < position2.row
           ? 5 + 4 * angle / Math.PI
           : 5 - 4 * angle / Math.PI;
       }

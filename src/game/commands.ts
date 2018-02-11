@@ -63,3 +63,25 @@ export class NavigationCalculatorCommand extends Command {
     game.raiseEvent(new GameEvents.DirectionDistanceCalculationEvent(result));
   }
 }
+
+export class PhotonTorpedoCalculatorCommand extends Command {
+  constructor(public readonly row: number, public readonly column: number) {
+    super();
+  }
+
+  doAction(game: Game): void {
+    let result = game.sectorNavigationCalculator(this.row, this.column, 'pho');
+    game.raiseEvent(new GameEvents.DirectionDistanceCalculationEvent(result));
+  }
+}
+
+export class SectorNavigationCalculatorCommand extends Command {
+  constructor(public readonly row: number, public readonly column: number) {
+    super();
+  }
+
+  doAction(game: Game): void {
+    let result = game.sectorNavigationCalculator(this.row, this.column, 'nav');
+    game.raiseEvent(new GameEvents.DirectionDistanceCalculationEvent(result));
+  }
+}

@@ -9,7 +9,9 @@
   <tbody>
     <tr v-for="(row, rowIndex) in sectors">
       <th scope="row">{{rowIndex + 1}}</th>
-      <td class="text-center" v-for="sector in row">
+      <td class="text-center short-range-sensor-scan" v-for="sector in row"
+          v-bind:class="{ 'data-active': sector.allowsSelection }"
+          v-on:click="sectorClicked(sector)">
         <div v-if="!active">?</div>
         <div v-else-if="sector.containsKlingon" class="text-danger"><strong>K</strong></div>
         <div v-else-if="sector.containsDestroyedShip" class="text-info"><strong>&dagger;</strong></div>

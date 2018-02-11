@@ -5,7 +5,8 @@
         <div class="col-md-4">
           <short-range-sensor-scan-component
              :sectors="gameState.shortRangeSensorScan"
-             :active="gameState.shortRangeScanDamage === 0">
+             :active="gameState.shortRangeScanDamage === 0"
+             v-on:command="executeCommand">
           </short-range-sensor-scan-component>
         </div>
         <div class="col-md-4">

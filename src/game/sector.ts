@@ -1,4 +1,5 @@
 import * as Entities from './entities';
+import Quadrant from './quadrant';
 
 export default class Sector {
 
@@ -33,6 +34,21 @@ export default class Sector {
 
   public get containsEntity(): boolean {
     return this.entity != null;
+  }
+
+  public isAdjacentToStarbase(quadrant: Quadrant): boolean {
+    if (!quadrant.hasStarbase) return false;
+
+    for (let rowOffset = -1; rowOffset <= 1; rowOffset++) {
+      for (let columnOffset = -1; columnOffset <= 1; columnOffset++) {
+        let row = this.row + rowOffset,
+          column = this.column + columnOffset;
+        if (row >= 0 && row < Sector.rows && column >= 0 && column < Sector.columns
+          && quadrant.sectors[row][column].containsStarbase) return true;
+      }
+    }
+
+    return false;
   }
 
   public toString(): string {

@@ -30,4 +30,8 @@ td:not(.bg-primary).long-range-sensor-scan.data-active:hover {
   background-color: orange;
 }
 
+td.short-range-sensor-scan.data-active:hover {
+  background-color: orange;
+}
+
 td { cursor: pointer; }
