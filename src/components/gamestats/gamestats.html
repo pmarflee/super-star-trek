@@ -1,7 +1,7 @@
 <section id="gamestats">
   <dl>
     <dt class="col-sm-6">Remaining Dates:</dt>
-    <dd class="col-sm-6 text-right">{{ active ? timeRemaining : '???' }}</dd>
+    <dd class="col-sm-6 text-right">{{ active && computerDamage === 0 ? timeRemaining : '???' }}</dd>
     <dt class="col-sm-6">Star Date:</dt>
     <dd class="col-sm-6 text-right">{{ active ? stardate : '???' }}</dd>
     <dt class="col-sm-6"
