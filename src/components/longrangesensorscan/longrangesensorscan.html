@@ -11,9 +11,9 @@
       <th scope="row">{{rowIndex + 1}}</th>
       <td class="text-center long-range-sensor-scan"
           v-for="quadrant in row"
-          v-bind:class="{ 'data-active': active, 'bg-primary': active && quadrant.ship, 'text-danger': active && quadrant.scanned && quadrant.klingons > 0, 'scanned': quadrant.scanned }"
+          v-bind:class="{ 'data-active': active, 'bg-primary': active && quadrant.ship, 'text-primary': active && quadrant.starbases > 0, 'text-danger': active && quadrant.scanned && quadrant.klingons > 0, 'scanned': quadrant.scanned }"
           v-on:click="quadrantClicked(quadrant)">
-        <strong v-if="active && quadrant.scanned && quadrant.klingons > 0">
+        <strong v-if="active && quadrant.scanned && (quadrant.klingons > 0 || quadrant.starbases > 0)">
           {{quadrant.klingons}}{{quadrant.starbases}}{{quadrant.stars}}
         </strong>
         <span v-else-if="active && quadrant.scanned">
