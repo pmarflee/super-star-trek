@@ -26,11 +26,11 @@ hr {
   border-top: 3px double #8c8b8b;
 }
 
-td:not(.bg-primary).long-range-sensor-scan.data-active:hover {
+td:not(.bg-primary).long-range-sensor-scan.data-active.data-computer-active:hover {
   background-color: orange;
 }
 
-td.short-range-sensor-scan.data-active:hover {
+td.short-range-sensor-scan.data-active.data-computer-active:hover {
   background-color: orange;
 }
 

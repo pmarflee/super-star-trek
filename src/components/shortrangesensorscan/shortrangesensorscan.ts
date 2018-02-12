@@ -10,9 +10,10 @@ import { PhotonTorpedoCalculatorCommand, SectorNavigationCalculatorCommand } fro
 export class ShortRangeSensorScanComponent extends Vue {
   @Prop() sectors: ShortRangeSensorScanResult[][];
   @Prop() active: boolean;
+  @Prop() computerActive: boolean;
 
   sectorClicked(sector: ShortRangeSensorScanResult): void {
-    if (this.active && sector.allowsSelection) {
+    if (this.active && this.computerActive && sector.allowsSelection) {
       if (sector.containsKlingon) {
         this.$emit('command', new PhotonTorpedoCalculatorCommand(sector.row, sector.column));
       } else {

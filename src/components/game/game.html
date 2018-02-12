@@ -6,6 +6,7 @@
           <short-range-sensor-scan-component
              :sectors="gameState.shortRangeSensorScan"
              :active="gameState.shortRangeScanDamage === 0"
+             :computerActive="gameState.computerDamage === 0"
              v-on:command="executeCommand">
           </short-range-sensor-scan-component>
         </div>
@@ -40,6 +41,7 @@
           <long-range-sensor-scan-component
             :quadrants="gameState.longRangeSensorScan"
             :active="gameState.longRangeScanDamage === 0"
+            :computerActive="gameState.computerDamage === 0"
             v-on:command="executeCommand">
           </long-range-sensor-scan-component>
         </div>
